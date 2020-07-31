@@ -1,12 +1,18 @@
 {
-    "version": 1,
-    "isRoot": true,
-    "tools": {
-        "fantomas-tool": {
-            "version": "3.3.0",
-            "commands": [
-                "fantomas"
-            ]
-        }
+  "version": 1,
+  "isRoot": true,
+  "tools": {
+    "fantomas-tool": {
+      "version": "3.3.0",
+      "commands": [
+        "fantomas"
+      ]
+    },
+    "paket": {
+      "version": "5.249.0",
+      "commands": [
+        "paket"
+      ]
     }
+  }
 }
