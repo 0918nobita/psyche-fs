@@ -2,7 +2,7 @@ module Program
 
 open System.IO
 
-open ResultBuilder
+open FSharpPlus.Builders
 
 [<EntryPoint>]
 let main argv =
@@ -13,7 +13,7 @@ let main argv =
     let src = File.ReadAllText filename
 
     let res =
-        result {
+        monad.fx' {
             let! sexp = Parser.program src
             let! ast = SExp.sexpToExpr sexp
             return! Runtime.eval [] ast }
