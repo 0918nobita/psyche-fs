@@ -11,9 +11,9 @@ $ dotnet tool restore
 ## Run
 
 ```bash
-$ dotnet run -- examples/branch.txt
+$ dotnet run --project src/ZAM.Interp -- examples/branch.txt
 Result: 0
 
-$ dotnet run -- examples/let-lambda.txt
+$ dotnet run --project src/ZAM.Interp -- examples/let-lambda.txt
 Result: 14
 ```
