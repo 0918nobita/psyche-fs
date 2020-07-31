@@ -11,7 +11,9 @@ let evalBinExpr (op: BinOp) (lhs: Value) (rhs: Value) =
     | Lt, IntVal n1, IntVal n2 -> Ok(BoolVal(n1 < n2))
     | Le, IntVal n1, IntVal n2 -> Ok(BoolVal(n1 <= n2))
     | _ ->
-        Error <| sprintf "2項演算子が用いられた式の評価に失敗しました:\n\t演算子: %O\n\t左辺: %O\n\t右辺: %O" op lhs rhs
+        Error
+        <| sprintf "2項演算子が用いられた式の評価に失敗しました:\n\t演算子: %O\n\t左辺: %O\n\t右辺: %O" op
+               lhs rhs
 
 open ResultBuilder
 

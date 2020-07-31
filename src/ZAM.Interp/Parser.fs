@@ -5,12 +5,15 @@ open SExp
 open FParsec
 
 let binOp: Parser<SExp, unit> =
-    (pstring "+" <|> pstring "-" <|> pstring "*" <|> pstring "<" <|> pstring "<=") |>> Symbol |>> Atom
+    (pstring "+" <|> pstring "-" <|> pstring "*" <|> pstring "<"
+     <|> pstring "<=") |>> Symbol |>> Atom
 
 let ident: Parser<SExp, unit> =
     let isAsciiIdStart c = isAsciiLetter c || c = '_' || c = 'λ'
-    let isAsciiIdContinue c = isAsciiLetter c || isDigit c || c = '_' || c = '\''
-    (identifier <| IdentifierOptions(isAsciiIdStart, isAsciiIdContinue)) |>> Symbol |>> Atom
+    let isAsciiIdContinue c =
+        isAsciiLetter c || isDigit c || c = '_' || c = '\''
+    (identifier <| IdentifierOptions(isAsciiIdStart, isAsciiIdContinue))
+    |>> Symbol |>> Atom
 
 let intLiteral: Parser<SExp, unit> =
     parse {
