@@ -33,6 +33,18 @@ $ dotnet run --project src/ZAM.Interp -- examples/let-lambda.txt
 Result: 14
 ```
 
+## Lint
+
+```bash
+$ dotnet fake build -t lint
+```
+
+## Format
+
+```bash
+$ dotnet fake build -t format
+```
+
 ## Create self-contained executable
 
 ### Ubuntu
