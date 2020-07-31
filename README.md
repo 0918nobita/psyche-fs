@@ -23,7 +23,7 @@ $ dotnet fake build
 $ dotnet fake build -t release
 ```
 
-## Run
+## Run interpreter
 
 ```bash
 $ dotnet run --project src/ZAM.Interp -- examples/branch.txt
@@ -31,6 +31,12 @@ Result: 0
 
 $ dotnet run --project src/ZAM.Interp -- examples/let-lambda.txt
 Result: 14
+```
+
+## Run tests
+
+```bash
+$ dotnet fake build -t test
 ```
 
 ## Lint

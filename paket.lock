@@ -2,11 +2,20 @@ STORAGE: NONE
 RESTRICTION: == netcoreapp3.1
 NUGET
   remote: https://api.nuget.org/v3/index.json
+    Expecto (9.0.2)
+      FSharp.Core (>= 4.6)
+      Mono.Cecil (>= 0.11.2)
+    Expecto.FsCheck (9.0.2)
+      Expecto (>= 9.0.2)
+      FsCheck (>= 2.14.2)
     FParsec (1.1.1)
       FSharp.Core (>= 4.3.4)
+    FsCheck (2.14.3)
+      FSharp.Core (>= 4.2.3)
     FSharp.Core (4.7.2)
+    Mono.Cecil (0.11.2)
 
-GROUP netcorebuild
+GROUP NetcoreBuild
 NUGET
   remote: https://api.nuget.org/v3/index.json
     BlackFox.VsWhere (1.1) - restriction: >= netstandard2.0
