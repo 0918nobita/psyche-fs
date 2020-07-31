@@ -15,30 +15,30 @@ let evalBinExpr (op: BinOp) (lhs: Value) (rhs: Value) =
         <| sprintf "2項演算子が用いられた式の評価に失敗しました:\n\t演算子: %O\n\t左辺: %O\n\t右辺: %O" op
                lhs rhs
 
-open ResultBuilder
+open FSharpPlus.Builders
 
 let rec eval (env: Env) (expr: Expr) =
     match expr with
     | Bool b -> Ok(BoolVal b)
     | Int n -> Ok(IntVal n)
     | BinApp(op, lhs, rhs) ->
-        result {
+        monad.fx' {
             let! lhs = eval env lhs
             let! rhs = eval env rhs
             return! evalBinExpr op lhs rhs }
     | Var x -> evalVar env x
     | Fun(x, e) -> Ok(Closure(x, e, env))
     | App(func, arg) ->
-        result {
+        monad.fx' {
             let! func = eval env func
             let! arg = eval env arg
             return! evalApp func arg }
     | If(cond, _then, _else) ->
-        result {
+        monad.fx' {
             let! cond = eval env cond
             return! evalIfExpr env cond _then _else }
     | Let(x, e1, e2) ->
-        result {
+        monad.fx' {
             let! e1 = eval env e1
             let env = (x, ref e1) :: env
             return! eval env e2

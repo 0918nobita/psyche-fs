@@ -11,8 +11,6 @@ type SExp =
     | Atom of Atom
     | SList of SExp list
 
-open ResultBuilder
-
 let strToBinOp =
     function
     | "+" -> Add
@@ -22,6 +20,8 @@ let strToBinOp =
     | "<=" -> Le
     | _ -> failwith "fatal error"
 
+open FSharpPlus.Builders
+
 let rec sexpToExpr (sexp: SExp): Result<Expr, string> =
     match sexp with
     | SList [ Atom(Symbol(op & ("+"
@@ -29,27 +29,27 @@ let rec sexpToExpr (sexp: SExp): Result<Expr, string> =
               | "*"
               | "<"
               | "<="))); lhs; rhs ] ->
-        result {
+        monad.fx' {
             let! lhs = sexpToExpr lhs
             let! rhs = sexpToExpr rhs
             return BinApp(strToBinOp op, lhs, rhs) }
     | SList [ Atom(Symbol "λ"); Atom(Symbol arg); body ] ->
-        result {
+        monad.fx' {
             let! body = sexpToExpr body
             return Fun(arg, body) }
     | SList [ Atom(Symbol "if"); cond; _then; _else ] ->
-        result {
+        monad.fx' {
             let! cond = sexpToExpr cond
             let! _then = sexpToExpr _then
             let! _else = sexpToExpr _else
             return If(cond, _then, _else) }
     | SList [ Atom(Symbol "let"); Atom(Symbol name); value; body ] ->
-        result {
+        monad.fx' {
             let! value = sexpToExpr value
             let! body = sexpToExpr body
             return Let(name, value, body) }
     | SList [ func; arg ] ->
-        result {
+        monad.fx' {
             let! func = sexpToExpr func
             let! arg = sexpToExpr arg
             return App(func, arg) }
