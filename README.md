@@ -9,6 +9,20 @@ $ dotnet tool restore
 $ dotnet paket restore
 ```
 
+## Build
+
+### Debug Build
+
+```bash
+$ dotnet fake build
+```
+
+### Release Build
+
+```bash
+$ dotnet fake build -t release
+```
+
 ## Run
 
 ```bash
