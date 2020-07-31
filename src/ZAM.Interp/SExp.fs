@@ -7,9 +7,25 @@ type Atom =
     | SInt of int
     | Symbol of string
 
+    override this.ToString() =
+        match this with
+        | SBool b -> string b
+        | SInt n -> string n
+        | Symbol s -> s
+
 type SExp =
     | Atom of Atom
     | SList of SExp list
+
+    override this.ToString() =
+        match this with
+        | Atom a -> string a
+        | SList [] -> "()"
+        | SList (x::xs) ->
+            let inner =
+                List.map string xs
+                |> List.fold (sprintf "%s %s") (string x)
+            sprintf "(%s)" inner
 
 let binOpMap = Map.ofList [("+", Add); ("-", Sub); ("*", Mul); ("<", Lt); ("<=", Le)]
 
