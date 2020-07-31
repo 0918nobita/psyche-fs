@@ -1,3 +1,4 @@
 .ionide
+.paket
 bin
 obj
