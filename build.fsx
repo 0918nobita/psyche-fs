@@ -7,7 +7,7 @@ open Fake.IO
 open Fake.IO.Globbing.Operators
 
 Target.create "Clean"
-    (fun _ -> Shell.cleanDirs [ "src/ZAM.Interp/bin"; "src/ZAM.Interp/obj" ])
+    (fun _ -> Shell.cleanDirs (!!"src/**/bin" ++ "src/**/obj"))
 
 Target.create "Debug" (fun _ ->
     !!"src/**/*.fsproj"
@@ -28,6 +28,10 @@ Target.create "Release" (fun _ ->
 let dotnet cmd arg =
     let processResult = DotNet.exec id cmd arg
     if not processResult.OK then failwith "dotnet command failed"
+
+Target.create "Test" (fun _ -> dotnet "run" "--project src/ZAM.Interp.Tests")
+
+"Clean" ==> "Test"
 
 Target.create "Lint"
     (fun _ ->
