@@ -11,28 +11,19 @@ type SExp =
     | Atom of Atom
     | SList of SExp list
 
-let strToBinOp =
-    function
-    | "+" -> Add
-    | "-" -> Sub
-    | "*" -> Mul
-    | "<" -> Lt
-    | "<=" -> Le
-    | _ -> failwith "fatal error"
+let binOpMap = Map.ofList [("+", Add); ("-", Sub); ("*", Mul); ("<", Lt); ("<=", Le)]
+
+let (|BinOp|_|) str = Map.tryFind str binOpMap
 
 open FSharpPlus.Builders
 
 let rec sexpToExpr (sexp: SExp): Result<Expr, string> =
     match sexp with
-    | SList [ Atom(Symbol(op & ("+"
-              | "-"
-              | "*"
-              | "<"
-              | "<="))); lhs; rhs ] ->
+    | SList [ Atom(Symbol(BinOp op)); lhs; rhs ] ->
         monad.fx' {
             let! lhs = sexpToExpr lhs
             let! rhs = sexpToExpr rhs
-            return BinApp(strToBinOp op, lhs, rhs) }
+            return BinApp(op, lhs, rhs) }
     | SList [ Atom(Symbol "λ"); Atom(Symbol arg); body ] ->
         monad.fx' {
             let! body = sexpToExpr body
