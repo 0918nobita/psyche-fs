@@ -15,7 +15,7 @@ let evalBinExpr (op: BinOp) (lhs: Value) (rhs: Value) =
         <| sprintf "2項演算子が用いられた式の評価に失敗しました:\n\t演算子: %O\n\t左辺: %O\n\t右辺: %O" op
                lhs rhs
 
-open FSharpPlus.Builders
+open FSharpPlus
 
 let rec eval (env: Env) (expr: Expr) =
     match expr with
@@ -47,9 +47,8 @@ let rec eval (env: Env) (expr: Expr) =
 and evalVar (env: Env) (varId: VarId) =
     List.tryFind (fst >> (=) varId) env
     |> Option.map (snd >> (!))
-    |> function
-    | Some v -> Ok v
-    | None -> Error <| sprintf "未束縛の名前を参照しました: %O" varId
+    |> Option.toResult
+    |> Result.mapError (fun () -> sprintf "未束縛の名前を参照しました: %O" varId)
 
 and evalIfExpr (env: Env) (cond: Value) (_then: Expr) (_else: Expr) =
     match cond with
