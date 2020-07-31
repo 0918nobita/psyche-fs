@@ -1,4 +1,6 @@
+.fake
 .ionide
 .paket
 bin
 obj
+packages

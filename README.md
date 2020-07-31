@@ -9,6 +9,20 @@ $ dotnet tool restore
 $ dotnet paket restore
 ```
 
+## Build
+
+### Debug Build
+
+```bash
+$ dotnet fake build
+```
+
+### Release Build
+
+```bash
+$ dotnet fake build -t release
+```
+
 ## Run
 
 ```bash
@@ -17,6 +31,18 @@ Result: 0
 
 $ dotnet run --project src/ZAM.Interp -- examples/let-lambda.txt
 Result: 14
+```
+
+## Lint
+
+```bash
+$ dotnet fake build -t lint
+```
+
+## Format
+
+```bash
+$ dotnet fake build -t format
 ```
 
 ## Create self-contained executable
