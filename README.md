@@ -6,6 +6,7 @@ ZAM (ZINC Abstract Machine) implementation in F#
 
 ```bash
 $ dotnet tool restore
+$ dotnet paket restore
 ```
 
 ## Run
