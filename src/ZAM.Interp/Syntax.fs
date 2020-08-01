@@ -10,6 +10,9 @@ type BinOp =
     | Lt
     | Le
 
+    static member StrMap =
+        Map.ofArray [|("+", Add); ("-", Sub); ("*", Mul); ("=", Eq); ("<", Lt); ("<=", Le)|]
+
     override this.ToString() =
         match this with
         | Add -> "+"
