@@ -64,6 +64,11 @@ type SExp =
                 (Result.map (fun e -> (e, [])) (x.ToExpr()))
                 xs
             |> Result.map (fun (head, tail) -> Begin (head, tail))
+        | SList [Atom (Symbol "set!"); Atom(Symbol name); value] ->
+            monad.fx' {
+                let! value = value.ToExpr()
+                return Setf(name, value)
+            }
         | SList [ func; arg ] ->
             monad.fx' {
                 let! func = func.ToExpr()

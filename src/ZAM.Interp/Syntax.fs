@@ -32,6 +32,7 @@ type Expr =
     | If of cond: Expr * _then: Expr * _else: Expr
     | Let of VarId * Expr * Expr
     | Begin of Expr * List<Expr>
+    | Setf of VarId * Expr
 
     override this.ToString() =
         match this with
@@ -47,3 +48,4 @@ type Expr =
         | Begin(x, xs) ->
             let inner = x :: xs |> List.map string |> List.reduce (sprintf "%O %O")
             sprintf "(begin %s)" inner
+        | Setf(ident, e) -> sprintf "(set! %s %O)" ident e
