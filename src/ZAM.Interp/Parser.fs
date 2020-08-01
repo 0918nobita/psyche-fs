@@ -1,12 +1,16 @@
 module Parser
 
+open Syntax
 open SExp
 
 open FParsec
 
 let binOp: Parser<SExp, unit> =
-    (pstring "+" <|> pstring "-" <|> pstring "*" <|> pstring "=" <|> pstring "<"
-     <|> pstring "<=") |>> Symbol |>> Atom
+    FSharpPlus.Map.keys BinOp.StrMap
+    |> Seq.map pstring
+    |> Seq.reduce (<|>)
+    |>> Symbol
+    |>> Atom
 
 let ident: Parser<SExp, unit> =
     let isAsciiIdStart c = isAsciiLetter c || c = '_' || c = 'λ'
