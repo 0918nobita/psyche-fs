@@ -53,12 +53,21 @@ let rec eval (env: Env) (expr: Expr) =
                     eval env elem))
             x
             xs
+    | Setf(x, expr) ->
+        match List.tryFind (fst >> (=) x) env with
+        | Some(_, x) ->
+            monad.fx' {
+                let! expr = eval env expr
+                x := expr
+                return expr
+            }
+        | None -> Error(sprintf "未束縛の名前を参照しました: %s" x)
 
 and evalVar (env: Env) (varId: VarId) =
     List.tryFind (fst >> (=) varId) env
     |> Option.map (snd >> (!))
     |> Option.toResult
-    |> Result.mapError (fun () -> sprintf "未束縛の名前を参照しました: %O" varId)
+    |> Result.mapError (fun () -> sprintf "未束縛の名前を参照しました: %s" varId)
 
 and evalIfExpr (env: Env) (cond: Value) (_then: Expr) (_else: Expr) =
     match cond with
