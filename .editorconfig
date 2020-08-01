@@ -5,8 +5,5 @@ end_of_line = lf
 indent_style = space
 indent_size = 4
 
-[.config/dotnet-tools.json]
-indent_size = 2
-
-[*.yml]
+[*.{json, yml}]
 indent_size = 2
