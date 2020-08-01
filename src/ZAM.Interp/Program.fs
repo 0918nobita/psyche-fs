@@ -16,7 +16,7 @@ let main argv =
         monad.fx' {
             let! sexp = Parser.program src
             printfn "SExp: %O" sexp
-            let! ast = SExp.sexpToExpr sexp
+            let! ast = sexp.ToExpr()
             return! Runtime.eval [] ast }
 
     match res with
