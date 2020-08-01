@@ -20,13 +20,11 @@ let ident: Parser<SExp, unit> =
     |>> Symbol |>> Atom
 
 let intLiteral: Parser<SExp, unit> =
-    parse {
-        let! n = pint32
-        return Atom(SInt n) }
+    pint32 |>> SInt |>> Atom
 
 let boolLiteral: Parser<SExp, unit> =
-    let ptrue = pstring "true" >>% Atom(SBool true)
-    let pfalse = pstring "false" >>% Atom(SBool false)
+    let ptrue = stringReturn "true" <| Atom(SBool true)
+    let pfalse = stringReturn "false" <| Atom(SBool false)
     ptrue <|> pfalse
 
 let atom = intLiteral <|> boolLiteral <|> binOp <|> ident
