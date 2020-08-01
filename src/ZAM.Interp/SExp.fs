@@ -14,9 +14,7 @@ type Atom =
         | SInt n -> string n
         | Symbol s -> s
 
-let binOpMap = Map.ofList [("+", Add); ("-", Sub); ("*", Mul); ("=", Eq); ("<", Lt); ("<=", Le)]
-
-let (|BinOp|_|) str = Map.tryFind str binOpMap
+let (|BinOp|_|) str = Map.tryFind str BinOp.StrMap
 
 open FSharpPlus.Builders
 
