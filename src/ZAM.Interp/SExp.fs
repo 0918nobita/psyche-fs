@@ -27,7 +27,7 @@ type SExp =
                 |> List.fold (sprintf "%s %s") (string x)
             sprintf "(%s)" inner
 
-let binOpMap = Map.ofList [("+", Add); ("-", Sub); ("*", Mul); ("<", Lt); ("<=", Le)]
+let binOpMap = Map.ofList [("+", Add); ("-", Sub); ("*", Mul); ("=", Eq); ("<", Lt); ("<=", Le)]
 
 let (|BinOp|_|) str = Map.tryFind str binOpMap
 

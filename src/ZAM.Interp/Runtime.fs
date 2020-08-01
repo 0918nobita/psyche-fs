@@ -8,6 +8,7 @@ let evalBinExpr (op: BinOp) (lhs: Value) (rhs: Value) =
     | Add, IntVal n1, IntVal n2 -> Ok(IntVal(n1 + n2))
     | Sub, IntVal n1, IntVal n2 -> Ok(IntVal(n1 - n2))
     | Mul, IntVal n1, IntVal n2 -> Ok(IntVal(n1 * n2))
+    | Eq, IntVal n1, IntVal n2 -> Ok(BoolVal((n1 = n2)))
     | Lt, IntVal n1, IntVal n2 -> Ok(BoolVal(n1 < n2))
     | Le, IntVal n1, IntVal n2 -> Ok(BoolVal(n1 <= n2))
     | _ ->

@@ -6,6 +6,7 @@ type BinOp =
     | Add
     | Sub
     | Mul
+    | Eq
     | Lt
     | Le
 
@@ -14,6 +15,7 @@ type BinOp =
         | Add -> "+"
         | Sub -> "-"
         | Mul -> "*"
+        | Eq -> "="
         | Lt -> "<"
         | Le -> "<="
 

@@ -5,7 +5,7 @@ open SExp
 open FParsec
 
 let binOp: Parser<SExp, unit> =
-    (pstring "+" <|> pstring "-" <|> pstring "*" <|> pstring "<"
+    (pstring "+" <|> pstring "-" <|> pstring "*" <|> pstring "=" <|> pstring "<"
      <|> pstring "<=") |>> Symbol |>> Atom
 
 let ident: Parser<SExp, unit> =
