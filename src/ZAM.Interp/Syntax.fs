@@ -31,6 +31,7 @@ type Expr =
     | App of func: Expr * actualArg: Expr
     | If of cond: Expr * _then: Expr * _else: Expr
     | Let of VarId * Expr * Expr
+    | Begin of Expr * List<Expr>
 
     override this.ToString() =
         match this with
@@ -43,3 +44,6 @@ type Expr =
         | App(func, arg) -> sprintf "(%O %O)" func arg
         | If(cond, _then, _else) -> sprintf "(if %O %O %O)" cond _then _else
         | Let(ident, e1, e2) -> sprintf "(let %O %O %O)" ident e1 e2
+        | Begin(x, xs) ->
+            let inner = x :: xs |> List.map string |> List.reduce (sprintf "%O %O")
+            sprintf "(begin %s)" inner

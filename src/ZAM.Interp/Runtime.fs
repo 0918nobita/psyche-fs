@@ -44,6 +44,15 @@ let rec eval (env: Env) (expr: Expr) =
             let env = (x, ref e1) :: env
             return! eval env e2
         }
+    | Begin(x, xs) ->
+        let x = eval env x
+        List.fold
+            (fun (acc: Result<Value, string>) (elem: Expr) ->
+                acc
+                |> Result.bind (fun _ ->
+                    eval env elem))
+            x
+            xs
 
 and evalVar (env: Env) (varId: VarId) =
     List.tryFind (fst >> (=) varId) env
