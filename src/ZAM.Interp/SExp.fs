@@ -16,7 +16,7 @@ type Atom =
 
 let (|BinOp|_|) str = Map.tryFind str BinOp.StrMap
 
-open FSharpPlus.Builders
+open FSharpPlus
 
 type SExp =
     | Atom of Atom
@@ -54,6 +54,16 @@ type SExp =
                 let! value = value.ToExpr()
                 let! body = body.ToExpr()
                 return Let(name, value, body) }
+        | SList (Atom(Symbol "begin") :: x :: xs) ->
+            List.fold
+                (fun (acc: Result<Expr * List<Expr>, string>) (elem: SExp) ->
+                    acc
+                    |> Result.bind (fun (head, tail) ->
+                        elem.ToExpr()
+                        |> Result.bind (fun expr -> Ok (head, tail @ [expr]))))
+                (Result.map (fun e -> (e, [])) (x.ToExpr()))
+                xs
+            |> Result.map (fun (head, tail) -> Begin (head, tail))
         | SList [ func; arg ] ->
             monad.fx' {
                 let! func = func.ToExpr()
