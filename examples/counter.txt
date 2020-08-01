@@ -1,0 +1,9 @@
+(let make-counter
+    (λ init
+        (let count init
+            (λ diff (set! count (+ count diff)))))
+    (let counter (make-counter 0)
+        (begin
+            (counter 1)
+            (counter 2)
+            (counter 3))))
