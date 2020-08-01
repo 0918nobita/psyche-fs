@@ -9,7 +9,8 @@ type Atom =
 
     override this.ToString() =
         match this with
-        | SBool b -> string b
+        | SBool true -> "true"
+        | SBool false -> "false"
         | SInt n -> string n
         | Symbol s -> s
 
