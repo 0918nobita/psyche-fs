@@ -27,7 +27,9 @@ let boolLiteral: Parser<SExp, unit> =
     let pfalse = stringReturn "false" <| Atom(SBool false)
     ptrue <|> pfalse
 
-let atom = intLiteral <|> boolLiteral <|> binOp <|> ident
+let unitExpr: Parser<SExp, unit> = stringReturn "#unit" (SList [])
+
+let atom = intLiteral <|> boolLiteral <|> binOp <|> unitExpr <|> ident
 
 let rec sList(): Parser<SExp, unit> =
     parse {
