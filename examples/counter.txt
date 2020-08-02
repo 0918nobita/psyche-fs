@@ -1,7 +1,7 @@
 (let make-counter
     (λ init
-        (let count init
-            (λ diff (set! count (+ count diff)))))
+        (let count (ref init)
+            (λ diff (mut count (+ (deref count) diff)))))
     (let counter (make-counter 0)
         (begin
             (counter 1)

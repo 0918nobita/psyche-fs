@@ -41,7 +41,7 @@ let rec eval (env: Env) (expr: Expr) =
     | Let(x, e1, e2) ->
         BResult.result {
             let! e1 = eval env e1
-            let env = (x, ref e1) :: env
+            let env = (x, e1) :: env
             return! eval env e2
         }
     | Begin(x, xs) ->
@@ -53,19 +53,34 @@ let rec eval (env: Env) (expr: Expr) =
                     eval env elem))
             x
             xs
-    | Setf(x, expr) ->
-        match List.tryFind (fst >> (=) x) env with
-        | Some(_, x) ->
-            BResult.result {
-                let! expr = eval env expr
-                x := expr
-                return expr
-            }
-        | None -> Error(sprintf "未束縛の名前を参照しました: %s" x)
+    | MakeRef e ->
+        BResult.result {
+            let! v = eval env e
+            return RefVal (ref v)
+        }
+    | Deref e ->
+        BResult.result {
+            let! value = eval env e
+            match value with
+            | RefVal r ->
+                return !r
+            | _ -> return! Error(sprintf "参照型ではない値に対して deref が呼び出されました: (deref %O ..)" value)
+        }
+    | Mut(refExpr, expr) ->
+        BResult.result {
+            let! refVal = eval env refExpr
+            let! value = eval env expr
+            match refVal with
+            | RefVal r ->
+                r := value
+                return value
+            | _ ->
+                return! Error(sprintf "参照型ではない値に対して mut が呼び出されました: (mut %O ..)" refVal)
+        }
 
 and evalVar (env: Env) (varId: VarId) =
     List.tryFind (fst >> (=) varId) env
-    |> Option.map (snd >> (!))
+    |> Option.map snd
     |> BOption.toResult
     |> Result.mapError (fun () -> sprintf "未束縛の名前を参照しました: %s" varId)
 
@@ -77,5 +92,5 @@ and evalIfExpr (env: Env) (cond: Value) (_then: Expr) (_else: Expr) =
 
 and evalApp (f: Value) (v: Value) =
     match f with
-    | Closure(arg, body, fenv) -> eval ((arg, ref v) :: fenv) body
+    | Closure(arg, body, fenv) -> eval ((arg, v) :: fenv) body
     | _ -> Error "関数適用に失敗しました: 適用しようとしているものが関数ではありません"

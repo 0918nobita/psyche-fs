@@ -63,10 +63,21 @@ type SExp =
                 (Result.map (fun e -> (e, [])) (x.ToExpr()))
                 xs
             |> Result.map (fun (head, tail) -> Begin (head, tail))
-        | SList [Atom (Symbol "set!"); Atom(Symbol name); value] ->
+        | SList [Atom(Symbol "ref"); content] ->
             BResult.result {
-                let! value = value.ToExpr()
-                return Setf(name, value)
+                let! content = content.ToExpr()
+                return MakeRef content
+            }
+        | SList [Atom (Symbol "deref"); refExpr] ->
+            BResult.result {
+                let! refExpr = refExpr.ToExpr()
+                return Deref(refExpr)
+            }
+        | SList [Atom (Symbol "mut"); refSExp; sexp] ->
+            BResult.result {
+                let! refExpr = refSExp.ToExpr()
+                let! expr = sexp.ToExpr()
+                return Mut(refExpr, expr)
             }
         | SList [ func; arg ] ->
             BResult.result {
@@ -74,6 +85,6 @@ type SExp =
                 let! arg = arg.ToExpr()
                 return App(func, arg) }
         | SList _ -> Error(sprintf "bad syntax: %O" this)
-        | Atom(SBool b) -> Ok(Bool(b))
-        | Atom(SInt n) -> Ok(Int(n))
-        | Atom(Symbol x) -> Ok(Var(x))
+        | Atom(SBool b) -> Ok(Bool b)
+        | Atom(SInt n) -> Ok(Int n)
+        | Atom(Symbol x) -> Ok(Var x)
