@@ -7,6 +7,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B0AA5E5F-9D7
 EndProject
 Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "zam", "src\ZAM.Interp\zam.fsproj", "{0490FDB6-B1B6-4C54-B68B-6EAFBC6A3FB5}"
 EndProject
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "tests", "src\ZAM.Interp.Tests\tests.fsproj", "{8B86400C-4D2C-4C81-91C8-1A1F2B56E080}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -32,8 +34,21 @@ Global
 		{0490FDB6-B1B6-4C54-B68B-6EAFBC6A3FB5}.Release|x64.Build.0 = Release|Any CPU
 		{0490FDB6-B1B6-4C54-B68B-6EAFBC6A3FB5}.Release|x86.ActiveCfg = Release|Any CPU
 		{0490FDB6-B1B6-4C54-B68B-6EAFBC6A3FB5}.Release|x86.Build.0 = Release|Any CPU
+		{8B86400C-4D2C-4C81-91C8-1A1F2B56E080}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8B86400C-4D2C-4C81-91C8-1A1F2B56E080}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8B86400C-4D2C-4C81-91C8-1A1F2B56E080}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{8B86400C-4D2C-4C81-91C8-1A1F2B56E080}.Debug|x64.Build.0 = Debug|Any CPU
+		{8B86400C-4D2C-4C81-91C8-1A1F2B56E080}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8B86400C-4D2C-4C81-91C8-1A1F2B56E080}.Debug|x86.Build.0 = Debug|Any CPU
+		{8B86400C-4D2C-4C81-91C8-1A1F2B56E080}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8B86400C-4D2C-4C81-91C8-1A1F2B56E080}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8B86400C-4D2C-4C81-91C8-1A1F2B56E080}.Release|x64.ActiveCfg = Release|Any CPU
+		{8B86400C-4D2C-4C81-91C8-1A1F2B56E080}.Release|x64.Build.0 = Release|Any CPU
+		{8B86400C-4D2C-4C81-91C8-1A1F2B56E080}.Release|x86.ActiveCfg = Release|Any CPU
+		{8B86400C-4D2C-4C81-91C8-1A1F2B56E080}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{0490FDB6-B1B6-4C54-B68B-6EAFBC6A3FB5} = {B0AA5E5F-9D77-4E9E-9414-884FFA7B9AAB}
+		{8B86400C-4D2C-4C81-91C8-1A1F2B56E080} = {B0AA5E5F-9D77-4E9E-9414-884FFA7B9AAB}
 	EndGlobalSection
 EndGlobal
