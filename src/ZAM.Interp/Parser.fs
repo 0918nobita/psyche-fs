@@ -15,7 +15,7 @@ let binOp: Parser<SExp, unit> =
 let ident: Parser<SExp, unit> =
     let isAsciiIdStart c = isAsciiLetter c || c = '_' || c = 'λ'
     let isAsciiIdContinue c =
-        isAsciiLetter c || isDigit c || c = '_' || c = '-' || c = '\'' || c = '!'
+        isAsciiLetter c || isDigit c || c = '_' || c = '-' || c = '\''
     (identifier <| IdentifierOptions(isAsciiIdStart, isAsciiIdContinue))
     |>> Symbol |>> Atom
 
