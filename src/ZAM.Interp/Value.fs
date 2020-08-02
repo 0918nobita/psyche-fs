@@ -11,7 +11,7 @@ type Value =
 
     override this.ToString() =
         match this with
-        | UnitVal -> "()"
+        | UnitVal -> "#unit"
         | BoolVal true -> "true"
         | BoolVal false -> "false"
         | IntVal n -> string n

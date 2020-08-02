@@ -39,7 +39,7 @@ type Expr =
 
     override this.ToString() =
         match this with
-        | UnitExpr -> "()"
+        | UnitExpr -> "#unit"
         | Bool true -> "true"
         | Bool false -> "false"
         | Int n -> string n

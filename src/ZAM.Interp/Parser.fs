@@ -13,7 +13,7 @@ let binOp: Parser<SExp, unit> =
     |>> Atom
 
 let ident: Parser<SExp, unit> =
-    let isAsciiIdStart c = isAsciiLetter c || c = '_' || c = 'λ'
+    let isAsciiIdStart c = isAsciiLetter c || c = '_' || c = 'λ' || c = '#'
     let isAsciiIdContinue c =
         isAsciiLetter c || isDigit c || c = '_' || c = '-' || c = '\''
     (identifier <| IdentifierOptions(isAsciiIdStart, isAsciiIdContinue))
@@ -27,9 +27,7 @@ let boolLiteral: Parser<SExp, unit> =
     let pfalse = stringReturn "false" <| Atom(SBool false)
     ptrue <|> pfalse
 
-let unitExpr: Parser<SExp, unit> = stringReturn "#unit" (SList [])
-
-let atom = intLiteral <|> boolLiteral <|> binOp <|> unitExpr <|> ident
+let atom = intLiteral <|> boolLiteral <|> binOp <|> ident
 
 let rec sList(): Parser<SExp, unit> =
     parse {

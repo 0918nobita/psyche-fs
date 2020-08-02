@@ -33,7 +33,6 @@ type SExp =
 
     member this.ToExpr(): Result<Expr, string> =
         match this with
-        | SList [] -> Ok UnitExpr
         | SList [ Atom(Symbol(BinOp op)); lhs; rhs ] ->
             BResult.result {
                 let! lhs = lhs.ToExpr()
@@ -88,4 +87,5 @@ type SExp =
         | SList _ -> Error(sprintf "bad syntax: %O" this)
         | Atom(SBool b) -> Ok(Bool b)
         | Atom(SInt n) -> Ok(Int n)
+        | Atom(Symbol "#unit") -> Ok UnitExpr
         | Atom(Symbol x) -> Ok(Var x)
