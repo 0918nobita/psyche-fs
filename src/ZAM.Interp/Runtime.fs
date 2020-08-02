@@ -20,6 +20,7 @@ let evalBinExpr (op: BinOp) (lhs: Value) (rhs: Value) =
 
 let rec eval (env: Env) (expr: Expr) =
     match expr with
+    | UnitExpr -> Ok UnitVal
     | Bool b -> Ok(BoolVal b)
     | Int n -> Ok(IntVal n)
     | BinApp(op, lhs, rhs) ->

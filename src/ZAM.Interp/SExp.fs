@@ -33,6 +33,7 @@ type SExp =
 
     member this.ToExpr(): Result<Expr, string> =
         match this with
+        | SList [] -> Ok UnitExpr
         | SList [ Atom(Symbol(BinOp op)); lhs; rhs ] ->
             BResult.result {
                 let! lhs = lhs.ToExpr()

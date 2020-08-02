@@ -23,6 +23,7 @@ type BinOp =
         | Le -> "<="
 
 type Expr =
+    | UnitExpr
     | Bool of value: bool
     | Int of value: int
     | BinApp of op: BinOp * lhs: Expr * rhs: Expr
@@ -38,6 +39,7 @@ type Expr =
 
     override this.ToString() =
         match this with
+        | UnitExpr -> "()"
         | Bool true -> "true"
         | Bool false -> "false"
         | Int n -> string n

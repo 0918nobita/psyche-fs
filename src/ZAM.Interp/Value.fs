@@ -3,6 +3,7 @@ module Value
 open Syntax
 
 type Value =
+    | UnitVal
     | Closure of VarId * Expr * Env
     | BoolVal of bool
     | IntVal of int
@@ -10,6 +11,7 @@ type Value =
 
     override this.ToString() =
         match this with
+        | UnitVal -> "()"
         | BoolVal true -> "true"
         | BoolVal false -> "false"
         | IntVal n -> string n
