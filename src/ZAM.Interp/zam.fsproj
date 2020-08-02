@@ -13,5 +13,9 @@
         <Compile Include="Program.fs" />
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Base\Base.fsproj" />
+    </ItemGroup>
+
     <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
