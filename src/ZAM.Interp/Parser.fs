@@ -1,12 +1,12 @@
 module Parser
 
+module BMap = Base.Map
 open Syntax
 open SExp
-
 open FParsec
 
 let binOp: Parser<SExp, unit> =
-    FSharpPlus.Map.keys BinOp.StrMap
+    BMap.keys BinOp.StrMap
     |> Seq.map pstring
     |> Seq.reduce (<|>)
     |>> Symbol

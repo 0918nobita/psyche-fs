@@ -1,5 +1,7 @@
 module Runtime
 
+module BOption = Base.Option
+module BResult = Base.Result
 open Syntax
 open Value
 
@@ -16,30 +18,28 @@ let evalBinExpr (op: BinOp) (lhs: Value) (rhs: Value) =
         <| sprintf "2項演算子が用いられた式の評価に失敗しました:\n\t演算子: %O\n\t左辺: %O\n\t右辺: %O" op
                lhs rhs
 
-open FSharpPlus
-
 let rec eval (env: Env) (expr: Expr) =
     match expr with
     | Bool b -> Ok(BoolVal b)
     | Int n -> Ok(IntVal n)
     | BinApp(op, lhs, rhs) ->
-        monad.fx' {
+        BResult.result {
             let! lhs = eval env lhs
             let! rhs = eval env rhs
             return! evalBinExpr op lhs rhs }
     | Var x -> evalVar env x
     | Fun(x, e) -> Ok(Closure(x, e, env))
     | App(func, arg) ->
-        monad.fx' {
+        BResult.result {
             let! func = eval env func
             let! arg = eval env arg
             return! evalApp func arg }
     | If(cond, _then, _else) ->
-        monad.fx' {
+        BResult.result {
             let! cond = eval env cond
             return! evalIfExpr env cond _then _else }
     | Let(x, e1, e2) ->
-        monad.fx' {
+        BResult.result {
             let! e1 = eval env e1
             let env = (x, ref e1) :: env
             return! eval env e2
@@ -56,7 +56,7 @@ let rec eval (env: Env) (expr: Expr) =
     | Setf(x, expr) ->
         match List.tryFind (fst >> (=) x) env with
         | Some(_, x) ->
-            monad.fx' {
+            BResult.result {
                 let! expr = eval env expr
                 x := expr
                 return expr
@@ -66,7 +66,7 @@ let rec eval (env: Env) (expr: Expr) =
 and evalVar (env: Env) (varId: VarId) =
     List.tryFind (fst >> (=) varId) env
     |> Option.map (snd >> (!))
-    |> Option.toResult
+    |> BOption.toResult
     |> Result.mapError (fun () -> sprintf "未束縛の名前を参照しました: %s" varId)
 
 and evalIfExpr (env: Env) (cond: Value) (_then: Expr) (_else: Expr) =

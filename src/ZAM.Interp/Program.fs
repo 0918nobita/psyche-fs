@@ -1,9 +1,8 @@
 module Program
 
-open System.IO
-
-open FSharpPlus.Builders
+module BResult = Base.Result
 open FSharp.Json
+open System.IO
 
 [<EntryPoint>]
 let main argv =
@@ -14,7 +13,7 @@ let main argv =
     let src = File.ReadAllText srcPath
 
     let res =
-        monad.fx' {
+        BResult.result {
             let! sexp = Parser.program src
 
             let sw = new StreamWriter(Path.ChangeExtension(srcPath, ".sexp.json"))

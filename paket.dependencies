@@ -6,7 +6,6 @@ framework: netcoreapp3.1
 nuget FSharp.Core
 
 nuget FParsec
-nuget FSharpPlus
 nuget FSharp.Json
 
 nuget Expecto

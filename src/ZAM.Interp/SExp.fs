@@ -1,5 +1,6 @@
 module SExp
 
+module BResult = Base.Result
 open Syntax
 
 type Atom =
@@ -15,8 +16,6 @@ type Atom =
         | Symbol s -> s
 
 let (|BinOp|_|) str = Map.tryFind str BinOp.StrMap
-
-open FSharpPlus
 
 type SExp =
     | Atom of Atom
@@ -35,22 +34,22 @@ type SExp =
     member this.ToExpr(): Result<Expr, string> =
         match this with
         | SList [ Atom(Symbol(BinOp op)); lhs; rhs ] ->
-            monad.fx' {
+            BResult.result {
                 let! lhs = lhs.ToExpr()
                 let! rhs = rhs.ToExpr()
                 return BinApp(op, lhs, rhs) }
         | SList [ Atom(Symbol "λ"); Atom(Symbol arg); body ] ->
-            monad.fx' {
+            BResult.result {
                 let! body = body.ToExpr()
                 return Fun(arg, body) }
         | SList [ Atom(Symbol "if"); cond; _then; _else ] ->
-            monad.fx' {
+            BResult.result {
                 let! cond = cond.ToExpr()
                 let! _then = _then.ToExpr()
                 let! _else = _else.ToExpr()
                 return If(cond, _then, _else) }
         | SList [ Atom(Symbol "let"); Atom(Symbol name); value; body ] ->
-            monad.fx' {
+            BResult.result {
                 let! value = value.ToExpr()
                 let! body = body.ToExpr()
                 return Let(name, value, body) }
@@ -65,12 +64,12 @@ type SExp =
                 xs
             |> Result.map (fun (head, tail) -> Begin (head, tail))
         | SList [Atom (Symbol "set!"); Atom(Symbol name); value] ->
-            monad.fx' {
+            BResult.result {
                 let! value = value.ToExpr()
                 return Setf(name, value)
             }
         | SList [ func; arg ] ->
-            monad.fx' {
+            BResult.result {
                 let! func = func.ToExpr()
                 let! arg = arg.ToExpr()
                 return App(func, arg) }
