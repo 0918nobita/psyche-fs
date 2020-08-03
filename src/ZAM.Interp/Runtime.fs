@@ -20,32 +20,32 @@ let evalBinExpr (op: BinOp) (lhs: Value) (rhs: Value) =
 
 let rec eval (env: Env) (expr: UntypedExpr) =
     match expr with
-    | UnitExpr -> Ok UnitVal
-    | Bool b -> Ok(BoolVal b)
-    | Int n -> Ok(IntVal n)
-    | BinApp(op, lhs, rhs) ->
+    | UUnit -> Ok UnitVal
+    | UBool b -> Ok(BoolVal b)
+    | UInt n -> Ok(IntVal n)
+    | UBinApp(op, lhs, rhs) ->
         BResult.result {
             let! lhs = eval env lhs
             let! rhs = eval env rhs
             return! evalBinExpr op lhs rhs }
-    | Var x -> evalVar env x
-    | Fun(x, e) -> Ok(Closure(x, e, env))
-    | App(func, arg) ->
+    | UVar x -> evalVar env x
+    | UFun(x, e) -> Ok(Closure(x, e, env))
+    | UApp(func, arg) ->
         BResult.result {
             let! func = eval env func
             let! arg = eval env arg
             return! evalApp func arg }
-    | If(cond, _then, _else) ->
+    | UIf(cond, _then, _else) ->
         BResult.result {
             let! cond = eval env cond
             return! evalIfExpr env cond _then _else }
-    | Let(x, e1, e2) ->
+    | ULet(x, e1, e2) ->
         BResult.result {
             let! e1 = eval env e1
             let env = (x, e1) :: env
             return! eval env e2
         }
-    | Begin(x, xs) ->
+    | UBegin(x, xs) ->
         let x = eval env x
         List.fold
             (fun (acc: Result<Value, string>) (elem: UntypedExpr) ->
@@ -54,12 +54,12 @@ let rec eval (env: Env) (expr: UntypedExpr) =
                     eval env elem))
             x
             xs
-    | MakeRef e ->
+    | UMakeRef e ->
         BResult.result {
             let! v = eval env e
             return RefVal (ref v)
         }
-    | Deref e ->
+    | UDeref e ->
         BResult.result {
             let! value = eval env e
             match value with
@@ -67,7 +67,7 @@ let rec eval (env: Env) (expr: UntypedExpr) =
                 return !r
             | _ -> return! Error(sprintf "参照型ではない値に対して deref が呼び出されました: (deref %O ..)" value)
         }
-    | Mut(refExpr, expr) ->
+    | UMut(refExpr, expr) ->
         BResult.result {
             let! refVal = eval env refExpr
             let! value = eval env expr
