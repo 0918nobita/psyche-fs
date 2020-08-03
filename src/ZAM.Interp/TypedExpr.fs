@@ -80,4 +80,12 @@ let rec typeCheck (env: TypeEnv) (expr: TypedExpr): Result<(Type * UntypedExpr),
                 |> Result.mapError (fun () -> sprintf "(TypeError) Unbound identifier: %s" x)
             return (ty, UVar x)
         }
+    | TELet(x, ty, e1, e2) ->
+        let mapError = Result.mapError (sprintf "(TypeError) Let:\n\t%O")
+        BResult.result {
+            let! (e1Type, e1) = typeCheck env e1
+            do! mapError (assertType ty e1Type)
+            let! (e2Type, e2) = typeCheck ((x, ty) :: env) e2
+            return (e2Type, ULet(x, e1, e2))
+        }
     | _ -> Error "unimplemented"

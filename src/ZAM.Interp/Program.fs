@@ -3,11 +3,12 @@ module Program
 module BResult = Base.Result
 // open FSharp.Json
 // open System.IO
+open Type
 open TypedExpr
 
 [<EntryPoint>]
 let main argv =
-    let typedExpr = TEBinApp(TEAdd, TEInt 3, TEInt 4)
+    let typedExpr = TELet("a", TInt, TEInt 4, TEBinApp(TEAdd, TEInt 3, TEVar "a"))
     printfn "TypedExpr: %O" typedExpr
     let res = BResult.result {
         let! (ty, untypedExpr) = typeCheck [] typedExpr
