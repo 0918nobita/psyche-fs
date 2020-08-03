@@ -2,7 +2,7 @@ module Runtime
 
 module BOption = Base.Option
 module BResult = Base.Result
-open Syntax
+open UntypedExpr
 open Value
 
 let evalBinExpr (op: BinOp) (lhs: Value) (rhs: Value) =

@@ -1,6 +1,6 @@
 module Value
 
-open Syntax
+open UntypedExpr
 
 type Value =
     | UnitVal

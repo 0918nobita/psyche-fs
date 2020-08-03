@@ -1,8 +1,8 @@
 module Parser
 
 module BMap = Base.Map
-open Syntax
-open SExp
+open UntypedExpr
+open SExpr
 open FParsec
 
 let binOp: Parser<SExp, unit> =

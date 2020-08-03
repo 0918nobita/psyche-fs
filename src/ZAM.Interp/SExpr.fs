@@ -1,7 +1,7 @@
-module SExp
+module SExpr
 
 module BResult = Base.Result
-open Syntax
+open UntypedExpr
 
 type Atom =
     | SBool of bool
