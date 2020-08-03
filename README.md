@@ -2,6 +2,8 @@
 
 ZAM (ZINC Abstract Machine) implementation in F#
 
+(under construction)
+
 ## Setup dotnet tools
 
 ```bash
@@ -21,16 +23,6 @@ $ dotnet fake build
 
 ```bash
 $ dotnet fake build -t release
-```
-
-## Run interpreter
-
-```bash
-$ dotnet run --project src/ZAM.Interp -- examples/branch.txt
-Result: 0
-
-$ dotnet run --project src/ZAM.Interp -- examples/let-lambda.txt
-Result: 14
 ```
 
 ## Run tests

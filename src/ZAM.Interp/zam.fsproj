@@ -5,8 +5,10 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="Syntax.fs" />
-        <Compile Include="SExp.fs" />
+        <Compile Include="UntypedExpr.fs" />
+        <Compile Include="Type.fs" />
+        <Compile Include="TypedExpr.fs" />
+        <Compile Include="SExpr.fs" />
         <Compile Include="Parser.fs" />
         <Compile Include="Value.fs" />
         <Compile Include="Runtime.fs" />

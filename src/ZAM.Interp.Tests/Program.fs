@@ -1,4 +1,6 @@
-﻿open Expecto
+module Program
+
+open Expecto
 
 [<Tests>]
 let tests =
