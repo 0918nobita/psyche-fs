@@ -51,7 +51,7 @@ type UntypedExpr =
         | UInt n -> string n
         | UBinApp(op, lhs, rhs) -> sprintf "(%O %O %O)" op lhs rhs
         | UVar x -> x
-        | UFun(arg, body) -> sprintf "(fun %O %O)" arg body
+        | UFun(arg, body) -> sprintf "(λ %O %O)" arg body
         | UApp(func, arg) -> sprintf "(%O %O)" func arg
         | UIf(cond, _then, _else) -> sprintf "(if %O %O %O)" cond _then _else
         | ULet(ident, e1, e2) -> sprintf "(let %O %O %O)" ident e1 e2
