@@ -51,6 +51,10 @@ let rec typeCheck (env: TypeEnv) (expr: TypedExpr): Result<Type * UntypedExpr, s
                           (fun () -> sprintf "(TypeError) Unbound identifier: %s" x)
             return (ty, UVar x)
         }
+    | TEFun(x, ty, body) ->
+        BResult.result {
+            let! (bodyType, body) = typeCheck ((x, ty) :: env) body
+            return (TFun(ty, bodyType), UFun(x, body)) }
     | TELet(x, ty, e1, e2) ->
         let mapError =
             Result.mapError (sprintf "(TypeError) Let:\n\t%O")
