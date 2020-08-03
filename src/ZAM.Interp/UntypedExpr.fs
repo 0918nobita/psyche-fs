@@ -22,20 +22,20 @@ type BinOp =
         | Lt -> "<"
         | Le -> "<="
 
-type Expr =
+type UntypedExpr =
     | UnitExpr
     | Bool of value: bool
     | Int of value: int
-    | BinApp of op: BinOp * lhs: Expr * rhs: Expr
+    | BinApp of op: BinOp * lhs: UntypedExpr * rhs: UntypedExpr
     | Var of id: VarId
-    | Fun of arg: VarId * body: Expr
-    | App of func: Expr * actualArg: Expr
-    | If of cond: Expr * _then: Expr * _else: Expr
-    | Let of VarId * Expr * Expr
-    | Begin of Expr * List<Expr>
-    | MakeRef of Expr
-    | Deref of Expr
-    | Mut of Expr * Expr
+    | Fun of arg: VarId * body: UntypedExpr
+    | App of func: UntypedExpr * actualArg: UntypedExpr
+    | If of cond: UntypedExpr * _then: UntypedExpr * _else: UntypedExpr
+    | Let of VarId * UntypedExpr * UntypedExpr
+    | Begin of UntypedExpr * List<UntypedExpr>
+    | MakeRef of UntypedExpr
+    | Deref of UntypedExpr
+    | Mut of UntypedExpr * UntypedExpr
 
     override this.ToString() =
         match this with

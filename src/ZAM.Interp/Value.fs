@@ -4,7 +4,7 @@ open UntypedExpr
 
 type Value =
     | UnitVal
-    | Closure of VarId * Expr * Env
+    | Closure of VarId * UntypedExpr * Env
     | BoolVal of bool
     | IntVal of int
     | RefVal of Ref<Value>

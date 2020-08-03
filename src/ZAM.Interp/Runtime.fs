@@ -18,7 +18,7 @@ let evalBinExpr (op: BinOp) (lhs: Value) (rhs: Value) =
         <| sprintf "2項演算子が用いられた式の評価に失敗しました:\n\t演算子: %O\n\t左辺: %O\n\t右辺: %O" op
                lhs rhs
 
-let rec eval (env: Env) (expr: Expr) =
+let rec eval (env: Env) (expr: UntypedExpr) =
     match expr with
     | UnitExpr -> Ok UnitVal
     | Bool b -> Ok(BoolVal b)
@@ -48,7 +48,7 @@ let rec eval (env: Env) (expr: Expr) =
     | Begin(x, xs) ->
         let x = eval env x
         List.fold
-            (fun (acc: Result<Value, string>) (elem: Expr) ->
+            (fun (acc: Result<Value, string>) (elem: UntypedExpr) ->
                 acc
                 |> Result.bind (fun _ ->
                     eval env elem))
@@ -85,7 +85,7 @@ and evalVar (env: Env) (varId: VarId) =
     |> BOption.toResult
     |> Result.mapError (fun () -> sprintf "未束縛の名前を参照しました: %s" varId)
 
-and evalIfExpr (env: Env) (cond: Value) (_then: Expr) (_else: Expr) =
+and evalIfExpr (env: Env) (cond: Value) (_then: UntypedExpr) (_else: UntypedExpr) =
     match cond with
     | BoolVal true -> eval env _then
     | BoolVal false -> eval env _else

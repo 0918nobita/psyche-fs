@@ -17,9 +17,9 @@ type Atom =
 
 let (|BinOp|_|) str = Map.tryFind str BinOp.StrMap
 
-type SExp =
+type SExpr =
     | Atom of Atom
-    | SList of SExp list
+    | SList of SExpr list
 
     override this.ToString() =
         match this with
@@ -31,7 +31,7 @@ type SExp =
                 |> List.fold (sprintf "%s %s") (string x)
             sprintf "(%s)" inner
 
-    member this.ToExpr(): Result<Expr, string> =
+    member this.ToExpr(): Result<UntypedExpr, string> =
         match this with
         | SList [ Atom(Symbol(BinOp op)); lhs; rhs ] ->
             BResult.result {
@@ -55,7 +55,7 @@ type SExp =
                 return Let(name, value, body) }
         | SList (Atom(Symbol "begin") :: x :: xs) ->
             List.fold
-                (fun (acc: Result<Expr * List<Expr>, string>) (elem: SExp) ->
+                (fun (acc: Result<UntypedExpr * List<UntypedExpr>, string>) (elem: SExpr) ->
                     acc
                     |> Result.bind (fun (head, tail) ->
                         elem.ToExpr()
