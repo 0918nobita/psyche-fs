@@ -8,7 +8,7 @@ open TypedExpr
 
 [<EntryPoint>]
 let main argv =
-    let typedExpr = TEFun("n", TInt, TEBinApp(TEMul, TEVar "n", TEInt 2))
+    let typedExpr = TEApp(TEFun("n", TInt, TEBinApp(TEMul, TEVar "n", TEInt 2)), TEInt 7)
     printfn "TypedExpr: %O" typedExpr
     let res =
         BResult.result {

@@ -55,6 +55,19 @@ let rec typeCheck (env: TypeEnv) (expr: TypedExpr): Result<Type * UntypedExpr, s
         BResult.result {
             let! (bodyType, body) = typeCheck ((x, ty) :: env) body
             return (TFun(ty, bodyType), UFun(x, body)) }
+    | TEApp(func, arg) ->
+        let mapError (r: Result<'a, string>) =
+            r
+            |> Result.mapError (sprintf "(TypeError) App:\n\t%s")
+        BResult.result {
+            let! (funcType, func) = typeCheck env func
+            let! (argType, arg) = typeCheck env arg
+            match funcType with
+            | TFun(a, b) ->
+                do! mapError (assertType a argType)
+                return (b, UApp(func, arg))
+            | _ -> return! mapError (Error(sprintf "cannot call %O: %O" func funcType))
+        }
     | TELet(x, ty, e1, e2) ->
         let mapError =
             Result.mapError (sprintf "(TypeError) Let:\n\t%O")
