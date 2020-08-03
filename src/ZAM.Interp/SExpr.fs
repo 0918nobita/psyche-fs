@@ -1,6 +1,7 @@
 module SExpr
 
 module BResult = Base.Result
+
 open UntypedExpr
 
 type Atom =
@@ -25,10 +26,8 @@ type SExpr =
         match this with
         | Atom a -> string a
         | SList [] -> "()"
-        | SList (x::xs) ->
-            let inner =
-                List.map string xs
-                |> List.fold (sprintf "%s %s") (string x)
+        | SList(x :: xs) ->
+            let inner = List.map string xs |> List.fold (sprintf "%s %s") (string x)
             sprintf "(%s)" inner
 
     member this.ToExpr(): Result<UntypedExpr, string> =
@@ -53,32 +52,26 @@ type SExpr =
                 let! value = value.ToExpr()
                 let! body = body.ToExpr()
                 return ULet(name, value, body) }
-        | SList (Atom(Symbol "begin") :: x :: xs) ->
-            List.fold
-                (fun (acc: Result<UntypedExpr * List<UntypedExpr>, string>) (elem: SExpr) ->
-                    acc
-                    |> Result.bind (fun (head, tail) ->
-                        elem.ToExpr()
-                        |> Result.bind (fun expr -> Ok (head, tail @ [expr]))))
-                (Result.map (fun e -> (e, [])) (x.ToExpr()))
-                xs
-            |> Result.map (fun (head, tail) -> UBegin (head, tail))
-        | SList [Atom(Symbol "ref"); content] ->
+        | SList(Atom(Symbol "begin") :: x :: xs) ->
+            List.fold (fun (acc: Result<UntypedExpr * List<UntypedExpr>, string>) (elem: SExpr) ->
+                acc
+                |> Result.bind (fun (head, tail) ->
+                    elem.ToExpr() |> Result.bind (fun expr -> Ok(head, tail @ [ expr ]))))
+                (Result.map (fun e -> (e, [])) (x.ToExpr())) xs
+            |> Result.map (fun (head, tail) -> UBegin(head, tail))
+        | SList [ Atom(Symbol "ref"); content ] ->
             BResult.result {
                 let! content = content.ToExpr()
-                return UMakeRef content
-            }
-        | SList [Atom (Symbol "deref"); refExpr] ->
+                return UMakeRef content }
+        | SList [ Atom(Symbol "deref"); refExpr ] ->
             BResult.result {
                 let! refExpr = refExpr.ToExpr()
-                return UDeref(refExpr)
-            }
-        | SList [Atom (Symbol "mut"); refSExp; sexp] ->
+                return UDeref(refExpr) }
+        | SList [ Atom(Symbol "mut"); refSExp; sexp ] ->
             BResult.result {
                 let! refExpr = refSExp.ToExpr()
                 let! expr = sexp.ToExpr()
-                return UMut(refExpr, expr)
-            }
+                return UMut(refExpr, expr) }
         | SList [ func; arg ] ->
             BResult.result {
                 let! func = func.ToExpr()

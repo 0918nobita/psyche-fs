@@ -11,7 +11,13 @@ type BinOp =
     | Le
 
     static member StrMap =
-        Map.ofArray [|("+", Add); ("-", Sub); ("*", Mul); ("=", Eq); ("<", Lt); ("<=", Le)|]
+        Map.ofArray
+            [| ("+", Add)
+               ("-", Sub)
+               ("*", Mul)
+               ("=", Eq)
+               ("<", Lt)
+               ("<=", Le) |]
 
     override this.ToString() =
         match this with
@@ -50,7 +56,10 @@ type UntypedExpr =
         | UIf(cond, _then, _else) -> sprintf "(if %O %O %O)" cond _then _else
         | ULet(ident, e1, e2) -> sprintf "(let %O %O %O)" ident e1 e2
         | UBegin(x, xs) ->
-            let inner = x :: xs |> List.map string |> List.reduce (sprintf "%O %O")
+            let inner =
+                x :: xs
+                |> List.map string
+                |> List.reduce (sprintf "%O %O")
             sprintf "(begin %s)" inner
         | UMakeRef e -> sprintf "(ref %O)" e
         | UDeref e -> sprintf "(deref %O)" e

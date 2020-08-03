@@ -2,6 +2,7 @@ module Runtime
 
 module BOption = Base.Option
 module BResult = Base.Result
+
 open UntypedExpr
 open Value
 
@@ -15,8 +16,7 @@ let evalBinExpr (op: BinOp) (lhs: Value) (rhs: Value) =
     | Le, IntVal n1, IntVal n2 -> Ok(BoolVal(n1 <= n2))
     | _ ->
         Error
-        <| sprintf "2項演算子が用いられた式の評価に失敗しました:\n\t演算子: %O\n\t左辺: %O\n\t右辺: %O" op
-               lhs rhs
+        <| sprintf "2項演算子が用いられた式の評価に失敗しました:\n\t演算子: %O\n\t左辺: %O\n\t右辺: %O" op lhs rhs
 
 let rec eval (env: Env) (expr: UntypedExpr) =
     match expr with
@@ -47,25 +47,20 @@ let rec eval (env: Env) (expr: UntypedExpr) =
         }
     | UBegin(x, xs) ->
         let x = eval env x
-        List.fold
-            (fun (acc: Result<Value, string>) (elem: UntypedExpr) ->
-                acc
-                |> Result.bind (fun _ ->
-                    eval env elem))
-            x
-            xs
+        List.fold (fun (acc: Result<Value, string>) (elem: UntypedExpr) ->
+            acc |> Result.bind (fun _ -> eval env elem)) x xs
     | UMakeRef e ->
         BResult.result {
             let! v = eval env e
-            return RefVal (ref v)
-        }
+            return RefVal(ref v) }
     | UDeref e ->
         BResult.result {
             let! value = eval env e
             match value with
-            | RefVal r ->
-                return !r
-            | _ -> return! Error(sprintf "参照型ではない値に対して deref が呼び出されました: (deref %O ..)" value)
+            | RefVal r -> return !r
+            | _ ->
+                return! Error
+                            (sprintf "参照型ではない値に対して deref が呼び出されました: (deref %O ..)" value)
         }
     | UMut(refExpr, expr) ->
         BResult.result {

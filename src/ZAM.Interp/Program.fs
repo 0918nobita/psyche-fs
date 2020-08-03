@@ -10,12 +10,13 @@ open TypedExpr
 let main argv =
     let typedExpr = TELet("a", TInt, TEInt 4, TEBinApp(TEAdd, TEInt 3, TEVar "a"))
     printfn "TypedExpr: %O" typedExpr
-    let res = BResult.result {
-        let! (ty, untypedExpr) = typeCheck [] typedExpr
-        printfn "UntypedExpr: %O" untypedExpr
-        printfn "Type: %O" ty
-        return! Runtime.eval [] untypedExpr
-    }
+    let res =
+        BResult.result {
+            let! (ty, untypedExpr) = typeCheck [] typedExpr
+            printfn "UntypedExpr: %O" untypedExpr
+            printfn "Type: %O" ty
+            return! Runtime.eval [] untypedExpr
+        }
     match res with
     | Ok v -> printfn "Result: %O" v
     | Error msg ->

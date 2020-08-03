@@ -1,6 +1,7 @@
 module Parser
 
 module BMap = Base.Map
+
 open FParsec
 open SExpr
 open UntypedExpr
@@ -16,11 +17,10 @@ let ident: Parser<SExpr, unit> =
     let isAsciiIdStart c = isAsciiLetter c || c = '_' || c = 'λ' || c = '#'
     let isAsciiIdContinue c =
         isAsciiLetter c || isDigit c || c = '_' || c = '-' || c = '\''
-    (identifier <| IdentifierOptions(isAsciiIdStart, isAsciiIdContinue))
-    |>> Symbol |>> Atom
+    (identifier <| IdentifierOptions(isAsciiIdStart, isAsciiIdContinue)) |>> Symbol
+    |>> Atom
 
-let intLiteral: Parser<SExpr, unit> =
-    pint32 |>> SInt |>> Atom
+let intLiteral: Parser<SExpr, unit> = pint32 |>> SInt |>> Atom
 
 let boolLiteral: Parser<SExpr, unit> =
     let ptrue = stringReturn "true" <| Atom(SBool true)

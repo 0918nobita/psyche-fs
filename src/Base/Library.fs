@@ -1,8 +1,7 @@
-﻿namespace Base
+namespace Base
 
 module Map =
-    let keys (m: Map<_, _>) =
-        Map.fold (fun keys key _ -> key :: keys) [] m
+    let keys (m: Map<_, _>) = Map.fold (fun keys key _ -> key :: keys) [] m
 
 module Option =
     type OptionBuilder() =
@@ -12,9 +11,10 @@ module Option =
 
     let option = OptionBuilder()
 
-    let toResult = function
+    let toResult =
+        function
         | Some x -> Ok x
-        | None -> Error ()
+        | None -> Error()
 
 module Result =
     type ResultBuilder() =
