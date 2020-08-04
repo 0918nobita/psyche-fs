@@ -1,6 +1,0 @@
-(let z
-    (λ f
-        ((λ x (f (x x))) (λ x (f (λ y ((x x) y))))))
-    (let fact
-        (z (λ _fact (λ n (if (= n 0) 1 (* n (_fact (- n 1)))))))
-        (fact 4)))

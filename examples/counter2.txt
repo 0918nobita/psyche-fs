@@ -1,8 +1,9 @@
-(let make-counter
-    (λ init
-        (let count (ref init)
-            (λ _ (mut count (+ (deref count) 1)))))
-    (let counter (make-counter 0)
+(let
+    (: make-counter (-> Int (-> Unit Int)))
+    (λ (: init Int)
+        (let (: count (Ref Int)) (ref init)
+            (λ (: _ Unit) (mut count (+ (deref count) 1)))))
+    (let (: counter (-> Unit Int)) (make-counter 0)
         (begin
             (counter #unit)
             (counter #unit)
