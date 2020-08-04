@@ -1,5 +1,6 @@
 module SExpr
 
+module BNel = Base.Nel
 module BResult = Base.Result
 
 open UntypedExpr
@@ -58,7 +59,7 @@ type SExpr =
                 |> Result.bind (fun (head, tail) ->
                     elem.ToExpr() |> Result.bind (fun expr -> Ok(head, tail @ [ expr ]))))
                 (Result.map (fun e -> (e, [])) (x.ToExpr())) xs
-            |> Result.map (fun (head, tail) -> UBegin(head, tail))
+            |> Result.map (fun (head, tail) -> UBegin(BNel.create head tail))
         | SList [ Atom(Symbol "ref"); content ] ->
             BResult.result {
                 let! content = content.ToExpr()

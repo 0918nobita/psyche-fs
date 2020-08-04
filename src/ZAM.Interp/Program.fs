@@ -1,5 +1,6 @@
 module Program
 
+module BNel = Base.Nel
 module BResult = Base.Result
 // open FSharp.Json
 // open System.IO
@@ -13,8 +14,8 @@ let main argv =
             (TEFun
                 ("n", TInt,
                  TEBegin
-                     (TEUnit,
-                      [ TEIf(TEBinApp(TELt, TEInt 3, TEVar("n")), TEInt 1, TEInt 0) ])),
+                     (BNel.create TEUnit
+                          [ TEIf(TEBinApp(TELt, TEInt 3, TEVar("n")), TEInt 1, TEInt 0) ])),
              TEInt 7)
     printfn "TypedExpr: %O" typedExpr
     let res =

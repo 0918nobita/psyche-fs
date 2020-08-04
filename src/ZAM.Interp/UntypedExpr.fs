@@ -1,5 +1,7 @@
 module UntypedExpr
 
+module BNel = Base.Nel
+
 type VarId = string
 
 type BinOp =
@@ -38,7 +40,7 @@ type UntypedExpr =
     | UApp of func: UntypedExpr * actualArg: UntypedExpr
     | UIf of cond: UntypedExpr * _then: UntypedExpr * _else: UntypedExpr
     | ULet of VarId * UntypedExpr * UntypedExpr
-    | UBegin of UntypedExpr * List<UntypedExpr>
+    | UBegin of BNel.Nel<UntypedExpr>
     | UMakeRef of UntypedExpr
     | UDeref of UntypedExpr
     | UMut of UntypedExpr * UntypedExpr
@@ -55,12 +57,10 @@ type UntypedExpr =
         | UApp(func, arg) -> sprintf "(%O %O)" func arg
         | UIf(cond, _then, _else) -> sprintf "(if %O %O %O)" cond _then _else
         | ULet(ident, e1, e2) -> sprintf "(let %O %O %O)" ident e1 e2
-        | UBegin(x, xs) ->
-            let inner =
-                x :: xs
-                |> List.map string
-                |> List.reduce (sprintf "%O %O")
-            sprintf "(begin %s)" inner
+        | UBegin(body) ->
+            body
+            |> Seq.map string
+            |> Seq.reduce (sprintf "%O %O")
         | UMakeRef e -> sprintf "(ref %O)" e
         | UDeref e -> sprintf "(deref %O)" e
         | UMut(refExpr, expr) -> sprintf "(mut %O %O)" refExpr expr
