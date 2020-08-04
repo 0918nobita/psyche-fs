@@ -5,7 +5,7 @@ module BMap = Base.Map
 open FParsec
 open SExpr
 
-let ident: Parser<SExpr, unit> =
+let ident =
     let start = anyOf "+-*_λ<=>#:\'" <|> asciiLetter
     let cont = start <|> digit
     parse {
@@ -13,16 +13,16 @@ let ident: Parser<SExpr, unit> =
         let! cs = manyChars cont
         return Atom(Symbol(c + cs)) }
 
-let intLiteral: Parser<SExpr, unit> = pint32 |>> SInt |>> Atom
+let intLiteral = pint32 |>> SInt |>> Atom
 
-let boolLiteral: Parser<SExpr, unit> =
+let boolLiteral =
     let ptrue = stringReturn "true" <| Atom(SBool true)
     let pfalse = stringReturn "false" <| Atom(SBool false)
     ptrue <|> pfalse
 
 let atom = intLiteral <|> boolLiteral <|> ident
 
-let rec sList(): Parser<SExpr, unit> =
+let rec sList() =
     parse {
         do! skipChar '('
         let! head = expr()
@@ -31,7 +31,7 @@ let rec sList(): Parser<SExpr, unit> =
         return SList(head :: tail)
     }
 
-and expr(): Parser<SExpr, unit> = atom <|> sList()
+and expr() = atom <|> sList()
 
 let program src =
     match run (atom <|> expr()) src with

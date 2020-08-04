@@ -1,12 +1,10 @@
 module SExpr
 
 module BNel = Base.Nel
-
-open BNel.ActivePattern
-
 module BOption = Base.Option
 module BResult = Base.Result
 
+open BNel.ActivePattern
 open Type
 open TypedExpr
 
@@ -43,7 +41,7 @@ let rec (|TypeSig|_|) input =
     | SList [ Atom(Symbol "Ref"); (TypeSig ty) ] -> Some(TRef ty)
     | _ -> None
 
-let rec toExpr (sexpr): Result<TypedExpr, string> =
+let rec toExpr sexpr =
     match sexpr with
     | SList [ Atom(Symbol(BinOp op)); lhs; rhs ] ->
         BResult.result {

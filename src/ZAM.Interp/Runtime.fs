@@ -1,14 +1,13 @@
 module Runtime
 
-open Base.Nel.ActivePattern
-
 module BOption = Base.Option
 module BResult = Base.Result
 
+open Base.Nel.ActivePattern
 open UntypedExpr
 open Value
 
-let evalBinExpr (op: BinOp) (lhs: Value) (rhs: Value) =
+let evalBinExpr op lhs rhs =
     match op, lhs, rhs with
     | Add, IntVal n1, IntVal n2 -> Ok(IntVal(n1 + n2))
     | Sub, IntVal n1, IntVal n2 -> Ok(IntVal(n1 - n2))
@@ -20,7 +19,7 @@ let evalBinExpr (op: BinOp) (lhs: Value) (rhs: Value) =
         Error
         <| sprintf "2項演算子が用いられた式の評価に失敗しました:\n\t演算子: %O\n\t左辺: %O\n\t右辺: %O" op lhs rhs
 
-let rec eval (env: Env) (expr: UntypedExpr) =
+let rec eval env expr =
     match expr with
     | UUnit -> Ok UnitVal
     | UBool b -> Ok(BoolVal b)
@@ -78,19 +77,19 @@ let rec eval (env: Env) (expr: UntypedExpr) =
                 return! Error(sprintf "参照型ではない値に対して mut が呼び出されました: (mut %O ..)" refVal)
         }
 
-and evalVar (env: Env) (varId: VarId) =
+and evalVar env varId =
     List.tryFind (fst >> (=) varId) env
     |> Option.map snd
     |> BOption.toResult
     |> Result.mapError (fun () -> sprintf "未束縛の名前を参照しました: %s" varId)
 
-and evalIfExpr (env: Env) (cond: Value) (_then: UntypedExpr) (_else: UntypedExpr) =
+and evalIfExpr env cond _then _else =
     match cond with
     | BoolVal true -> eval env _then
     | BoolVal false -> eval env _else
     | _ -> Error "if 式の条件が真偽値ではありません"
 
-and evalApp (f: Value) (v: Value) =
+and evalApp f v =
     match f with
     | Closure(arg, body, fenv) -> eval ((arg, v) :: fenv) body
     | _ -> Error "関数適用に失敗しました: 適用しようとしているものが関数ではありません"
