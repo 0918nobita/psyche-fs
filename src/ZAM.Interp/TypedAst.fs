@@ -1,4 +1,4 @@
-module TypedExpr
+module TypedAst
 
 module BNel = Base.Nel
 module BOption = Base.Option
@@ -34,20 +34,20 @@ type TEBinOp =
         | TELt -> "<"
         | TELe -> "<="
 
-type TypedExpr =
+type TypedAst =
     | TEUnit
     | TEBool of bool
     | TEInt of int
-    | TEBinApp of op: TEBinOp * lhs: TypedExpr * rhs: TypedExpr
+    | TEBinApp of op: TEBinOp * lhs: TypedAst * rhs: TypedAst
     | TEVar of TEVarId
-    | TEFun of arg: TEVarId * argType: Type * body: TypedExpr
-    | TEApp of func: TypedExpr * actualArg: TypedExpr
-    | TEIf of cond: TypedExpr * _then: TypedExpr * _else: TypedExpr
-    | TELet of name: TEVarId * typeOfName: Type * expr1: TypedExpr * expr2: TypedExpr
-    | TEBegin of BNel.Nel<TypedExpr>
-    | TEMakeRef of TypedExpr
-    | TEDeref of TypedExpr
-    | TEMut of TypedExpr * TypedExpr
+    | TEFun of arg: TEVarId * argType: Type * body: TypedAst
+    | TEApp of func: TypedAst * actualArg: TypedAst
+    | TEIf of cond: TypedAst * _then: TypedAst * _else: TypedAst
+    | TELet of name: TEVarId * typeOfName: Type * expr1: TypedAst * expr2: TypedAst
+    | TEBegin of BNel.Nel<TypedAst>
+    | TEMakeRef of TypedAst
+    | TEDeref of TypedAst
+    | TEMut of TypedAst * TypedAst
 
     override this.ToString() =
         match this with

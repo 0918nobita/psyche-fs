@@ -1,6 +1,6 @@
 module Type
 
-open UntypedExpr
+open UntypedAst
 
 type Type =
     | TUnit

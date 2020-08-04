@@ -4,7 +4,7 @@ module BOption = Base.Option
 module BResult = Base.Result
 
 open Base.Nel.ActivePattern
-open UntypedExpr
+open UntypedAst
 open Value
 
 let evalBinExpr op lhs rhs =
@@ -49,7 +49,7 @@ let rec eval env expr =
     | UBegin(Nel(x, xs)) ->
         BResult.result {
             let! x = eval env x
-            let folder (_: Value) (elem: UntypedExpr) = eval env elem
+            let folder (_: Value) (elem: UntypedAst) = eval env elem
             return! BResult.fold folder x xs
         }
     | UMakeRef e ->

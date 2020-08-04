@@ -9,4 +9,4 @@ type Type =
 
     static member StrMap : Map<string, Type>
 
-type TypeEnv = List<UntypedExpr.VarId * Type>
+type TypeEnv = List<UntypedAst.VarId * Type>

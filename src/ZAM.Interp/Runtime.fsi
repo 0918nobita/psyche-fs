@@ -1,6 +1,6 @@
 module Runtime
 
-open UntypedExpr
+open UntypedAst
 open Value
 
-val eval : Env -> UntypedExpr -> Result<Value, string>
+val eval : Env -> UntypedAst -> Result<Value, string>

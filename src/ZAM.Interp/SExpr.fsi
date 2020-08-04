@@ -1,6 +1,6 @@
 module SExpr
 
-open TypedExpr
+open TypedAst
 
 type Atom =
     | SBool of bool
@@ -11,4 +11,4 @@ type SExpr =
     | Atom of Atom
     | SList of SExpr list
 
-val toExpr : SExpr -> Result<TypedExpr, string>
+val toExpr : SExpr -> Result<TypedAst, string>

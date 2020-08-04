@@ -5,12 +5,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <Compile Include="UntypedExpr.fsi" />
-        <Compile Include="UntypedExpr.fs" />
+        <Compile Include="UntypedAst.fsi" />
+        <Compile Include="UntypedAst.fs" />
         <Compile Include="Type.fsi" />
         <Compile Include="Type.fs" />
-        <Compile Include="TypedExpr.fsi" />
-        <Compile Include="TypedExpr.fs" />
+        <Compile Include="TypedAst.fsi" />
+        <Compile Include="TypedAst.fs" />
         <Compile Include="TypeChecker.fsi" />
         <Compile Include="TypeChecker.fs" />
         <Compile Include="SExpr.fsi" />

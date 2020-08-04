@@ -1,7 +1,7 @@
 module TypeChecker
 
 open Type
-open TypedExpr
-open UntypedExpr
+open TypedAst
+open UntypedAst
 
-val typeCheck: TypeEnv -> TypedExpr -> Result<Type * UntypedExpr, string>
+val typeCheck: TypeEnv -> TypedAst -> Result<Type * UntypedAst, string>
