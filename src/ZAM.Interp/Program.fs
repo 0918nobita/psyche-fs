@@ -10,13 +10,14 @@ open TypedExpr
 [<EntryPoint>]
 let main argv =
     let typedExpr =
-        TEApp
-            (TEFun
-                ("n", TInt,
-                 TEBegin
-                     (BNel.create TEUnit
-                          [ TEIf(TEBinApp(TELt, TEInt 3, TEVar("n")), TEInt 1, TEInt 0) ])),
-             TEInt 7)
+        TELet
+            ("double", TFun(TInt, TInt),
+             TEFun("n", TInt, TEBinApp(TEMul, TEVar "n", TEInt 2)),
+             TELet
+                 ("x", TRef(TInt), TEMakeRef(TEInt 7),
+                  TEBegin
+                      (BNel.create (TEMut(TEVar "x", TEApp(TEVar "double", TEInt 4)))
+                           [ TEDeref(TEVar "x") ])))
     printfn "TypedExpr: %O" typedExpr
     let res =
         BResult.result {

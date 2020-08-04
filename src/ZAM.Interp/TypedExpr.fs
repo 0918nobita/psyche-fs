@@ -52,7 +52,9 @@ let rec typeCheck (env: TypeEnv) (expr: TypedExpr): Result<Type * UntypedExpr, s
     | TEIf(cond, _then, _else) -> typeCheckIf env cond _then _else
     | TELet(x, ty, e1, e2) -> typeCheckLet env x ty e1 e2
     | TEBegin(body) -> typeCheckBegin env body
-    | _ -> Error "unimplemented"
+    | TEMakeRef(expr) -> typeCheckMakeRef env expr
+    | TEDeref(expr) -> typeCheckDeref env expr
+    | TEMut(refExpr, expr) -> typeCheckMut env refExpr expr
 
 and typeCheckBinApp (env: TypeEnv) (op: TEBinOp) (lhs: TypedExpr) (rhs: TypedExpr) =
     let mapError =
@@ -158,4 +160,36 @@ and typeCheckBegin (env: TypeEnv) (Nel(head, tail): BNel.Nel<TypedExpr>) =
         let! (ty, body) = BResult.fold folder (ty, BNel.singleton head) tail
 
         return (ty, UBegin(body))
+    }
+
+and typeCheckMakeRef (env: TypeEnv) (expr: TypedExpr) =
+    BResult.result {
+        let! (exprType, expr) = typeCheck env expr
+        return (TRef(exprType), UMakeRef(expr)) }
+
+and typeCheckDeref (env: TypeEnv) (expr: TypedExpr) =
+    BResult.result {
+        let! (exprType, expr) = typeCheck env expr
+        match exprType with
+        | TRef(ty) -> return (ty, UDeref(expr))
+        | _ ->
+            return! Error
+                        (sprintf
+                            "(TypeError) in deref expression:\n  type %O is not reference type"
+                             exprType)
+    }
+
+and typeCheckMut (env: TypeEnv) (refExpr: TypedExpr) (expr: TypedExpr) =
+    let errMsgPrefix = "(TypeError) in mut expression:\n  "
+    BResult.result {
+        let! (refExprType, refExpr) = typeCheck env refExpr
+        match refExprType with
+        | TRef(ty) ->
+            let! (exprType, expr) = typeCheck env expr
+            do! Result.mapError (sprintf "%s%s" errMsgPrefix) (assertType ty exprType)
+            return (ty, UMut(refExpr, expr))
+        | _ ->
+            return! Error
+                        (sprintf "%stype %O is not refernece type" errMsgPrefix
+                             refExprType)
     }
