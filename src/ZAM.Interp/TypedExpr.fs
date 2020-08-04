@@ -20,6 +20,15 @@ type TEBinOp =
     | TELt
     | TELe
 
+    static member StrMap =
+        Map.ofArray
+            [| ("+", TEAdd)
+               ("-", TESub)
+               ("*", TEMul)
+               ("=", TEEq)
+               ("<", TELt)
+               ("<=", TELe) |]
+
     override this.ToString() =
         match this with
         | TEAdd -> "+"
