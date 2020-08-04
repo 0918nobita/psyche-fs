@@ -14,22 +14,19 @@ module Nel =
         interface IReadOnlyCollection<'a> with
 
             member this.Count =
-                match this with
-                | Nel(_, tail) -> 1 + List.length tail
+                let (Nel(_, tail)) = this
+                1 + List.length tail
 
             member this.GetEnumerator() =
-                match this with
-                | Nel(head, tail) -> (head :: tail :> _ seq).GetEnumerator()
+                let (Nel(head, tail)) = this
+                (head :: tail :> _ seq).GetEnumerator()
 
             member this.GetEnumerator() =
-                match this with
-                | Nel(head, tail) ->
-                    (head :: tail :> _ seq).GetEnumerator() :> IEnumerator
+                let (Nel(head, tail)) = this
+                (head :: tail :> _ seq).GetEnumerator() :> IEnumerator
 
     module ActivePattern =
-        let (|Nel|) (input: Nel<'a>) =
-            match input with
-            | Nel(head, tail) -> (head, tail)
+        let (|Nel|) (Nel(head, tail)) = (head, tail)
 
     let singleton v = Nel(v, [])
     let create head tail = Nel(head, tail)
@@ -57,3 +54,14 @@ module Result =
         member _.Bind(m, f) = Result.bind f m
 
     let result = ResultBuilder()
+
+    let fold
+        (folder: 'State -> 'T -> Result<'State, 'Error>)
+        (initialState: 'State)
+        (list: list<'T>)
+        : Result<'State, 'Error>
+        =
+        List.fold (fun state elem ->
+            result {
+                let! s = state
+                return! folder s elem }) (Ok initialState) list

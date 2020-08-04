@@ -146,14 +146,16 @@ and typeCheckIf (env: TypeEnv) (cond: TypedExpr) (_then: TypedExpr) (_else: Type
         return (_thenType, UIf(cond, _then, _else))
     }
 
-and typeCheckBegin (env: TypeEnv) (body: BNel.Nel<TypedExpr>) =
-    match body with
-    | Nel(head, tail) ->
-        List.fold (fun (acc: Result<Type * BNel.Nel<UntypedExpr>, string>) (elem: TypedExpr) ->
-            acc
-            |> Result.bind (fun (_, (Nel(head, tail))) ->
-                typeCheck env elem
-                |> Result.bind (fun (ty, expr) ->
-                    Ok(ty, BNel.create head (tail @ [ expr ])))))
-            (Result.map (fun (ty, e) -> (ty, BNel.singleton e)) (typeCheck env head))
-            tail |> Result.map (fun (ty, body) -> (ty, UBegin(body)))
+and typeCheckBegin (env: TypeEnv) (Nel(head, tail): BNel.Nel<TypedExpr>) =
+    BResult.result {
+        let! (ty, head) = typeCheck env head
+
+        let folder (state: Type * BNel.Nel<UntypedExpr>) (elem: TypedExpr) =
+            let (_, Nel(x, xs)) = state
+            BResult.result {
+                let! (ty, expr) = typeCheck env elem
+                return (ty, BNel.create x (xs @ [ expr ])) }
+        let! (ty, body) = BResult.fold folder (ty, BNel.singleton head) tail
+
+        return (ty, UBegin(body))
+    }

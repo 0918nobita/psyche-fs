@@ -48,9 +48,11 @@ let rec eval (env: Env) (expr: UntypedExpr) =
             return! eval env e2
         }
     | UBegin(Nel(x, xs)) ->
-        let x = eval env x
-        List.fold (fun (acc: Result<Value, string>) (elem: UntypedExpr) ->
-            acc |> Result.bind (fun _ -> eval env elem)) x xs
+        BResult.result {
+            let! x = eval env x
+            let folder (_: Value) (elem: UntypedExpr) = eval env elem
+            return! BResult.fold folder x xs
+        }
     | UMakeRef e ->
         BResult.result {
             let! v = eval env e
