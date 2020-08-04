@@ -45,12 +45,14 @@ let rec typeCheck (env: TypeEnv) (expr: TypedExpr): Result<Type * UntypedExpr, s
     | TEVar x -> typeCheckVar env x
     | TEFun(x, ty, body) -> typeCheckFun env x ty body
     | TEApp(func, arg) -> typeCheckApp env func arg
+    | TEIf(cond, _then, _else) -> typeCheckIf env cond _then _else
     | TELet(x, ty, e1, e2) -> typeCheckLet env x ty e1 e2
+    | TEBegin(head, tail) -> typeCheckBegin env head tail
     | _ -> Error "unimplemented"
 
 and typeCheckBinApp (env: TypeEnv) (op: TEBinOp) (lhs: TypedExpr) (rhs: TypedExpr) =
     let mapError =
-        Result.mapError (sprintf "(TypeError) BinApp:\n\t%O")
+        Result.mapError (sprintf "(TypeError) in binary expression:\n  %O")
     BResult.result {
         let! (lhsType, lhs) = typeCheck env lhs
         let! (rhsType, rhs) = typeCheck env rhs
@@ -99,7 +101,7 @@ and typeCheckFun (env: TypeEnv) (x: TEVarId) (ty: Type) (body: TypedExpr) =
 and typeCheckApp (env: TypeEnv) (func: TypedExpr) (arg: TypedExpr) =
     let mapError (r: Result<'a, string>) =
         r
-        |> Result.mapError (sprintf "(TypeError) App:\n\t%s")
+        |> Result.mapError (sprintf "(TypeError) in function application:\n  %s")
     BResult.result {
         let! (funcType, func) = typeCheck env func
         let! (argType, arg) = typeCheck env arg
@@ -111,11 +113,40 @@ and typeCheckApp (env: TypeEnv) (func: TypedExpr) (arg: TypedExpr) =
     }
 
 and typeCheckLet (env: TypeEnv) (x: TEVarId) (ty: Type) (e1: TypedExpr) (e2: TypedExpr) =
-    let mapError =
-        Result.mapError (sprintf "(TypeError) Let:\n\t%O")
+    let mapError = Result.mapError (sprintf "(TypeError) in let expression:  %O")
     BResult.result {
         let! (e1Type, e1) = typeCheck env e1
         do! mapError (assertType ty e1Type)
         let! (e2Type, e2) = typeCheck ((x, ty) :: env) e2
         return (e2Type, ULet(x, e1, e2))
     }
+
+and typeCheckIf (env: TypeEnv) (cond: TypedExpr) (_then: TypedExpr) (_else: TypedExpr) =
+    let mapError =
+        Result.mapError (sprintf "(TypeError) in if expression\n  %O")
+    BResult.result {
+        let! (condType, cond) = typeCheck env cond
+        do! mapError (assertType TBool condType)
+        let! (_thenType, _then) = typeCheck env _then
+        let! (_elseType, _else) = typeCheck env _else
+        do! mapError
+                (BResult.result {
+                    if _thenType = _elseType then
+                        return ()
+                    else
+                        return! Error
+                                    (sprintf
+                                        "type mismatch\n    then clause: %O\n    else clause: %O"
+                                         _thenType _elseType)
+                 })
+        return (_thenType, UIf(cond, _then, _else))
+    }
+
+and typeCheckBegin (env: TypeEnv) (head: TypedExpr) (tail: List<TypedExpr>) =
+    List.fold (fun (acc: Result<Type * UntypedExpr * List<UntypedExpr>, string>) (elem: TypedExpr) ->
+        acc
+        |> Result.bind (fun (_, head, tail) ->
+            typeCheck env elem
+            |> Result.bind (fun (ty, expr) -> Ok(ty, head, tail @ [ expr ]))))
+        (Result.map (fun (ty, e) -> (ty, e, [])) (typeCheck env head)) tail
+    |> Result.map (fun (ty, head, tail) -> (ty, UBegin(head, tail)))
