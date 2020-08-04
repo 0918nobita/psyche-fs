@@ -58,9 +58,11 @@ type UntypedExpr =
         | UIf(cond, _then, _else) -> sprintf "(if %O %O %O)" cond _then _else
         | ULet(ident, e1, e2) -> sprintf "(let %O %O %O)" ident e1 e2
         | UBegin(body) ->
-            body
-            |> Seq.map string
-            |> Seq.reduce (sprintf "%O %O")
+            let inner =
+                body
+                |> Seq.map string
+                |> Seq.reduce (sprintf "%O %O")
+            sprintf "(begin %s)" inner
         | UMakeRef e -> sprintf "(ref %O)" e
         | UDeref e -> sprintf "(deref %O)" e
         | UMut(refExpr, expr) -> sprintf "(mut %O %O)" refExpr expr
