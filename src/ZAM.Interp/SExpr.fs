@@ -1,6 +1,9 @@
 module SExpr
 
 module BNel = Base.Nel
+
+open BNel.ActivePattern
+
 module BResult = Base.Result
 
 open UntypedExpr
@@ -54,12 +57,16 @@ type SExpr =
                 let! body = body.ToExpr()
                 return ULet(name, value, body) }
         | SList(Atom(Symbol "begin") :: x :: xs) ->
-            List.fold (fun (acc: Result<UntypedExpr * List<UntypedExpr>, string>) (elem: SExpr) ->
-                acc
-                |> Result.bind (fun (head, tail) ->
-                    elem.ToExpr() |> Result.bind (fun expr -> Ok(head, tail @ [ expr ]))))
-                (Result.map (fun e -> (e, [])) (x.ToExpr())) xs
-            |> Result.map (fun (head, tail) -> UBegin(BNel.create head tail))
+            BResult.result {
+                let! x = x.ToExpr()
+                let folder (state: BNel.Nel<UntypedExpr>) (elem: SExpr) =
+                    let (Nel(head, tail)) = state
+                    BResult.result {
+                        let! expr = elem.ToExpr()
+                        return BNel.create head (tail @ [ expr ]) }
+                let! body = BResult.fold folder (BNel.singleton x) xs
+                return UBegin(body)
+            }
         | SList [ Atom(Symbol "ref"); content ] ->
             BResult.result {
                 let! content = content.ToExpr()
