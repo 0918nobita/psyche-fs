@@ -1,1 +1,4 @@
-(let double (λ x (* 2 x)) (double 7))
+(let
+    (: double (-> Int Int))
+    (λ (: x Int) (* 2 x))
+    (double 7))
