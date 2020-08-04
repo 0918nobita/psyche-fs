@@ -6,7 +6,7 @@ module BResult = Base.Result
 
 open BNel.ActivePattern
 open Type
-open TypedExpr
+open TypedAst
 
 type Atom =
     | SBool of bool
@@ -68,7 +68,7 @@ let rec toExpr sexpr =
     | SList(Atom(Symbol "begin") :: x :: xs) ->
         BResult.result {
             let! x = toExpr x
-            let folder (state: BNel.Nel<TypedExpr>) (elem: SExpr) =
+            let folder (state: BNel.Nel<TypedAst>) (elem: SExpr) =
                 let (Nel(head, tail)) = state
                 BResult.result {
                     let! expr = toExpr elem

@@ -1,4 +1,4 @@
-module UntypedExpr
+module UntypedAst
 
 module BNel = Base.Nel
 
@@ -30,20 +30,20 @@ type BinOp =
         | Lt -> "<"
         | Le -> "<="
 
-type UntypedExpr =
+type UntypedAst =
     | UUnit
     | UBool of value: bool
     | UInt of value: int
-    | UBinApp of op: BinOp * lhs: UntypedExpr * rhs: UntypedExpr
+    | UBinApp of op: BinOp * lhs: UntypedAst * rhs: UntypedAst
     | UVar of id: VarId
-    | UFun of arg: VarId * body: UntypedExpr
-    | UApp of func: UntypedExpr * actualArg: UntypedExpr
-    | UIf of cond: UntypedExpr * _then: UntypedExpr * _else: UntypedExpr
-    | ULet of VarId * UntypedExpr * UntypedExpr
-    | UBegin of BNel.Nel<UntypedExpr>
-    | UMakeRef of UntypedExpr
-    | UDeref of UntypedExpr
-    | UMut of UntypedExpr * UntypedExpr
+    | UFun of arg: VarId * body: UntypedAst
+    | UApp of func: UntypedAst * actualArg: UntypedAst
+    | UIf of cond: UntypedAst * _then: UntypedAst * _else: UntypedAst
+    | ULet of VarId * UntypedAst * UntypedAst
+    | UBegin of BNel.Nel<UntypedAst>
+    | UMakeRef of UntypedAst
+    | UDeref of UntypedAst
+    | UMut of UntypedAst * UntypedAst
 
     override this.ToString() =
         match this with

@@ -1,10 +1,10 @@
 module Value
 
-open UntypedExpr
+open UntypedAst
 
 type Value =
     | UnitVal
-    | Closure of VarId * UntypedExpr * Env
+    | Closure of VarId * UntypedAst * Env
     | BoolVal of bool
     | IntVal of int
     | RefVal of Ref<Value>

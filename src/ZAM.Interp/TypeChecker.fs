@@ -6,8 +6,8 @@ module BResult = Base.Result
 
 open BNel.ActivePattern
 open Type
-open TypedExpr
-open UntypedExpr
+open TypedAst
+open UntypedAst
 
 let assertType (expected: Type) (actual: Type) =
     if expected = actual
@@ -126,7 +126,7 @@ and typeCheckBegin env (Nel(head, tail)) =
     BResult.result {
         let! (ty, head) = typeCheck env head
 
-        let folder (state: Type * BNel.Nel<UntypedExpr>) (elem: TypedExpr) =
+        let folder (state: Type * BNel.Nel<UntypedAst>) (elem: TypedAst) =
             let (_, Nel(x, xs)) = state
             BResult.result {
                 let! (ty, expr) = typeCheck env elem
