@@ -17,7 +17,7 @@ let main argv =
         BResult.result {
             let! sexp = Parser.program src
             let! typedExpr = SExpr.toExpr sexp
-            let! (ty, untypedExpr) = TypedExpr.typeCheck [] typedExpr
+            let! (ty, untypedExpr) = TypeChecker.typeCheck [] typedExpr
             let! value = Runtime.eval [] untypedExpr
             return (ty, value) }
 

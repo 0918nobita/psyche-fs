@@ -1,6 +1,6 @@
 module Type
 
-type TypeVarId = string
+open UntypedExpr
 
 type Type =
     | TUnit
@@ -23,4 +23,4 @@ type Type =
         | TFun(arg, ret) -> sprintf "(-> %O %O)" arg ret
         | TRef ty -> sprintf "(Ref %O)" ty
 
-type TypeEnv = List<TypeVarId * Type>
+type TypeEnv = List<VarId * Type>
