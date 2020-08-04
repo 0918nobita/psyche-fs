@@ -20,6 +20,15 @@ type TEBinOp =
     | TELt
     | TELe
 
+    override this.ToString() =
+        match this with
+        | TEAdd -> "+"
+        | TESub -> "-"
+        | TEMul -> "*"
+        | TEEq -> "="
+        | TELt -> "<"
+        | TELe -> "<="
+
 type TypedExpr =
     | TEUnit
     | TEBool of bool
@@ -34,6 +43,29 @@ type TypedExpr =
     | TEMakeRef of TypedExpr
     | TEDeref of TypedExpr
     | TEMut of TypedExpr * TypedExpr
+
+    override this.ToString() =
+        match this with
+        | TEUnit -> "#unit"
+        | TEBool true -> "true"
+        | TEBool false -> "false"
+        | TEInt n -> string n
+        | TEBinApp(op, lhs, rhs) -> sprintf "(%O %O %O)" op lhs rhs
+        | TEVar x -> x
+        | TEFun(arg, argType, body) -> sprintf "(λ (: %s %O) %O)" arg argType body
+        | TEApp(func, actualArg) -> sprintf "(%O %O)" func actualArg
+        | TEIf(cond, _then, _else) -> sprintf "(if %O %O %O)" cond _then _else
+        | TELet(name, typeOfName, expr1, expr2) ->
+            sprintf "(let (: %s %O) %O %O)" name typeOfName expr1 expr2
+        | TEBegin(body) ->
+            let inner =
+                body
+                |> Seq.map string
+                |> Seq.reduce (sprintf "%O %O")
+            sprintf "(begin %s)" inner
+        | TEMakeRef(expr) -> sprintf "(ref %O)" expr
+        | TEDeref(expr) -> sprintf "(deref %O)" expr
+        | TEMut(expr1, expr2) -> sprintf "(mut %O %O)" expr1 expr2
 
 let assertType (expected: Type) (actual: Type): Result<unit, string> =
     if expected = actual
