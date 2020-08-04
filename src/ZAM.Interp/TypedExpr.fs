@@ -1,5 +1,9 @@
 module TypedExpr
 
+module BNel = Base.Nel
+
+open BNel.ActivePattern
+
 module BOption = Base.Option
 module BResult = Base.Result
 
@@ -26,7 +30,7 @@ type TypedExpr =
     | TEApp of func: TypedExpr * actualArg: TypedExpr
     | TEIf of cond: TypedExpr * _then: TypedExpr * _else: TypedExpr
     | TELet of name: TEVarId * typeOfName: Type * expr1: TypedExpr * expr2: TypedExpr
-    | TEBegin of TypedExpr * List<TypedExpr>
+    | TEBegin of BNel.Nel<TypedExpr>
     | TEMakeRef of TypedExpr
     | TEDeref of TypedExpr
     | TEMut of TypedExpr * TypedExpr
@@ -47,7 +51,7 @@ let rec typeCheck (env: TypeEnv) (expr: TypedExpr): Result<Type * UntypedExpr, s
     | TEApp(func, arg) -> typeCheckApp env func arg
     | TEIf(cond, _then, _else) -> typeCheckIf env cond _then _else
     | TELet(x, ty, e1, e2) -> typeCheckLet env x ty e1 e2
-    | TEBegin(head, tail) -> typeCheckBegin env head tail
+    | TEBegin(body) -> typeCheckBegin env body
     | _ -> Error "unimplemented"
 
 and typeCheckBinApp (env: TypeEnv) (op: TEBinOp) (lhs: TypedExpr) (rhs: TypedExpr) =
@@ -142,11 +146,14 @@ and typeCheckIf (env: TypeEnv) (cond: TypedExpr) (_then: TypedExpr) (_else: Type
         return (_thenType, UIf(cond, _then, _else))
     }
 
-and typeCheckBegin (env: TypeEnv) (head: TypedExpr) (tail: List<TypedExpr>) =
-    List.fold (fun (acc: Result<Type * UntypedExpr * List<UntypedExpr>, string>) (elem: TypedExpr) ->
-        acc
-        |> Result.bind (fun (_, head, tail) ->
-            typeCheck env elem
-            |> Result.bind (fun (ty, expr) -> Ok(ty, head, tail @ [ expr ]))))
-        (Result.map (fun (ty, e) -> (ty, e, [])) (typeCheck env head)) tail
-    |> Result.map (fun (ty, head, tail) -> (ty, UBegin(head, tail)))
+and typeCheckBegin (env: TypeEnv) (body: BNel.Nel<TypedExpr>) =
+    match body with
+    | Nel(head, tail) ->
+        List.fold (fun (acc: Result<Type * BNel.Nel<UntypedExpr>, string>) (elem: TypedExpr) ->
+            acc
+            |> Result.bind (fun (_, (Nel(head, tail))) ->
+                typeCheck env elem
+                |> Result.bind (fun (ty, expr) ->
+                    Ok(ty, BNel.create head (tail @ [ expr ])))))
+            (Result.map (fun (ty, e) -> (ty, BNel.singleton e)) (typeCheck env head))
+            tail |> Result.map (fun (ty, body) -> (ty, UBegin(body)))

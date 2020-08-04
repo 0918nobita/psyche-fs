@@ -1,5 +1,7 @@
 module Runtime
 
+open Base.Nel.ActivePattern
+
 module BOption = Base.Option
 module BResult = Base.Result
 
@@ -45,7 +47,7 @@ let rec eval (env: Env) (expr: UntypedExpr) =
             let env = (x, e1) :: env
             return! eval env e2
         }
-    | UBegin(x, xs) ->
+    | UBegin(Nel(x, xs)) ->
         let x = eval env x
         List.fold (fun (acc: Result<Value, string>) (elem: UntypedExpr) ->
             acc |> Result.bind (fun _ -> eval env elem)) x xs
