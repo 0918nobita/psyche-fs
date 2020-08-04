@@ -30,12 +30,4 @@ Target.create "Test" (fun _ -> dotnet "run" "--project src/ZAM.Interp.Tests")
 
 "Clean" ==> "Test"
 
-Target.create "Lint" (fun _ ->
-    dotnet "fantomas" "--check --recurse --pageWidth 90 ./src"
-    dotnet "fantomas" "--check --recurse --pageWidth 90 build.fsx")
-
-Target.create "Format" (fun _ ->
-    dotnet "fantomas" "--recurse --pageWidth 90 ./src"
-    dotnet "fantomas" "--recurse --pageWidth 90 build.fsx")
-
 Target.runOrDefault "Debug"
