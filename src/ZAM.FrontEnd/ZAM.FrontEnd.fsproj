@@ -1,6 +1,5 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
-        <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp3.1</TargetFramework>
     </PropertyGroup>
 
@@ -17,15 +16,10 @@
         <Compile Include="SExpr.fs" />
         <Compile Include="Parser.fsi" />
         <Compile Include="Parser.fs" />
-        <Compile Include="Value.fsi" />
-        <Compile Include="Value.fs" />
-        <Compile Include="Runtime.fsi" />
-        <Compile Include="Runtime.fs" />
-        <Compile Include="Program.fs" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Base\Base.fsproj" />
+        <ProjectReference Include="..\ZAM.Base\ZAM.Base.fsproj" />
     </ItemGroup>
 
     <Import Project="..\..\.paket\Paket.Restore.targets" />

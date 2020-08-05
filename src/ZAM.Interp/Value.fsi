@@ -1,12 +1,10 @@
 module Value
 
-open UntypedAst
-
 type Value =
     | UnitVal
-    | Closure of VarId * UntypedAst * Env
+    | Closure of FrontEnd.UntypedAst.VarId * FrontEnd.UntypedAst.UntypedAst * Env
     | BoolVal of bool
     | IntVal of int
     | RefVal of Ref<Value>
 
-and Env = List<VarId * Value>
+and Env = List<FrontEnd.UntypedAst.VarId * Value>

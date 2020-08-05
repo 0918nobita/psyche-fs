@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp3.1</TargetFramework>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Compile Include="Value.fsi" />
+        <Compile Include="Value.fs" />
+        <Compile Include="Runtime.fsi" />
+        <Compile Include="Runtime.fs" />
+        <Compile Include="Program.fs" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\ZAM.Base\ZAM.Base.fsproj" />
+        <ProjectReference Include="..\ZAM.FrontEnd\ZAM.FrontEnd.fsproj" />
+    </ItemGroup>
+
+    <Import Project="..\..\.paket\Paket.Restore.targets" />
+</Project>

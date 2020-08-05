@@ -1,10 +1,10 @@
 module Value
 
-open UntypedAst
+module UntypedAst = FrontEnd.UntypedAst
 
 type Value =
     | UnitVal
-    | Closure of VarId * UntypedAst * Env
+    | Closure of UntypedAst.VarId * UntypedAst.UntypedAst * Env
     | BoolVal of bool
     | IntVal of int
     | RefVal of Ref<Value>
@@ -18,4 +18,4 @@ type Value =
         | Closure _ -> "<Closure>"
         | RefVal r -> sprintf "<Ref %O>" !r
 
-and Env = List<VarId * Value>
+and Env = List<UntypedAst.VarId * Value>

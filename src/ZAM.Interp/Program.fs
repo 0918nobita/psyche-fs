@@ -2,6 +2,9 @@ module Program
 
 module BNel = Base.Nel
 module BResult = Base.Result
+module Parser = FrontEnd.Parser
+module SExpr = FrontEnd.SExpr
+module TypeChecker = FrontEnd.TypeChecker
 
 open System.IO
 
