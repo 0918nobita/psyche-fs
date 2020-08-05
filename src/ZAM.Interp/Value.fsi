@@ -1,6 +1,6 @@
 module Value
 
-open UntypedAst
+open FrontEnd.UntypedAst
 
 type Value =
     | UnitVal

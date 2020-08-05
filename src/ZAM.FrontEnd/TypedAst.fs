@@ -1,10 +1,10 @@
-module TypedAst
+module internal TypedAst
 
 module BNel = Base.Nel
 module BOption = Base.Option
 module BResult = Base.Result
 
-open Type
+open FrontEnd.Type
 
 type TEVarId = string
 

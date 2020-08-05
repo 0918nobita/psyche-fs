@@ -1,4 +1,4 @@
-module Parser
+module internal Parser
 
 open SExpr
 

@@ -1,6 +1,6 @@
-module TypedAst
+module internal TypedAst
 
-open Type
+open FrontEnd.Type
 
 type TEVarId = string
 

@@ -4,7 +4,7 @@ module BOption = Base.Option
 module BResult = Base.Result
 
 open Base.Nel.ActivePattern
-open UntypedAst
+open FrontEnd.UntypedAst
 open Value
 
 let evalBinExpr op lhs rhs =

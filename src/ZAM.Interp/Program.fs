@@ -7,9 +7,7 @@ open System.IO
 
 let run src =
     BResult.result {
-        let! sexp = Parser.program src
-        let! typedAst = SExpr.toExpr sexp
-        let! (ty, untypedAst) = TypeChecker.typeCheck [] typedAst
+        let! (ty, untypedAst) = FrontEnd.Exposed.tryParse src
         let! value = Runtime.eval [] untypedAst
         return (ty, value) }
 

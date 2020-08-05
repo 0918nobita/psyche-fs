@@ -1,4 +1,4 @@
-module SExpr
+module internal SExpr
 
 open TypedAst
 

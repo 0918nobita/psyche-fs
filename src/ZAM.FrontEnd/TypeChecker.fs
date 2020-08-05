@@ -1,13 +1,13 @@
-module TypeChecker
+module internal TypeChecker
 
 module BNel = Base.Nel
 module BOption = Base.Option
 module BResult = Base.Result
 
 open BNel.ActivePattern
-open Type
+open FrontEnd.Type
+open FrontEnd.UntypedAst
 open TypedAst
-open UntypedAst
 
 let assertType (expected: Type) (actual: Type) =
     if expected = actual
@@ -69,7 +69,7 @@ and typeCheckVar env x =
                   |> Option.map snd
                   |> BOption.toResult
                   |> Result.mapError
-                      (fun () -> sprintf "(TypeError) Unbound identifier: %s" x)
+                     (fun () -> sprintf "(TypeError) Unbound identifier: %s" x)
         return (ty, UVar x)
     }
 
@@ -118,7 +118,7 @@ and typeCheckIf env cond _then _else =
                                     (sprintf
                                         "type mismatch\n    then clause: %O\n    else clause: %O"
                                          _thenType _elseType)
-                 })
+                })
         return (_thenType, UIf(cond, _then, _else))
     }
 

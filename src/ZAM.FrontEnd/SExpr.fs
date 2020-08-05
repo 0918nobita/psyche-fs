@@ -1,11 +1,11 @@
-module SExpr
+module internal SExpr
 
 module BNel = Base.Nel
 module BOption = Base.Option
 module BResult = Base.Result
 
 open BNel.ActivePattern
-open Type
+open FrontEnd.Type
 open TypedAst
 
 type Atom =
@@ -34,8 +34,8 @@ type SExpr =
 
 let (|BinOp|_|) str = Map.tryFind str TEBinOp.StrMap
 
-let rec (|TypeSig|_|) input =
-    match input with
+let rec (|TypeSig|_|) =
+    function
     | Atom(Symbol str) -> Map.tryFind str Type.StrMap
     | SList [ Atom(Symbol "->"); (TypeSig arg); (TypeSig ret) ] -> Some(TFun(arg, ret))
     | SList [ Atom(Symbol "Ref"); (TypeSig ty) ] -> Some(TRef ty)
