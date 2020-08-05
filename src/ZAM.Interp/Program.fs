@@ -2,17 +2,12 @@ module Program
 
 module BNel = Base.Nel
 module BResult = Base.Result
-module Parser = FrontEnd.Parser
-module SExpr = FrontEnd.SExpr
-module TypeChecker = FrontEnd.TypeChecker
 
 open System.IO
 
 let run src =
     BResult.result {
-        let! sexp = Parser.program src
-        let! typedAst = SExpr.toExpr sexp
-        let! (ty, untypedAst) = TypeChecker.typeCheck [] typedAst
+        let! (ty, untypedAst) = FrontEnd.Exposed.tryParse src
         let! value = Runtime.eval [] untypedAst
         return (ty, value) }
 

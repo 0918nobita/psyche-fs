@@ -1,5 +1,6 @@
 module Runtime
 
 open Value
+open FrontEnd.UntypedAst
 
-val eval : Env -> FrontEnd.UntypedAst.UntypedAst -> Result<Value, string>
+val eval : Env -> UntypedAst -> Result<Value, string>

@@ -1,8 +1,7 @@
-namespace FrontEnd
+module internal TypeChecker
 
-module TypeChecker =
-    open Type
-    open TypedAst
-    open UntypedAst
+open FrontEnd.Type
+open FrontEnd.UntypedAst
+open TypedAst
 
-    val typeCheck: TypeEnv -> TypedAst -> Result<Type * UntypedAst, string>
+val typeCheck: TypeEnv -> TypedAst -> Result<Type * UntypedAst, string>

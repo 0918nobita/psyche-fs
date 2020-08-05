@@ -1,15 +1,14 @@
-namespace FrontEnd
+module internal SExpr
 
-module SExpr =
-    open TypedAst
+open TypedAst
 
-    type Atom =
-        | SBool of bool
-        | SInt of int
-        | Symbol of string
+type Atom =
+    | SBool of bool
+    | SInt of int
+    | Symbol of string
 
-    type SExpr =
-        | Atom of Atom
-        | SList of SExpr list
+type SExpr =
+    | Atom of Atom
+    | SList of SExpr list
 
-    val toExpr : SExpr -> Result<TypedAst, string>
+val toExpr : SExpr -> Result<TypedAst, string>

@@ -1,4 +1,5 @@
-namespace FrontEnd
+module internal Parser
 
-module Parser =
-    val program : string -> Result<SExpr.SExpr, string>
+open SExpr
+
+val program : string -> Result<SExpr, string>
