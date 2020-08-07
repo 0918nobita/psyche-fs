@@ -18,6 +18,7 @@ type TypedAst =
     | TEUnit
     | TEBool of bool
     | TEInt of int
+    | TEFloat of float
     | TEBinApp of op: TEBinOp * lhs: TypedAst * rhs: TypedAst
     | TEVar of TEVarId
     | TEFun of arg: TEVarId * argType: Type * body: TypedAst

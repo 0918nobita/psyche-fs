@@ -38,6 +38,7 @@ type TypedAst =
     | TEUnit
     | TEBool of bool
     | TEInt of int
+    | TEFloat of float
     | TEBinApp of op: TEBinOp * lhs: TypedAst * rhs: TypedAst
     | TEVar of TEVarId
     | TEFun of arg: TEVarId * argType: Type * body: TypedAst
@@ -57,6 +58,7 @@ type TypedAst =
         | TEBool true -> "true"
         | TEBool false -> "false"
         | TEInt n -> string n
+        | TEFloat f -> string f
         | TEBinApp(op, lhs, rhs) -> sprintf "(%O %O %O)" op lhs rhs
         | TEVar x -> x
         | TEFun(arg, argType, body) -> sprintf "(λ (: %s %O) %O)" arg argType body
