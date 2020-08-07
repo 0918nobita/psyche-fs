@@ -78,6 +78,14 @@ let rec toTypedAst sexpr =
             let! body = BResult.fold folder (BNel.singleton x) xs
             return TEBegin(body)
         }
+    | SList [ Atom(Symbol "int-of-float"); f ] ->
+        BResult.result {
+            let! f = toTypedAst f
+            return TEIntOfFloat f }
+    | SList [ Atom(Symbol "float-of-int"); n ] ->
+        BResult.result {
+            let! n = toTypedAst n
+            return TEFloatOfInt n }
     | SList [ Atom(Symbol "ref"); content ] ->
         BResult.result {
             let! content = toTypedAst content
