@@ -5,9 +5,15 @@ open FrontEnd.Type
 type TEVarId = string
 
 type TEBinOp =
-    | TEAdd
-    | TESub
-    | TEMul
+    | TEAddI
+    | TEAddF
+    | TESubI
+    | TESubF
+    | TEMulI
+    | TEMulF
+    | TEDivI
+    | TEDivF
+    | TEMod
     | TEEq
     | TELt
     | TELe

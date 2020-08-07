@@ -2,9 +2,15 @@ namespace FrontEnd
 
 module UntypedAst =
     type BinOp =
-        | Add
-        | Sub
-        | Mul
+        | AddI
+        | AddF
+        | SubI
+        | SubF
+        | MulI
+        | MulF
+        | DivI
+        | DivF
+        | Mod
         | Eq
         | Lt
         | Le
