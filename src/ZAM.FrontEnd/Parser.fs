@@ -45,6 +45,12 @@ let rec sList() =
 and expr() = atom <|> sList()
 
 let program src =
-    match run (atom <|> expr()) src with
+    let parser =
+        parse {
+            let! sexpr = atom <|> expr()
+            do! spaces
+            do! eof
+            return sexpr }
+    match run parser src with
     | Success(v, _, _) -> Result.Ok(v)
     | Failure(msg, _, _) -> Result.Error(msg)
