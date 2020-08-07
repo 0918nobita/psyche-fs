@@ -19,6 +19,7 @@ let rec typeCheck env =
     | TEUnit -> Ok(TUnit, UUnit)
     | TEBool b -> Ok(TBool, UBool b)
     | TEInt n -> Ok(TInt, UInt n)
+    | TEFloat f -> Ok(TFloat, UFloat f)
     | TEBinApp(op, lhs, rhs) -> typeCheckBinApp env op lhs rhs
     | TEVar x -> typeCheckVar env x
     | TEFun(x, ty, body) -> typeCheckFun env x ty body
