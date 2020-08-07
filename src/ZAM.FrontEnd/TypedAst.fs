@@ -41,6 +41,8 @@ type TypedAst =
     | TEBinApp of op: TEBinOp * lhs: TypedAst * rhs: TypedAst
     | TEVar of TEVarId
     | TEFun of arg: TEVarId * argType: Type * body: TypedAst
+    | TEIntOfFloat of TypedAst
+    | TEFloatOfInt of TypedAst
     | TEApp of func: TypedAst * actualArg: TypedAst
     | TEIf of cond: TypedAst * _then: TypedAst * _else: TypedAst
     | TELet of name: TEVarId * typeOfName: Type * expr1: TypedAst * expr2: TypedAst
@@ -58,6 +60,8 @@ type TypedAst =
         | TEBinApp(op, lhs, rhs) -> sprintf "(%O %O %O)" op lhs rhs
         | TEVar x -> x
         | TEFun(arg, argType, body) -> sprintf "(λ (: %s %O) %O)" arg argType body
+        | TEIntOfFloat ast -> sprintf "(int-of-float %O)" ast
+        | TEFloatOfInt ast -> sprintf "(float-of-int %O)" ast
         | TEApp(func, actualArg) -> sprintf "(%O %O)" func actualArg
         | TEIf(cond, _then, _else) -> sprintf "(if %O %O %O)" cond _then _else
         | TELet(name, typeOfName, expr1, expr2) ->
