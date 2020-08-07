@@ -24,6 +24,7 @@ let rec eval env expr =
     | UUnit -> Ok UnitVal
     | UBool b -> Ok(BoolVal b)
     | UInt n -> Ok(IntVal n)
+    | UFloat f -> Ok(FloatVal f)
     | UBinApp(op, lhs, rhs) ->
         BResult.result {
             let! lhs = eval env lhs
@@ -31,6 +32,20 @@ let rec eval env expr =
             return! evalBinExpr op lhs rhs }
     | UVar x -> evalVar env x
     | UFun(x, e) -> Ok(Closure(x, e, env))
+    | UIntOfFloat v ->
+        BResult.result {
+            let! v = eval env v
+            match v with
+            | FloatVal f -> return IntVal(int f)
+            | _ -> return! Error (sprintf "cannot convert %O into value of Float type" v)
+        }
+    | UFloatOfInt v ->
+        BResult.result {
+            let! v = eval env v
+            match v with
+            | IntVal n -> return FloatVal(float n)
+            | _ -> return! Error (sprintf "cannot convert %O into value of Int type" v)
+        }
     | UApp(func, arg) ->
         BResult.result {
             let! func = eval env func

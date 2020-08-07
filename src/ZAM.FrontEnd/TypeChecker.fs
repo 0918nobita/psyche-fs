@@ -19,9 +19,12 @@ let rec typeCheck env =
     | TEUnit -> Ok(TUnit, UUnit)
     | TEBool b -> Ok(TBool, UBool b)
     | TEInt n -> Ok(TInt, UInt n)
+    | TEFloat f -> Ok(TFloat, UFloat f)
     | TEBinApp(op, lhs, rhs) -> typeCheckBinApp env op lhs rhs
     | TEVar x -> typeCheckVar env x
     | TEFun(x, ty, body) -> typeCheckFun env x ty body
+    | TEIntOfFloat f -> typeCheckIntOfFloat env f
+    | TEFloatOfInt n -> typeCheckFloatOfInt env n
     | TEApp(func, arg) -> typeCheckApp env func arg
     | TEIf(cond, _then, _else) -> typeCheckIf env cond _then _else
     | TELet(x, ty, e1, e2) -> typeCheckLet env x ty e1 e2
@@ -77,6 +80,22 @@ and typeCheckFun env x ty body =
     BResult.result {
         let! (bodyType, body) = typeCheck ((x, ty) :: env) body
         return (TFun(ty, bodyType), UFun(x, body)) }
+
+and typeCheckIntOfFloat env f =
+    BResult.result {
+        let! (fType, f) = typeCheck env f
+        do! assertType TFloat fType
+            |> Result.mapError (sprintf "(TypeError) in int-of-float type conversion:\n  %s")
+        return (TInt, UIntOfFloat(f))
+    }
+
+and typeCheckFloatOfInt env n =
+    BResult.result {
+        let! (nType, n) = typeCheck env n
+        do! assertType TInt nType
+            |> Result.mapError (sprintf "(TypeError) in float-of-int type conversion:\n  %s")
+        return (TFloat, UFloatOfInt(n))
+    }
 
 and typeCheckApp env func arg =
     let mapError (r: Result<'a, string>) =

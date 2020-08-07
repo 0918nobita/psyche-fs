@@ -7,6 +7,7 @@ type Value =
     | Closure of UntypedAst.VarId * UntypedAst.UntypedAst * Env
     | BoolVal of bool
     | IntVal of int
+    | FloatVal of float
     | RefVal of Ref<Value>
 
     override this.ToString() =
@@ -15,6 +16,7 @@ type Value =
         | BoolVal true -> "true"
         | BoolVal false -> "false"
         | IntVal n -> string n
+        | FloatVal f -> string f
         | Closure _ -> "<Closure>"
         | RefVal r -> sprintf "<Ref %O>" !r
 

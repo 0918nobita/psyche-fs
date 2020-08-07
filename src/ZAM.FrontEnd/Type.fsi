@@ -6,6 +6,7 @@ module Type =
     type Type =
         | TUnit
         | TInt
+        | TFloat
         | TBool
         | TFun of Type * Type
         | TRef of Type
