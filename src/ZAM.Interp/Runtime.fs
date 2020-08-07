@@ -9,9 +9,15 @@ open Value
 
 let evalBinExpr op lhs rhs =
     match op, lhs, rhs with
-    | Add, IntVal n1, IntVal n2 -> Ok(IntVal(n1 + n2))
-    | Sub, IntVal n1, IntVal n2 -> Ok(IntVal(n1 - n2))
-    | Mul, IntVal n1, IntVal n2 -> Ok(IntVal(n1 * n2))
+    | AddI, IntVal n1, IntVal n2 -> Ok(IntVal(n1 + n2))
+    | SubI, IntVal n1, IntVal n2 -> Ok(IntVal(n1 - n2))
+    | MulI, IntVal n1, IntVal n2 -> Ok(IntVal(n1 * n2))
+    | DivI, IntVal n1, IntVal n2 -> Ok(IntVal(n1 / n2))
+    | AddF, FloatVal f1, FloatVal f2 -> Ok(FloatVal(f1 + f2))
+    | SubF, FloatVal f1, FloatVal f2 -> Ok(FloatVal(f1 - f2))
+    | MulF, FloatVal f1, FloatVal f2 -> Ok(FloatVal(f1 * f2))
+    | DivF, FloatVal f1, FloatVal f2 -> Ok(FloatVal(f1 / f2))
+    | Mod, IntVal n1, IntVal n2 -> Ok(IntVal(n1 % n2))
     | Eq, IntVal n1, IntVal n2 -> Ok(BoolVal((n1 = n2)))
     | Lt, IntVal n1, IntVal n2 -> Ok(BoolVal(n1 < n2))
     | Le, IntVal n1, IntVal n2 -> Ok(BoolVal(n1 <= n2))

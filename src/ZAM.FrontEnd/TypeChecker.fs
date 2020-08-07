@@ -40,29 +40,53 @@ and typeCheckBinApp env op lhs rhs =
         let! (lhsType, lhs) = typeCheck env lhs
         let! (rhsType, rhs) = typeCheck env rhs
         match op with
-        | TEAdd ->
-            do! mapError (assertType TInt lhsType)
-            do! mapError (assertType TInt rhsType)
-            return (TInt, UBinApp(Add, lhs, rhs))
-        | TESub ->
-            do! mapError (assertType TInt lhsType)
-            do! mapError (assertType TInt rhsType)
-            return (TInt, UBinApp(Sub, lhs, rhs))
-        | TEMul ->
-            do! mapError (assertType TInt lhsType)
-            do! mapError (assertType TInt rhsType)
-            return (TInt, UBinApp(Mul, lhs, rhs))
+        | TEAddI ->
+            do! assertType TInt lhsType |> mapError
+            do! assertType TInt rhsType |> mapError
+            return (TInt, UBinApp(AddI, lhs, rhs))
+        | TESubI ->
+            do! assertType TInt lhsType |> mapError
+            do! assertType TInt rhsType |> mapError
+            return (TInt, UBinApp(SubI, lhs, rhs))
+        | TEMulI ->
+            do! assertType TInt lhsType |> mapError
+            do! assertType TInt rhsType |> mapError
+            return (TInt, UBinApp(MulI, lhs, rhs))
+        | TEDivI ->
+            do! assertType TInt lhsType |> mapError
+            do! assertType TInt rhsType |> mapError
+            return (TInt, UBinApp(DivI, lhs, rhs))
+        | TEAddF ->
+            do! assertType TFloat lhsType |> mapError
+            do! assertType TFloat rhsType |> mapError
+            return (TFloat, UBinApp(AddF, lhs, rhs))
+        | TESubF ->
+            do! assertType TFloat lhsType |> mapError
+            do! assertType TFloat rhsType |> mapError
+            return (TFloat, UBinApp(SubF, lhs, rhs))
+        | TEMulF ->
+            do! assertType TFloat lhsType |> mapError
+            do! assertType TFloat rhsType |> mapError
+            return (TFloat, UBinApp(MulF, lhs, rhs))
+        | TEDivF ->
+            do! assertType TFloat lhsType |> mapError
+            do! assertType TFloat rhsType |> mapError
+            return (TFloat, UBinApp(DivF, lhs, rhs))
+        | TEMod ->
+            do! assertType TInt lhsType |> mapError
+            do! assertType TInt rhsType |> mapError
+            return (TInt, UBinApp(Mod, lhs, rhs))
         | TEEq ->
-            do! mapError (assertType TInt lhsType)
-            do! mapError (assertType TInt rhsType)
+            do! assertType TInt lhsType |> mapError
+            do! assertType TInt rhsType |> mapError
             return (TBool, UBinApp(Eq, lhs, rhs))
         | TELt ->
-            do! mapError (assertType TInt lhsType)
-            do! mapError (assertType TInt rhsType)
+            do! assertType TInt lhsType |> mapError
+            do! assertType TInt rhsType |> mapError
             return (TBool, UBinApp(Lt, lhs, rhs))
         | TELe ->
-            do! mapError (assertType TInt lhsType)
-            do! mapError (assertType TInt rhsType)
+            do! assertType TInt lhsType |> mapError
+            do! assertType TInt rhsType |> mapError
             return (TBool, UBinApp(Le, lhs, rhs))
     }
 

@@ -6,27 +6,45 @@ module UntypedAst =
     type VarId = string
 
     type BinOp =
-        | Add
-        | Sub
-        | Mul
+        | AddI
+        | AddF
+        | SubI
+        | SubF
+        | MulI
+        | MulF
+        | DivI
+        | DivF
+        | Mod
         | Eq
         | Lt
         | Le
 
         static member StrMap =
             Map.ofArray
-                [| ("+", Add)
-                   ("-", Sub)
-                   ("*", Mul)
+                [| ("+", AddI)
+                   ("+.", AddF)
+                   ("-", SubI)
+                   ("-.", SubF)
+                   ("*", MulI)
+                   ("*.", MulF)
+                   ("/", DivI)
+                   ("/.", DivF)
+                   ("%", Mod)
                    ("=", Eq)
                    ("<", Lt)
                    ("<=", Le) |]
 
         override this.ToString() =
             match this with
-            | Add -> "+"
-            | Sub -> "-"
-            | Mul -> "*"
+            | AddI -> "+"
+            | AddF -> "+."
+            | SubI -> "-"
+            | SubF -> "-."
+            | MulI -> "*"
+            | MulF -> "*."
+            | DivI -> "/"
+            | DivF -> "/."
+            | Mod -> "%"
             | Eq -> "="
             | Lt -> "<"
             | Le -> "<="

@@ -6,7 +6,7 @@ open FParsec
 open SExpr
 
 let ident =
-    let start = anyOf "+-*_λ<=>#:\'" <|> asciiLetter
+    let start = anyOf "+-*/%._λ<=>#:\'" <|> asciiLetter
     let cont = start <|> digit
     parse {
         let! c = start |>> string
