@@ -15,6 +15,7 @@ module UntypedAst =
         | UUnit
         | UBool of value: bool
         | UInt of value: int
+        | UFloat of value: float
         | UBinApp of op: BinOp * lhs: UntypedAst * rhs: UntypedAst
         | UVar of id: VarId
         | UFun of arg: VarId * body: UntypedAst

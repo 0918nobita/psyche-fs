@@ -35,6 +35,7 @@ module UntypedAst =
         | UUnit
         | UBool of value: bool
         | UInt of value: int
+        | UFloat of value: float
         | UBinApp of op: BinOp * lhs: UntypedAst * rhs: UntypedAst
         | UVar of id: VarId
         | UFun of arg: VarId * body: UntypedAst
@@ -54,6 +55,7 @@ module UntypedAst =
             | UBool true -> "true"
             | UBool false -> "false"
             | UInt n -> string n
+            | UFloat f -> string f
             | UBinApp(op, lhs, rhs) -> sprintf "(%O %O %O)" op lhs rhs
             | UVar x -> x
             | UFun(arg, body) -> sprintf "(λ %O %O)" arg body
