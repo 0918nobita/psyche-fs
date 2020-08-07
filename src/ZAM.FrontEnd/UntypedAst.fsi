@@ -18,6 +18,8 @@ module UntypedAst =
         | UBinApp of op: BinOp * lhs: UntypedAst * rhs: UntypedAst
         | UVar of id: VarId
         | UFun of arg: VarId * body: UntypedAst
+        | UIntOfFloat of UntypedAst
+        | UFloatOfInt of UntypedAst
         | UApp of func: UntypedAst * actualArg: UntypedAst
         | UIf of cond: UntypedAst * _then: UntypedAst * _else: UntypedAst
         | ULet of VarId * UntypedAst * UntypedAst

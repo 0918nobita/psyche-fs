@@ -38,6 +38,8 @@ module UntypedAst =
         | UBinApp of op: BinOp * lhs: UntypedAst * rhs: UntypedAst
         | UVar of id: VarId
         | UFun of arg: VarId * body: UntypedAst
+        | UIntOfFloat of UntypedAst
+        | UFloatOfInt of UntypedAst
         | UApp of func: UntypedAst * actualArg: UntypedAst
         | UIf of cond: UntypedAst * _then: UntypedAst * _else: UntypedAst
         | ULet of VarId * UntypedAst * UntypedAst
@@ -55,6 +57,8 @@ module UntypedAst =
             | UBinApp(op, lhs, rhs) -> sprintf "(%O %O %O)" op lhs rhs
             | UVar x -> x
             | UFun(arg, body) -> sprintf "(λ %O %O)" arg body
+            | UIntOfFloat ast -> sprintf "(int-of-float %O)" ast
+            | UFloatOfInt ast -> sprintf "(float-of-int %O)" ast
             | UApp(func, arg) -> sprintf "(%O %O)" func arg
             | UIf(cond, _then, _else) -> sprintf "(if %O %O %O)" cond _then _else
             | ULet(ident, e1, e2) -> sprintf "(let %O %O %O)" ident e1 e2
