@@ -11,6 +11,7 @@ open TypedAst
 type Atom =
     | SBool of bool
     | SInt of int
+    | SFloat of float
     | Symbol of string
 
     override this.ToString() =
@@ -18,6 +19,7 @@ type Atom =
         | SBool true -> "true"
         | SBool false -> "false"
         | SInt n -> string n
+        | SFloat f -> string f
         | Symbol s -> s
 
 type SExpr =
