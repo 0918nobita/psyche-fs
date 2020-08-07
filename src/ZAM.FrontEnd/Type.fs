@@ -6,6 +6,7 @@ module Type =
     type Type =
         | TUnit
         | TInt
+        | TFloat
         | TBool
         | TFun of Type * Type
         | TRef of Type
@@ -20,6 +21,7 @@ module Type =
             match this with
             | TUnit -> "Unit"
             | TInt -> "Int"
+            | TFloat -> "Float"
             | TBool -> "Bool"
             | TFun(arg, ret) -> sprintf "(-> %O %O)" arg ret
             | TRef ty -> sprintf "(Ref %O)" ty
