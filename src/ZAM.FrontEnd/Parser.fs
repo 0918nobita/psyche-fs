@@ -15,12 +15,23 @@ let ident =
 
 let intLiteral = pint32 |>> SInt |>> Atom
 
+let intOrFloatLiteral =
+    let intLiteral = pint32 |>> SInt |>> Atom
+    let floatLiteral =
+        parse {
+            let! f = pfloat
+            do! skipChar 'f'
+            return Atom(SFloat f)
+        }
+        |> attempt
+    floatLiteral <|> intLiteral
+
 let boolLiteral =
     let ptrue = stringReturn "true" <| Atom(SBool true)
     let pfalse = stringReturn "false" <| Atom(SBool false)
     ptrue <|> pfalse
 
-let atom = intLiteral <|> boolLiteral <|> ident
+let atom = intOrFloatLiteral <|> boolLiteral <|> ident
 
 let rec sList() =
     parse {
