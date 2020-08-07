@@ -12,4 +12,4 @@ type SExpr =
     | Atom of Atom
     | SList of SExpr list
 
-val toExpr : SExpr -> Result<TypedAst, string>
+val toTypedAst : SExpr -> Result<TypedAst, string>

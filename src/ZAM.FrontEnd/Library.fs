@@ -7,5 +7,5 @@ module Exposed =
     let tryParse src =
         BResult.result {
             let! sexp = Parser.program src
-            let! typedAst = SExpr.toExpr sexp
+            let! typedAst = SExpr.toTypedAst sexp
             return! TypeChecker.typeCheck [] typedAst }
