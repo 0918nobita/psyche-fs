@@ -4,7 +4,7 @@
         (let
             (: count (Ref Int))
             (ref init)
-            (λ (: diff Int) (mut count ((+ (deref count)) diff)))))
+            (λ (: diff Int) (mut count (+ (deref count) diff)))))
     (let (: counter (-> Int Int)) (make-counter 0)
         (begin
             (counter 1)

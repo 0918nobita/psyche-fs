@@ -1,4 +1,4 @@
 (let
     (: double (-> Int Int))
-    (λ (: x Int) ((* 2) x))
+    (λ (: x Int) (* 2 x))
     (double 7))
