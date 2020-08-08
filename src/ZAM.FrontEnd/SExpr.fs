@@ -89,7 +89,19 @@ let rec toTypedAst sexpr =
             let! func = toTypedAst func
             let! arg = toTypedAst arg
             return TEApp(func, arg) }
-    | SList _ -> Error(sprintf "bad syntax: %O" sexpr)
+    | SList (x::xs) ->
+        BResult.result {
+            let! x = toTypedAst x
+            return! BResult.fold
+                        (fun innerAst sexpr ->
+                            BResult.result {
+                                let! sexpr = toTypedAst sexpr
+                                return TEApp(innerAst, sexpr)
+                            })
+                        x
+                        xs
+        }
+    | SList [] -> Error(sprintf "bad syntax: %O" sexpr)
     | Atom(SBool b) -> Ok(TEBool b)
     | Atom(SInt n) -> Ok(TEInt n)
     | Atom(SFloat f) -> Ok(TEFloat f)
