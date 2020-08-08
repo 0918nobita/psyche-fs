@@ -34,8 +34,6 @@ type SExpr =
             let inner = List.map string xs |> List.fold (sprintf "%s %s") (string x)
             sprintf "(%s)" inner
 
-let (|BinOp|_|) str = Map.tryFind str TEBinOp.StrMap
-
 let rec (|TypeSig|_|) =
     function
     | Atom(Symbol str) -> Map.tryFind str Type.StrMap
@@ -45,11 +43,6 @@ let rec (|TypeSig|_|) =
 
 let rec toTypedAst sexpr =
     match sexpr with
-    | SList [ Atom(Symbol(BinOp op)); lhs; rhs ] ->
-        BResult.result {
-            let! lhs = toTypedAst lhs
-            let! rhs = toTypedAst rhs
-            return TEBinApp(op, lhs, rhs) }
     | SList [ Atom(Symbol "λ"); SList [ Atom(Symbol ":"); Atom(Symbol arg); (TypeSig ty) ];
               body ] ->
         BResult.result {
@@ -78,14 +71,6 @@ let rec toTypedAst sexpr =
             let! body = BResult.fold folder (BNel.singleton x) xs
             return TEBegin(body)
         }
-    | SList [ Atom(Symbol "int-of-float"); f ] ->
-        BResult.result {
-            let! f = toTypedAst f
-            return TEIntOfFloat f }
-    | SList [ Atom(Symbol "float-of-int"); n ] ->
-        BResult.result {
-            let! n = toTypedAst n
-            return TEFloatOfInt n }
     | SList [ Atom(Symbol "ref"); content ] ->
         BResult.result {
             let! content = toTypedAst content

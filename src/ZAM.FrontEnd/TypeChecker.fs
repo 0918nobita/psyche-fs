@@ -20,11 +20,8 @@ let rec typeCheck env =
     | TEBool b -> Ok(TBool, UBool b)
     | TEInt n -> Ok(TInt, UInt n)
     | TEFloat f -> Ok(TFloat, UFloat f)
-    | TEBinApp(op, lhs, rhs) -> typeCheckBinApp env op lhs rhs
     | TEVar x -> typeCheckVar env x
     | TEFun(x, ty, body) -> typeCheckFun env x ty body
-    | TEIntOfFloat f -> typeCheckIntOfFloat env f
-    | TEFloatOfInt n -> typeCheckFloatOfInt env n
     | TEApp(func, arg) -> typeCheckApp env func arg
     | TEIf(cond, _then, _else) -> typeCheckIf env cond _then _else
     | TELet(x, ty, e1, e2) -> typeCheckLet env x ty e1 e2
@@ -32,63 +29,6 @@ let rec typeCheck env =
     | TEMakeRef(expr) -> typeCheckMakeRef env expr
     | TEDeref(expr) -> typeCheckDeref env expr
     | TEMut(refExpr, expr) -> typeCheckMut env refExpr expr
-
-and typeCheckBinApp env op lhs rhs =
-    let mapError =
-        Result.mapError (sprintf "(TypeError) in binary expression:\n  %O")
-    BResult.result {
-        let! (lhsType, lhs) = typeCheck env lhs
-        let! (rhsType, rhs) = typeCheck env rhs
-        match op with
-        | TEAddI ->
-            do! assertType TInt lhsType |> mapError
-            do! assertType TInt rhsType |> mapError
-            return (TInt, UBinApp(AddI, lhs, rhs))
-        | TESubI ->
-            do! assertType TInt lhsType |> mapError
-            do! assertType TInt rhsType |> mapError
-            return (TInt, UBinApp(SubI, lhs, rhs))
-        | TEMulI ->
-            do! assertType TInt lhsType |> mapError
-            do! assertType TInt rhsType |> mapError
-            return (TInt, UBinApp(MulI, lhs, rhs))
-        | TEDivI ->
-            do! assertType TInt lhsType |> mapError
-            do! assertType TInt rhsType |> mapError
-            return (TInt, UBinApp(DivI, lhs, rhs))
-        | TEAddF ->
-            do! assertType TFloat lhsType |> mapError
-            do! assertType TFloat rhsType |> mapError
-            return (TFloat, UBinApp(AddF, lhs, rhs))
-        | TESubF ->
-            do! assertType TFloat lhsType |> mapError
-            do! assertType TFloat rhsType |> mapError
-            return (TFloat, UBinApp(SubF, lhs, rhs))
-        | TEMulF ->
-            do! assertType TFloat lhsType |> mapError
-            do! assertType TFloat rhsType |> mapError
-            return (TFloat, UBinApp(MulF, lhs, rhs))
-        | TEDivF ->
-            do! assertType TFloat lhsType |> mapError
-            do! assertType TFloat rhsType |> mapError
-            return (TFloat, UBinApp(DivF, lhs, rhs))
-        | TEMod ->
-            do! assertType TInt lhsType |> mapError
-            do! assertType TInt rhsType |> mapError
-            return (TInt, UBinApp(Mod, lhs, rhs))
-        | TEEq ->
-            do! assertType TInt lhsType |> mapError
-            do! assertType TInt rhsType |> mapError
-            return (TBool, UBinApp(Eq, lhs, rhs))
-        | TELt ->
-            do! assertType TInt lhsType |> mapError
-            do! assertType TInt rhsType |> mapError
-            return (TBool, UBinApp(Lt, lhs, rhs))
-        | TELe ->
-            do! assertType TInt lhsType |> mapError
-            do! assertType TInt rhsType |> mapError
-            return (TBool, UBinApp(Le, lhs, rhs))
-    }
 
 and typeCheckVar env x =
     BResult.result {
@@ -104,22 +44,6 @@ and typeCheckFun env x ty body =
     BResult.result {
         let! (bodyType, body) = typeCheck ((x, ty) :: env) body
         return (TFun(ty, bodyType), UFun(x, body)) }
-
-and typeCheckIntOfFloat env f =
-    BResult.result {
-        let! (fType, f) = typeCheck env f
-        do! assertType TFloat fType
-            |> Result.mapError (sprintf "(TypeError) in int-of-float type conversion:\n  %s")
-        return (TInt, UIntOfFloat(f))
-    }
-
-and typeCheckFloatOfInt env n =
-    BResult.result {
-        let! (nType, n) = typeCheck env n
-        do! assertType TInt nType
-            |> Result.mapError (sprintf "(TypeError) in float-of-int type conversion:\n  %s")
-        return (TFloat, UFloatOfInt(n))
-    }
 
 and typeCheckApp env func arg =
     let mapError (r: Result<'a, string>) =

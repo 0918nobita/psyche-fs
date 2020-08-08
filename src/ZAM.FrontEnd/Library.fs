@@ -8,4 +8,4 @@ module Exposed =
         BResult.result {
             let! sexp = Parser.program src
             let! typedAst = SExpr.toTypedAst sexp
-            return! TypeChecker.typeCheck [] typedAst }
+            return! TypeChecker.typeCheck (Primitive.primitives) typedAst }
