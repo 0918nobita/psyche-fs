@@ -8,8 +8,9 @@ open System.IO
 let run src =
     BResult.result {
         let! (ty, untypedAst) = FrontEnd.Exposed.tryParse src
-        let! value = Runtime.eval [] untypedAst
-        return (ty, value) }
+        printfn "Static type: %O" ty
+        let! value = Runtime.eval (Primitive.primitives) untypedAst
+        return value }
 
 let interactive () =
     fun _ ->
@@ -19,8 +20,8 @@ let interactive () =
     |> Seq.takeWhile (fun input -> not(isNull(input)) && input <> ":exit")
     |> Seq.iter (fun src ->
         match (run src) with
-        | Ok(ty, value) ->
-            printfn "Static type: %O\nResult: %O\n" ty value
+        | Ok value ->
+            printfn "Result: %O\n" value
         | Error msg ->
             eprintfn "%s\n" msg)
 
@@ -34,8 +35,8 @@ let main argv =
         let src = File.ReadAllText srcPath
 
         match (run src) with
-        | Ok(ty, value) ->
-            printfn "Static type: %O\nResult: %O" ty value
+        | Ok value ->
+            printfn "Result: %O" value
         | Error msg ->
             eprintfn "%s" msg
             exit 1

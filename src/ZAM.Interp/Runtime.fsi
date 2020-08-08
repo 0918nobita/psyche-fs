@@ -1,4 +1,4 @@
-module Runtime
+module internal Runtime
 
 open Value
 open FrontEnd.UntypedAst

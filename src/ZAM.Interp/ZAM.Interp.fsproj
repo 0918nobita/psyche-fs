@@ -7,6 +7,8 @@
     <ItemGroup>
         <Compile Include="Value.fsi" />
         <Compile Include="Value.fs" />
+        <Compile Include="Primitive.fsi" />
+        <Compile Include="Primitive.fs" />
         <Compile Include="Runtime.fsi" />
         <Compile Include="Runtime.fs" />
         <Compile Include="Program.fs" />

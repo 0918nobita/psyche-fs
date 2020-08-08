@@ -1,4 +1,4 @@
-module Runtime
+module internal Runtime
 
 module BOption = Base.Option
 module BResult = Base.Result
