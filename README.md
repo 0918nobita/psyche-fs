@@ -1,8 +1,8 @@
-# ZAM
+# Psyche
 
-ZAM (ZINC Abstract Machine) implementation in F#
+![Test](https://github.com/0918nobita/psyche/workflows/Test/badge.svg)
 
-(under construction)
+Programming language
 
 ## Setup dotnet tools
 
