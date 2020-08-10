@@ -53,10 +53,10 @@ $ dotnet fake build -t test
 
 ## Create self-contained executable
 
-### Ubuntu
-
 ```bash
-$ dotnet publish -c Release --self-contained --runtime linux-x64 --nologo
+$ dotnet fake build -t publish
 ```
 
-executable path: `src/ZAM.Interp/bin/Release/netcoreapp3.1/linux-x64/zam`
+resulting publish folder : ``src/Psyche.Interpreter/bin/Release/netcoreapp3.1/**/publish``
+
+executable file : ``src/Psyche.Interpreter/bin/Release/netcoreapp3.1/**/publish/Psyche.Interpreter``
