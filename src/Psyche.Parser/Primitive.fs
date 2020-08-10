@@ -1,6 +1,6 @@
 module internal Primitive
 
-open FrontEnd.Type
+open Psyche.Types
 
 let pureAddI = TFun(TInt, TFun(TInt, TInt))
 

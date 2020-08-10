@@ -1,12 +1,12 @@
 module internal TypeChecker
 
-module BNel = Base.Nel
-module BOption = Base.Option
-module BResult = Base.Result
+module BNel = Psyche.Base.Nel
+module BOption = Psyche.Base.Option
+module BResult = Psyche.Base.Result
 
 open BNel.ActivePattern
-open FrontEnd.Type
-open FrontEnd.UntypedAst
+open Psyche.Types
+open Psyche.UntypedAst
 open TypedAst
 
 let assertType (expected: Type) (actual: Type) =
@@ -14,7 +14,7 @@ let assertType (expected: Type) (actual: Type) =
     then Ok()
     else Error(sprintf "expected: %O, actual: %O" expected actual)
 
-let rec typeCheck (env : TypeEnv) =
+let rec typeCheck env =
     function
     | TEUnit -> Ok(TUnit, UUnit)
     | TEBool b -> Ok(TBool, UBool b)

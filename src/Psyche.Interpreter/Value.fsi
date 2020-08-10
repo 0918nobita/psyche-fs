@@ -1,6 +1,6 @@
 module Value
 
-open FrontEnd.UntypedAst
+open Psyche.UntypedAst
 
 type Value =
     | UnitVal

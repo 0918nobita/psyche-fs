@@ -1,7 +1,7 @@
-namespace FrontEnd
+namespace Psyche
 
-module Exposed =
-    module BResult = Base.Result
+module Parser =
+    module BResult = Psyche.Base.Result
 
     /// Parse string into untyped AST and type signature
     let tryParse src =

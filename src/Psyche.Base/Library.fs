@@ -1,4 +1,4 @@
-namespace Base
+namespace Psyche.Base
 
 open System.Collections
 open System.Collections.Generic

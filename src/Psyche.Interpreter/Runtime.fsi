@@ -1,6 +1,6 @@
 module internal Runtime
 
 open Value
-open FrontEnd.UntypedAst
+open Psyche.UntypedAst
 
 val eval : Env -> UntypedAst -> Result<Value, string>

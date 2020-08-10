@@ -15,8 +15,8 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\ZAM.Base\ZAM.Base.fsproj" />
-        <ProjectReference Include="..\ZAM.FrontEnd\ZAM.FrontEnd.fsproj" />
+        <ProjectReference Include="..\Psyche.Base\Psyche.Base.fsproj" />
+        <ProjectReference Include="..\Psyche.Parser\Psyche.Parser.fsproj" />
     </ItemGroup>
 
     <Import Project="..\..\.paket\Paket.Restore.targets" />

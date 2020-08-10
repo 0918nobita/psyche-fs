@@ -1,6 +1,6 @@
 module internal Primitive
 
-open FrontEnd.UntypedAst
+open Psyche.UntypedAst
 open Value
 
 let pureAddI = Closure("a", UFun("b", UBinApp(AddI, UVar "a", UVar "b")), Env.empty)

@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\ZAM.Base\ZAM.Base.fsproj" />
+        <ProjectReference Include="..\Psyche.Base\Psyche.Base.fsproj" />
     </ItemGroup>
 
     <Import Project="..\..\.paket\Paket.Restore.targets" />

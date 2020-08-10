@@ -1,10 +1,10 @@
 module internal Runtime
 
-module BOption = Base.Option
-module BResult = Base.Result
+module BOption = Psyche.Base.Option
+module BResult = Psyche.Base.Result
 
-open Base.Nel.ActivePattern
-open FrontEnd.UntypedAst
+open Psyche.Base.Nel.ActivePattern
+open Psyche.UntypedAst
 open Value
 
 let evalBinExpr op lhs rhs =

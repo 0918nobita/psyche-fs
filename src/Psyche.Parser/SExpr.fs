@@ -1,11 +1,11 @@
 module internal SExpr
 
-module BNel = Base.Nel
-module BOption = Base.Option
-module BResult = Base.Result
+module BNel = Psyche.Base.Nel
+module BOption = Psyche.Base.Option
+module BResult = Psyche.Base.Result
 
 open BNel.ActivePattern
-open FrontEnd.Type
+open Psyche.Types
 open TypedAst
 
 type Atom =

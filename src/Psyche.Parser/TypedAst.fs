@@ -1,10 +1,10 @@
 module internal TypedAst
 
-module BNel = Base.Nel
-module BOption = Base.Option
-module BResult = Base.Result
+module BNel = Psyche.Base.Nel
+module BOption = Psyche.Base.Option
+module BResult = Psyche.Base.Result
 
-open FrontEnd.Type
+open Psyche.Types
 
 type TEVarId = string
 
