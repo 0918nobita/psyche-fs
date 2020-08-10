@@ -26,7 +26,7 @@ let dotnet cmd arg =
     let processResult = DotNet.exec id cmd arg
     if not processResult.OK then failwith "dotnet command failed"
 
-Target.create "Test" (fun _ -> dotnet "run" "--project src/ZAM.Interp.Tests")
+Target.create "Test" (fun _ -> dotnet "run" "--project src/Psyche.Base.Test")
 
 "Clean" ==> "Test"
 
