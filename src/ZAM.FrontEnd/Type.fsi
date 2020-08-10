@@ -13,4 +13,11 @@ module Type =
 
         static member StrMap : Map<string, Type>
 
-    type TypeEnv = List<VarId * Type>
+    type TypeEnv
+
+    module TypeEnv =
+        val empty : TypeEnv
+
+        val append : VarId -> Type -> TypeEnv -> TypeEnv
+
+        val tryFind : VarId -> TypeEnv -> Option<Type>

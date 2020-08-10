@@ -26,4 +26,16 @@ module Type =
             | TFun(arg, ret) -> sprintf "(-> %O %O)" arg ret
             | TRef ty -> sprintf "(Ref %O)" ty
 
-    type TypeEnv = List<VarId * Type>
+    type TypeEnv =
+        | TyEnv of List<VarId * Type>
+
+    [<RequireQualifiedAccess>]
+    module TypeEnv =
+        let empty = TyEnv []
+
+        let append varId ty (TyEnv env) = TyEnv ((varId, ty) :: env)
+
+        let tryFind varId (TyEnv env) =
+            env
+            |> List.tryFind (fst >> (=) varId)
+            |> Option.map snd
