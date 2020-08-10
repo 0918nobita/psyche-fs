@@ -1,6 +1,6 @@
 module Value
 
-module UntypedAst = FrontEnd.UntypedAst
+module UntypedAst = Psyche.UntypedAst
 
 type Value =
     | UnitVal

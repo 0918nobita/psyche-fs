@@ -1,7 +1,7 @@
-namespace FrontEnd
+namespace Psyche
 
 module UntypedAst =
-    module BNel = Base.Nel
+    module BNel = Psyche.Base.Nel
 
     type VarId = string
 

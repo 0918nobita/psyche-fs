@@ -1,7 +1,7 @@
 module internal TypeChecker
 
-open FrontEnd.Type
-open FrontEnd.UntypedAst
+open Psyche.Types
+open Psyche.UntypedAst
 open TypedAst
 
 val typeCheck: TypeEnv -> TypedAst -> Result<Type * UntypedAst, string>

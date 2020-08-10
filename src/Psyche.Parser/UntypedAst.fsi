@@ -1,4 +1,4 @@
-namespace FrontEnd
+namespace Psyche
 
 module UntypedAst =
     type BinOp =

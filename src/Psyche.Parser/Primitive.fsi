@@ -1,5 +1,5 @@
 module internal Primitive
 
-open FrontEnd.Type
+open Psyche.Types
 
 val primitives : TypeEnv

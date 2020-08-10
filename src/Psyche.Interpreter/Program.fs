@@ -1,13 +1,13 @@
 module Program
 
-module BNel = Base.Nel
-module BResult = Base.Result
+module BNel = Psyche.Base.Nel
+module BResult = Psyche.Base.Result
 
 open System.IO
 
 let run src =
     BResult.result {
-        let! (ty, untypedAst) = FrontEnd.Exposed.tryParse src
+        let! (ty, untypedAst) = Psyche.Parser.tryParse src
         printfn "Static type: %O" ty
         let! value = Runtime.eval (Primitive.primitives) untypedAst
         return value }

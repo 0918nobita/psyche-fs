@@ -1,7 +1,7 @@
-namespace FrontEnd
+namespace Psyche
 
-module Type =
-    open UntypedAst
+module Types =
+    open Psyche.UntypedAst
 
     type Type =
         | TUnit
