@@ -9,14 +9,14 @@ open Fake.IO.Globbing.Operators
 Target.create "Clean" (fun _ -> Shell.cleanDirs (!!"src/**/bin" ++ "src/**/obj"))
 
 Target.create "Debug" (fun _ ->
-    !!"src/**/*.fsproj"
+    !! "src/Psyche.Interpreter/Psyche.Interpreter.fsproj"
     |> Seq.iter
         (DotNet.build (fun options -> { options with Configuration = DotNet.Debug })))
 
 "Clean" ==> "Debug"
 
 Target.create "Release" (fun _ ->
-    !!"src/**/*.fsproj"
+    !! "src/Psyche.Interpreter/Psyche.Interpreter.fsproj"
     |> Seq.iter
         (DotNet.build (fun options -> { options with Configuration = DotNet.Release })))
 
