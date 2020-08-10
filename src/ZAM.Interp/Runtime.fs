@@ -64,7 +64,7 @@ let rec eval env expr =
     | ULet(x, e1, e2) ->
         BResult.result {
             let! e1 = eval env e1
-            let env = (x, e1) :: env
+            let env = Env.append  x e1 env
             return! eval env e2
         }
     | UBegin(Nel(x, xs)) ->
@@ -99,8 +99,7 @@ let rec eval env expr =
         }
 
 and evalVar env varId =
-    List.tryFind (fst >> (=) varId) env
-    |> Option.map snd
+    Env.tryFind varId env
     |> BOption.toResult
     |> Result.mapError (fun () -> sprintf "未束縛の名前を参照しました: %s" varId)
 
@@ -112,5 +111,5 @@ and evalIfExpr env cond _then _else =
 
 and evalApp f v =
     match f with
-    | Closure(arg, body, fenv) -> eval ((arg, v) :: fenv) body
+    | Closure(arg, body, fenv) -> eval (Env.append arg v fenv) body
     | _ -> Error "関数適用に失敗しました: 適用しようとしているものが関数ではありません"
