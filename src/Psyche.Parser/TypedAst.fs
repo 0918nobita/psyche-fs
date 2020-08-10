@@ -1,8 +1,9 @@
 module internal TypedAst
 
-module BNel = Psyche.Base.Nel
-module BOption = Psyche.Base.Option
-module BResult = Psyche.Base.Result
+module Base = Psyche.Base
+module BNel = Base.Nel
+module BOption = Base.Option
+module BResult = Base.Result
 
 open Psyche.Types
 
@@ -18,7 +19,7 @@ type TypedAst =
     | TEApp of func: TypedAst * actualArg: TypedAst
     | TEIf of cond: TypedAst * _then: TypedAst * _else: TypedAst
     | TELet of name: TEVarId * typeOfName: Type * expr1: TypedAst * expr2: TypedAst
-    | TEBegin of BNel.Nel<TypedAst>
+    | TEBegin of Base.Nel<TypedAst>
     | TEMakeRef of TypedAst
     | TEDeref of TypedAst
     | TEMut of TypedAst * TypedAst
