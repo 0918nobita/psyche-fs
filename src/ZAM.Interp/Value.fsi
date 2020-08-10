@@ -10,4 +10,11 @@ type Value =
     | FloatVal of float
     | RefVal of Ref<Value>
 
-and Env = List<VarId * Value>
+and Env
+
+module Env =
+    val empty : Env
+
+    val append : VarId -> Value -> Env -> Env
+
+    val tryFind : VarId -> Env -> Option<Value>
