@@ -28,18 +28,18 @@ let pureIntOfFloat = TFun(TFloat, TInt)
 
 let pureFloatOfInt = TFun(TInt, TFloat)
 
-let primitives = [
-    ("+", pureAddI)
-    ("-", pureSubI)
-    ("*", pureMulI)
-    ("/", pureDivI)
-    ("+.", pureAddF)
-    ("-.", pureSubF)
-    ("*.", pureMulF)
-    ("/.", pureDivF)
-    ("%", pureMod)
-    ("<", pureLt)
-    ("<=", pureLe)
-    ("int-of-float", pureIntOfFloat)
-    ("float-of-int", pureFloatOfInt)
-]
+let primitives =
+    TypeEnv.empty
+    |> TypeEnv.append "+" pureAddI
+    |> TypeEnv.append "-" pureSubI
+    |> TypeEnv.append "*" pureMulI
+    |> TypeEnv.append "/" pureDivI
+    |> TypeEnv.append "+." pureAddF
+    |> TypeEnv.append "-." pureSubF
+    |> TypeEnv.append "*." pureMulF
+    |> TypeEnv.append "/." pureDivF
+    |> TypeEnv.append "%" pureMod
+    |> TypeEnv.append "<" pureLt
+    |> TypeEnv.append "<=" pureLe
+    |> TypeEnv.append "int-of-float" pureIntOfFloat
+    |> TypeEnv.append "float-of-int" pureFloatOfInt

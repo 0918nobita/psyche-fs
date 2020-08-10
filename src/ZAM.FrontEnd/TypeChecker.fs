@@ -14,7 +14,7 @@ let assertType (expected: Type) (actual: Type) =
     then Ok()
     else Error(sprintf "expected: %O, actual: %O" expected actual)
 
-let rec typeCheck env =
+let rec typeCheck (env : TypeEnv) =
     function
     | TEUnit -> Ok(TUnit, UUnit)
     | TEBool b -> Ok(TBool, UBool b)
@@ -32,8 +32,7 @@ let rec typeCheck env =
 
 and typeCheckVar env x =
     BResult.result {
-        let! ty = List.tryFind (fst >> (=) x) env
-                  |> Option.map snd
+        let! ty = TypeEnv.tryFind x env
                   |> BOption.toResult
                   |> Result.mapError
                      (fun () -> sprintf "(TypeError) Unbound identifier: %s" x)
@@ -42,7 +41,7 @@ and typeCheckVar env x =
 
 and typeCheckFun env x ty body =
     BResult.result {
-        let! (bodyType, body) = typeCheck ((x, ty) :: env) body
+        let! (bodyType, body) = typeCheck (TypeEnv.append x ty env) body
         return (TFun(ty, bodyType), UFun(x, body)) }
 
 and typeCheckApp env func arg =
@@ -64,7 +63,7 @@ and typeCheckLet env x ty e1 e2 =
     BResult.result {
         let! (e1Type, e1) = typeCheck env e1
         do! mapError (assertType ty e1Type)
-        let! (e2Type, e2) = typeCheck ((x, ty) :: env) e2
+        let! (e2Type, e2) = typeCheck (TypeEnv.append x ty env) e2
         return (e2Type, ULet(x, e1, e2))
     }
 
