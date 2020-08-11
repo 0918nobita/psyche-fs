@@ -8,5 +8,9 @@
         <Compile Include="Program.fs" />
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\Psyche.Base\Psyche.Base.fsproj" />
+    </ItemGroup>
+
     <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>
