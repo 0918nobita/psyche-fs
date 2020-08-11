@@ -13,8 +13,6 @@ let ident =
         let! cs = manyChars cont
         return Atom(Symbol(c + cs)) }
 
-let intLiteral = pint32 |>> SInt |>> Atom
-
 let intOrFloatLiteral =
     let intLiteral = pint32 |>> SInt |>> Atom
     let floatLiteral =
