@@ -1,14 +1,20 @@
 version 5.247.4
 source https://api.nuget.org/v3/index.json
 storage: none
-framework: netcoreapp3.1
 
 nuget FSharp.Core
 
+// Parser
 nuget FParsec
 
+// Test
 nuget Expecto
 nuget Expecto.FsCheck
+
+// Docs
+nuget Fable.Browser.Dom
+nuget Fable.Elmish
+nuget Fable.Elmish.React
 
 // [ FAKE GROUP ]
 group NetcoreBuild

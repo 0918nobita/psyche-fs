@@ -1,19 +1,50 @@
 STORAGE: NONE
-RESTRICTION: == netcoreapp3.1
 NUGET
   remote: https://api.nuget.org/v3/index.json
     Expecto (9.0.2)
-      FSharp.Core (>= 4.6)
-      Mono.Cecil (>= 0.11.2)
+      FSharp.Core (>= 4.6) - restriction: || (>= net461) (>= netstandard2.0)
+      Mono.Cecil (>= 0.11.2) - restriction: || (>= net461) (>= netstandard2.0)
     Expecto.FsCheck (9.0.2)
-      Expecto (>= 9.0.2)
-      FsCheck (>= 2.14.2)
+      Expecto (>= 9.0.2) - restriction: || (>= net461) (>= netstandard2.0)
+      FsCheck (>= 2.14.2) - restriction: || (>= net461) (>= netstandard2.0)
+    Fable.Browser.Blob (1.1) - restriction: >= netstandard2.0
+      Fable.Core (>= 3.0) - restriction: >= netstandard2.0
+      FSharp.Core (>= 4.6.2) - restriction: >= netstandard2.0
+    Fable.Browser.Dom (1.2)
+      Fable.Browser.Blob (>= 1.1) - restriction: >= netstandard2.0
+      Fable.Browser.Event (>= 1.0) - restriction: >= netstandard2.0
+      Fable.Browser.WebStorage (>= 1.0) - restriction: >= netstandard2.0
+      Fable.Core (>= 3.0) - restriction: >= netstandard2.0
+      FSharp.Core (>= 4.7) - restriction: >= netstandard2.0
+    Fable.Browser.Event (1.0) - restriction: >= netstandard2.0
+      Fable.Core (>= 3.0) - restriction: >= netstandard2.0
+      FSharp.Core (>= 4.5.2) - restriction: >= netstandard2.0
+    Fable.Browser.WebStorage (1.0) - restriction: >= netstandard2.0
+      Fable.Browser.Event (>= 1.0) - restriction: >= netstandard2.0
+      Fable.Core (>= 3.0) - restriction: >= netstandard2.0
+      FSharp.Core (>= 4.5.2) - restriction: >= netstandard2.0
+    Fable.Core (3.1.5) - restriction: >= netstandard2.0
+      FSharp.Core (>= 4.7) - restriction: >= netstandard2.0
+    Fable.Elmish (3.1)
+      Fable.Core (>= 3.0) - restriction: >= netstandard2.0
+      FSharp.Core (>= 4.6.2) - restriction: >= netstandard2.0
+    Fable.Elmish.React (3.0.1)
+      Fable.Core (>= 3.0) - restriction: >= netstandard2.0
+      Fable.Elmish (>= 3.0) - restriction: >= netstandard2.0
+      Fable.React (>= 5.1) - restriction: >= netstandard2.0
+      FSharp.Core (>= 4.6.2) - restriction: >= netstandard2.0
+    Fable.React (6.2) - restriction: >= netstandard2.0
+      Fable.Browser.Dom (>= 1.0) - restriction: >= netstandard2.0
+      Fable.Core (>= 3.1.5) - restriction: >= netstandard2.0
+      FSharp.Core (>= 4.7) - restriction: >= netstandard2.0
     FParsec (1.1.1)
-      FSharp.Core (>= 4.3.4)
-    FsCheck (2.14.3)
-      FSharp.Core (>= 4.2.3)
+      FSharp.Core (>= 4.3.4) - restriction: || (>= net45) (>= netstandard2.0)
+      System.ValueTuple (>= 4.4) - restriction: >= net45
+    FsCheck (2.14.3) - restriction: || (>= net461) (>= netstandard2.0)
+      FSharp.Core (>= 4.2.3) - restriction: || (>= net452) (>= netstandard1.6)
     FSharp.Core (4.7.2)
-    Mono.Cecil (0.11.2)
+    Mono.Cecil (0.11.2) - restriction: || (>= net461) (>= netstandard2.0)
+    System.ValueTuple (4.5) - restriction: >= net45
 
 GROUP NetcoreBuild
 NUGET
