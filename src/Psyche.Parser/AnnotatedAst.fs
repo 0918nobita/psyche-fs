@@ -1,4 +1,4 @@
-module internal TypedAst
+module internal AnnotatedAst
 
 module Base = Psyche.Base
 module BNel = Base.Nel
@@ -9,20 +9,20 @@ open Psyche.Types
 
 type TEVarId = string
 
-type TypedAst =
+type AnnotatedAst =
     | TEUnit
     | TEBool of bool
     | TEInt of int
     | TEFloat of float
     | TEVar of TEVarId
-    | TEFun of arg: TEVarId * argType: Type * body: TypedAst
-    | TEApp of func: TypedAst * actualArg: TypedAst
-    | TEIf of cond: TypedAst * _then: TypedAst * _else: TypedAst
-    | TELet of name: TEVarId * typeOfName: Type * expr1: TypedAst * expr2: TypedAst
-    | TEBegin of Base.Nel<TypedAst>
-    | TEMakeRef of TypedAst
-    | TEDeref of TypedAst
-    | TEMut of TypedAst * TypedAst
+    | TEFun of arg: TEVarId * argType: Type * body: AnnotatedAst
+    | TEApp of func: AnnotatedAst * actualArg: AnnotatedAst
+    | TEIf of cond: AnnotatedAst * _then: AnnotatedAst * _else: AnnotatedAst
+    | TELet of name: TEVarId * typeOfName: Type * expr1: AnnotatedAst * expr2: AnnotatedAst
+    | TEBegin of Base.Nel<AnnotatedAst>
+    | TEMakeRef of AnnotatedAst
+    | TEDeref of AnnotatedAst
+    | TEMut of AnnotatedAst * AnnotatedAst
 
     override this.ToString() =
         match this with

@@ -8,7 +8,7 @@ module BResult = Base.Result
 open BNel.ActivePattern
 open Psyche.Types
 open Psyche.UntypedAst
-open TypedAst
+open AnnotatedAst
 
 let assertType (expected: Type) (actual: Type) =
     if expected = actual
@@ -93,7 +93,7 @@ and typeCheckBegin env (Nel(head, tail)) =
     BResult.result {
         let! (ty, head) = typeCheck env head
 
-        let folder (state: Type * Base.Nel<UntypedAst>) (elem: TypedAst) =
+        let folder (state: Type * Base.Nel<UntypedAst>) (elem: AnnotatedAst) =
             let (_, Nel(x, xs)) = state
             BResult.result {
                 let! (ty, expr) = typeCheck env elem

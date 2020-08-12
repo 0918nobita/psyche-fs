@@ -2,6 +2,6 @@ module internal TypeChecker
 
 open Psyche.Types
 open Psyche.UntypedAst
-open TypedAst
+open AnnotatedAst
 
-val typeCheck: TypeEnv -> TypedAst -> Result<Type * UntypedAst, string>
+val typeCheck: TypeEnv -> AnnotatedAst -> Result<Type * UntypedAst, string>

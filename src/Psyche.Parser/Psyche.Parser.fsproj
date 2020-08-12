@@ -8,8 +8,8 @@
         <Compile Include="UntypedAst.fs" />
         <Compile Include="Type.fsi" />
         <Compile Include="Type.fs" />
-        <Compile Include="TypedAst.fsi" />
-        <Compile Include="TypedAst.fs" />
+        <Compile Include="AnnotatedAst.fsi" />
+        <Compile Include="AnnotatedAst.fs" />
         <Compile Include="Primitive.fsi" />
         <Compile Include="Primitive.fs" />
         <Compile Include="TypeChecker.fsi" />
