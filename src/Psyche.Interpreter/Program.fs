@@ -10,7 +10,8 @@ let run src =
         let! (ty, untypedAst) = Psyche.Parser.tryParse src
         printfn "Static type: %O" ty
         let! value = Runtime.eval (Primitive.primitives) untypedAst
-        return value }
+        return value
+    }
 
 let interactive () =
     fun _ ->

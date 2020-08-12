@@ -17,19 +17,19 @@ let assertType (expected: Type) (actual: Type) =
 
 let rec typeCheck env =
     function
-    | TEUnit -> Ok(TUnit, UUnit)
-    | TEBool b -> Ok(TBool, UBool b)
-    | TEInt n -> Ok(TInt, UInt n)
-    | TEFloat f -> Ok(TFloat, UFloat f)
-    | TEVar x -> typeCheckVar env x
-    | TEFun(x, ty, body) -> typeCheckFun env x ty body
-    | TEApp(func, arg) -> typeCheckApp env func arg
-    | TEIf(cond, _then, _else) -> typeCheckIf env cond _then _else
-    | TELet(x, ty, e1, e2) -> typeCheckLet env x ty e1 e2
-    | TEBegin(body) -> typeCheckBegin env body
-    | TEMakeRef(expr) -> typeCheckMakeRef env expr
-    | TEDeref(expr) -> typeCheckDeref env expr
-    | TEMut(refExpr, expr) -> typeCheckMut env refExpr expr
+    | AUnit -> Ok(TUnit, UUnit)
+    | ABool b -> Ok(TBool, UBool b)
+    | AInt n -> Ok(TInt, UInt n)
+    | AFloat f -> Ok(TFloat, UFloat f)
+    | AVar x -> typeCheckVar env x
+    | AFun(x, ty, body) -> typeCheckFun env x ty body
+    | AApp(func, arg) -> typeCheckApp env func arg
+    | AIf(cond, _then, _else) -> typeCheckIf env cond _then _else
+    | ALet(x, ty, e1, e2) -> typeCheckLet env x ty e1 e2
+    | ABegin body -> typeCheckBegin env body
+    | AMakeRef expr -> typeCheckMakeRef env expr
+    | ADeref expr -> typeCheckDeref env expr
+    | AMut(refExpr, expr) -> typeCheckMut env refExpr expr
 
 and typeCheckVar env x =
     BResult.result {
@@ -76,16 +76,16 @@ and typeCheckIf env cond _then _else =
         do! mapError (assertType TBool condType)
         let! (_thenType, _then) = typeCheck env _then
         let! (_elseType, _else) = typeCheck env _else
-        do! mapError
-                (BResult.result {
-                    if _thenType = _elseType then
-                        return ()
-                    else
-                        return! Error
-                                    (sprintf
-                                        "type mismatch\n    then clause: %O\n    else clause: %O"
-                                         _thenType _elseType)
-                })
+        do! BResult.result {
+            if _thenType = _elseType
+            then return ()
+            else return! Error
+                    (sprintf
+                        "type mismatch\n    then clause: %O\n    else clause: %O"
+                        _thenType
+                        _elseType)
+            }
+            |> mapError
         return (_thenType, UIf(cond, _then, _else))
     }
 
@@ -100,19 +100,19 @@ and typeCheckBegin env (Nel(head, tail)) =
                 return (ty, BNel.create x (xs @ [ expr ])) }
         let! (ty, body) = BResult.fold folder (ty, BNel.singleton head) tail
 
-        return (ty, UBegin(body))
+        return (ty, UBegin body)
     }
 
 and typeCheckMakeRef env expr =
     BResult.result {
         let! (exprType, expr) = typeCheck env expr
-        return (TRef(exprType), UMakeRef(expr)) }
+        return (TRef exprType, UMakeRef expr) }
 
 and typeCheckDeref env expr =
     BResult.result {
         let! (exprType, expr) = typeCheck env expr
         match exprType with
-        | TRef(ty) -> return (ty, UDeref(expr))
+        | TRef ty -> return (ty, UDeref expr)
         | _ ->
             return! Error
                         (sprintf

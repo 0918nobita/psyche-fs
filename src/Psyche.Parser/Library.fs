@@ -7,5 +7,8 @@ module Parser =
     let tryParse src =
         BResult.result {
             let! sexp = Parser.program src
-            let! typedAst = SExpr.toTypedAst sexp
-            return! TypeChecker.typeCheck (Primitive.primitives) typedAst }
+            let! annotatedAst = SExpr.toAnnotatedAst sexp
+            return! TypeChecker.typeCheck
+                (Primitive.primitives)
+                annotatedAst
+        }

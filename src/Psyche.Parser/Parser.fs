@@ -11,7 +11,8 @@ let ident =
     parse {
         let! c = start |>> string
         let! cs = manyChars cont
-        return Atom(Symbol(c + cs)) }
+        return Atom(Symbol(c + cs))
+    }
 
 let intOrFloatLiteral =
     let intLiteral = pint32 |>> SInt |>> Atom
@@ -48,7 +49,8 @@ let program src =
             let! sexpr = atom <|> expr()
             do! spaces
             do! eof
-            return sexpr }
+            return sexpr
+        }
     match run parser src with
     | Success(v, _, _) -> Result.Ok(v)
     | Failure(msg, _, _) -> Result.Error(msg)
