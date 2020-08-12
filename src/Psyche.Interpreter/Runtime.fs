@@ -56,11 +56,13 @@ let rec eval env expr =
         BResult.result {
             let! func = eval env func
             let! arg = eval env arg
-            return! evalApp func arg }
+            return! evalApp func arg
+        }
     | UIf(cond, _then, _else) ->
         BResult.result {
             let! cond = eval env cond
-            return! evalIfExpr env cond _then _else }
+            return! evalIfExpr env cond _then _else
+        }
     | ULet(x, e1, e2) ->
         BResult.result {
             let! e1 = eval env e1
@@ -76,7 +78,8 @@ let rec eval env expr =
     | UMakeRef e ->
         BResult.result {
             let! v = eval env e
-            return RefVal(ref v) }
+            return RefVal(ref v)
+        }
     | UDeref e ->
         BResult.result {
             let! value = eval env e

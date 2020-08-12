@@ -62,10 +62,12 @@ module Base =
             (list: list<'T>)
             : Result<'State, 'Error>
             =
-            List.fold (fun state elem ->
+            let folder state elem =
                 result {
                     let! s = state
-                    return! folder s elem }) (Ok initialState) list
+                    return! folder s elem
+                }
+            List.fold folder (Ok initialState) list
 
     type State<'s, 'a> = State of ('s -> ('a * 's))
 

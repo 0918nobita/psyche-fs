@@ -2,19 +2,19 @@ module internal AnnotatedAst
 
 open Psyche.Types
 
-type TEVarId = string
+type AVarId = string
 
 type AnnotatedAst =
-    | TEUnit
-    | TEBool of bool
-    | TEInt of int
-    | TEFloat of float
-    | TEVar of TEVarId
-    | TEFun of arg: TEVarId * argType: Type * body: AnnotatedAst
-    | TEApp of func: AnnotatedAst * actualArg: AnnotatedAst
-    | TEIf of cond: AnnotatedAst * _then: AnnotatedAst * _else: AnnotatedAst
-    | TELet of name: TEVarId * typeOfName: Type * expr1: AnnotatedAst * expr2: AnnotatedAst
-    | TEBegin of Psyche.Base.Nel<AnnotatedAst>
-    | TEMakeRef of AnnotatedAst
-    | TEDeref of AnnotatedAst
-    | TEMut of AnnotatedAst * AnnotatedAst
+    | AUnit
+    | ABool of bool
+    | AInt of int
+    | AFloat of float
+    | AVar of AVarId
+    | AFun of arg: AVarId * argType: Type * body: AnnotatedAst
+    | AApp of func: AnnotatedAst * actualArg: AnnotatedAst
+    | AIf of cond: AnnotatedAst * _then: AnnotatedAst * _else: AnnotatedAst
+    | ALet of name: AVarId * typeOfName: Type * expr1: AnnotatedAst * expr2: AnnotatedAst
+    | ABegin of Psyche.Base.Nel<AnnotatedAst>
+    | AMakeRef of AnnotatedAst
+    | ADeref of AnnotatedAst
+    | AMut of AnnotatedAst * AnnotatedAst

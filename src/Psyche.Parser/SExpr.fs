@@ -42,69 +42,76 @@ let rec (|TypeSig|_|) =
     | SList [ Atom(Symbol "Ref"); (TypeSig ty) ] -> Some(TRef ty)
     | _ -> None
 
-let rec toTypedAst sexpr =
+let rec toAnnotatedAst sexpr =
     match sexpr with
     | SList [ Atom(Symbol "λ"); SList [ Atom(Symbol ":"); Atom(Symbol arg); (TypeSig ty) ];
               body ] ->
         BResult.result {
-            let! body = toTypedAst body
-            return TEFun(arg, ty, body) }
+            let! body = toAnnotatedAst body
+            return AFun(arg, ty, body)
+        }
     | SList [ Atom(Symbol "if"); cond; _then; _else ] ->
         BResult.result {
-            let! cond = toTypedAst cond
-            let! _then = toTypedAst _then
-            let! _else = toTypedAst _else
-            return TEIf(cond, _then, _else) }
+            let! cond = toAnnotatedAst cond
+            let! _then = toAnnotatedAst _then
+            let! _else = toAnnotatedAst _else
+            return AIf(cond, _then, _else)
+        }
     | SList [ Atom(Symbol "let");
               SList [ Atom(Symbol ":"); Atom(Symbol name); (TypeSig ty) ]; value; body ] ->
         BResult.result {
-            let! value = toTypedAst value
-            let! body = toTypedAst body
-            return TELet(name, ty, value, body) }
+            let! value = toAnnotatedAst value
+            let! body = toAnnotatedAst body
+            return ALet(name, ty, value, body)
+        }
     | SList(Atom(Symbol "begin") :: x :: xs) ->
         BResult.result {
-            let! x = toTypedAst x
+            let! x = toAnnotatedAst x
             let folder (state: Base.Nel<AnnotatedAst>) (elem: SExpr) =
                 let (Nel(head, tail)) = state
                 BResult.result {
-                    let! expr = toTypedAst elem
-                    return BNel.create head (tail @ [ expr ]) }
+                    let! expr = toAnnotatedAst elem
+                    return BNel.create head (tail @ [ expr ])
+                }
             let! body = BResult.fold folder (BNel.singleton x) xs
-            return TEBegin(body)
+            return ABegin body
         }
     | SList [ Atom(Symbol "ref"); content ] ->
         BResult.result {
-            let! content = toTypedAst content
-            return TEMakeRef content }
+            let! content = toAnnotatedAst content
+            return AMakeRef content 
+        }
     | SList [ Atom(Symbol "deref"); refExpr ] ->
         BResult.result {
-            let! refExpr = toTypedAst refExpr
-            return TEDeref(refExpr) }
+            let! refExpr = toAnnotatedAst refExpr
+            return ADeref refExpr
+        }
     | SList [ Atom(Symbol "mut"); refSExp; sexp ] ->
         BResult.result {
-            let! refExpr = toTypedAst refSExp
-            let! expr = toTypedAst sexp
-            return TEMut(refExpr, expr) }
+            let! refExpr = toAnnotatedAst refSExp
+            let! expr = toAnnotatedAst sexp
+            return AMut(refExpr, expr)
+        }
     | SList [ func; arg ] ->
         BResult.result {
-            let! func = toTypedAst func
-            let! arg = toTypedAst arg
-            return TEApp(func, arg) }
+            let! func = toAnnotatedAst func
+            let! arg = toAnnotatedAst arg
+            return AApp(func, arg)
+        }
     | SList (x::xs) ->
         BResult.result {
-            let! x = toTypedAst x
-            return! BResult.fold
-                        (fun innerAst sexpr ->
-                            BResult.result {
-                                let! sexpr = toTypedAst sexpr
-                                return TEApp(innerAst, sexpr)
-                            })
-                        x
-                        xs
+            let! x = toAnnotatedAst x
+
+            let folder innerAst sexpr = BResult.result {
+                let! sexpr = toAnnotatedAst sexpr
+                return AApp(innerAst, sexpr)
+            }
+
+            return! BResult.fold folder x xs
         }
     | SList [] -> Error(sprintf "bad syntax: %O" sexpr)
-    | Atom(SBool b) -> Ok(TEBool b)
-    | Atom(SInt n) -> Ok(TEInt n)
-    | Atom(SFloat f) -> Ok(TEFloat f)
-    | Atom(Symbol "#unit") -> Ok TEUnit
-    | Atom(Symbol x) -> Ok(TEVar x)
+    | Atom(SBool b) -> Ok(ABool b)
+    | Atom(SInt n) -> Ok(AInt n)
+    | Atom(SFloat f) -> Ok(AFloat f)
+    | Atom(Symbol "#unit") -> Ok AUnit
+    | Atom(Symbol x) -> Ok(AVar x)

@@ -80,7 +80,7 @@ module UntypedAst =
             | UApp(func, arg) -> sprintf "(%O %O)" func arg
             | UIf(cond, _then, _else) -> sprintf "(if %O %O %O)" cond _then _else
             | ULet(ident, e1, e2) -> sprintf "(let %O %O %O)" ident e1 e2
-            | UBegin(body) ->
+            | UBegin body ->
                 let inner =
                     body
                     |> Seq.map string
