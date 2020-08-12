@@ -18,9 +18,9 @@ let interactive () =
         printf "> "
         System.Console.ReadLine()
     |> Seq.initInfinite
-    |> Seq.takeWhile (fun input -> not(isNull(input)) && input <> ":exit")
+    |> Seq.takeWhile (fun input -> not(isNull input) && input <> ":exit")
     |> Seq.iter (fun src ->
-        match (run src) with
+        match run src with
         | Ok value ->
             printfn "Result: %O\n" value
         | Error msg ->
@@ -35,7 +35,7 @@ let main argv =
         let srcPath = argv.[0]
         let src = File.ReadAllText srcPath
 
-        match (run src) with
+        match run src with
         | Ok value ->
             printfn "Result: %O" value
         | Error msg ->

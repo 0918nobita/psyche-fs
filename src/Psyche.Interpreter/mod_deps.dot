@@ -1,0 +1,13 @@
+digraph mod_deps {
+    label = "Module dependency"
+
+    program [shape = box, label = Program]
+    primitive [shape = box, label = Primitive]
+    runtime [shape = box, label = Runtime]
+    value [shape = box, label = Value]
+
+    program -> primitive
+    program -> runtime
+    primitive -> value
+    runtime -> value
+}
