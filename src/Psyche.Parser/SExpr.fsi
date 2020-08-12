@@ -1,6 +1,6 @@
 module internal SExpr
 
-open TypedAst
+open AnnotatedAst
 
 type Atom =
     | SBool of bool
@@ -12,4 +12,4 @@ type SExpr =
     | Atom of Atom
     | SList of SExpr list
 
-val toTypedAst : SExpr -> Result<TypedAst, string>
+val toTypedAst : SExpr -> Result<AnnotatedAst, string>

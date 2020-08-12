@@ -7,7 +7,7 @@ module BResult = Base.Result
 
 open BNel.ActivePattern
 open Psyche.Types
-open TypedAst
+open AnnotatedAst
 
 type Atom =
     | SBool of bool
@@ -64,7 +64,7 @@ let rec toTypedAst sexpr =
     | SList(Atom(Symbol "begin") :: x :: xs) ->
         BResult.result {
             let! x = toTypedAst x
-            let folder (state: Base.Nel<TypedAst>) (elem: SExpr) =
+            let folder (state: Base.Nel<AnnotatedAst>) (elem: SExpr) =
                 let (Nel(head, tail)) = state
                 BResult.result {
                     let! expr = toTypedAst elem
