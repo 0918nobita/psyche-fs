@@ -1,0 +1,66 @@
+{
+  "ignoreFiles": ["*assemblyinfo.*"],
+  "globals": {
+    "numIdentationSpaces": 4
+  },
+  "formatting": {
+    "typedItemSpacing": {
+      "enabled": true,
+      "config": {
+        "typedItemStyle": "SpaceAfter"
+      }
+    }
+  },
+  "conventions": {
+    "sourceLength": {
+      "maxLinesInMatchLambdaFunction": {
+        "enabled": true,
+        "config": {
+          "maxLines": 20
+        }
+      }
+    }
+  },
+  "tupleCommaSpacing": { "enabled": true },
+  "tupleIdentation": { "enabled": true },
+  "tupleParentheses": { "enabled": true },
+  "patternMatchClausesOnNewLine": { "enabled": true },
+  "patternMatchOrClausesOnNewLine": { "enabled": true },
+  "patternMatchClauseIdentation": {
+    "enabled": true,
+    "config": {
+      "allowSingleLineLambda": true
+    }
+  },
+  "patternMatchExpressionIdentation": { "enabled": true },
+  "moduleDeclSpacing": { "enabled": false },
+  "classMemberSpacing": { "enabled": true },
+  "typePrefixing": { "enabled": true },
+  "unionDefinitionIdentation": { "enabled": true },
+  "recursiveAsyncFunction": { "enabled": true },
+  "redundantNewKeyword": { "enabled": true },
+  "nestedStatements": {
+    "enabled": true,
+    "config": {
+      "depth": 8
+    }
+  },
+  "failwithWithSingleArgument": { "enabled": true },
+  "raiseWithSingleArgument": { "enabled": true },
+  "nullArgWithSingleArgument": { "enabled": true },
+  "invalidOpWithSingleArgument": { "enabled": true },
+  "invalidArgWithTwoArguments": { "enabled": true },
+  "failwithfWithArgumentsMatchingFormatString": { "enabled": true },
+  "maxLinesInLambdaFunction": {
+    "enabled": true,
+    "config": {
+      "maxLines": 7
+    }
+  },
+  "maxLinesInValue": {
+    "enalbed": true,
+    "config": {
+      "maxLines": 100
+    }
+  }
+}
