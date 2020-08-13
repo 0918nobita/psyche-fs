@@ -1,0 +1,22 @@
+name: Lint
+
+on: push
+
+jobs:
+  lint:
+    if: "! contains(github.event.head_commit.message, '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '3.1.x'
+      - name: Restore dotnet tools
+        run: dotnet tool restore
+      - name: Restore Paket
+        run: dotnet paket restore
+      - name: Restore projects
+        run: dotnet restore
+      - name: Run FSharpLint
+        run: dotnet fsharplint lint psyche.sln
