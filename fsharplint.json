@@ -11,7 +11,8 @@
       }
     },
     "typePrefixing": { "enabled": true },
-    "unionDefinitionIndentation": { "enabled": true }
+    "unionDefinitionIndentation": { "enabled": true },
+    "moduleDeclSpacing": { "enabled": false }
   },
   "conventions": {
     "sourceLength": {
@@ -35,7 +36,6 @@
     }
   },
   "patternMatchExpressionIdentation": { "enabled": true },
-  "moduleDeclSpacing": { "enabled": false },
   "classMemberSpacing": { "enabled": true },
   "recursiveAsyncFunction": { "enabled": true },
   "redundantNewKeyword": { "enabled": true },
