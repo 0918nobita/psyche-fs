@@ -10,7 +10,7 @@ module Base =
 
     type Nel<'a> =
         private
-        | Nel of 'a * list<'a>
+        | Nel of 'a * ('a list)
 
         interface IReadOnlyCollection<'a> with
             member this.Count =
@@ -19,11 +19,11 @@ module Base =
 
             member this.GetEnumerator() =
                 let (Nel(head, tail)) = this
-                (head :: tail :> _ seq).GetEnumerator()
+                (head :: tail :> seq<_>).GetEnumerator()
 
             member this.GetEnumerator() =
                 let (Nel(head, tail)) = this
-                (head :: tail :> _ seq).GetEnumerator() :> IEnumerator
+                (head :: tail :> seq<_>).GetEnumerator() :> IEnumerator
 
     module Nel =
         module ActivePattern =
@@ -38,7 +38,7 @@ module Base =
     module Option =
         type OptionBuilder() =
             member _.Return(x) = Some x
-            member _.ReturnFrom(m: Option<_>) = m
+            member _.ReturnFrom(m: _ option) = m
             member _.Bind(m, f) = Option.bind f m
 
         let option = OptionBuilder()
@@ -59,7 +59,7 @@ module Base =
         let fold
             (folder: 'State -> 'T -> Result<'State, 'Error>)
             (initialState: 'State)
-            (list: list<'T>)
+            (list: 'T list)
             : Result<'State, 'Error>
             =
             let folder state elem =

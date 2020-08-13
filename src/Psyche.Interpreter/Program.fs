@@ -1,9 +1,13 @@
 module Program
 
 module BNel = Psyche.Base.Nel
+
+
 module BResult = Psyche.Base.Result
 
+
 open System.IO
+
 
 let run src =
     BResult.result {
@@ -12,6 +16,7 @@ let run src =
         let! value = Runtime.eval (Primitive.primitives) untypedAst
         return value
     }
+
 
 let interactive () =
     fun _ ->

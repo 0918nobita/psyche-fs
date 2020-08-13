@@ -2,13 +2,14 @@ module Value
 
 module UntypedAst = Psyche.UntypedAst
 
+
 type Value =
     | UnitVal
     | Closure of UntypedAst.VarId * UntypedAst.UntypedAst * Env
     | BoolVal of bool
     | IntVal of int
     | FloatVal of float
-    | RefVal of Ref<Value>
+    | RefVal of Value ref
 
     override this.ToString() =
         match this with
@@ -22,7 +23,8 @@ type Value =
 
 and Env =
     private
-    | Env of List<UntypedAst.VarId * Value>
+    | Env of (UntypedAst.VarId * Value) list
+
 
 module Env =
     let empty = Env []
