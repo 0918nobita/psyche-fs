@@ -26,7 +26,8 @@
         "typedItemSpacing": { "$ref": "formatting/typedItemSpacing.json" },
         "typePrefixing": { "$ref": "formatting/typePrefixing.json" },
         "unionDefinitionIndentation": { "$ref": "formatting/unionDefinitionIndentation.json" },
-        "moduleDeclSpacing": { "$ref": "formatting/moduleDeclSpacing.json" }
+        "moduleDeclSpacing": { "$ref": "formatting/moduleDeclSpacing.json" },
+        "classMemberSpacing": { "$ref": "formatting/classMemberSpacing.json" }
       }
     },
     "conventions": {
@@ -44,6 +45,7 @@
     "typePrefixing": { "$ref": "formatting/typePrefixing.json" },
     "unionDefinitionIndentation": { "$ref": "formatting/unionDefinitionIndentation.json" },
     "moduleDeclSpacing": { "$ref": "formatting/moduleDeclSpacing.json" },
+    "classMemberSpacing": { "$ref": "formatting/classMemberSpacing.json" },
     "maxLinesInMatchLambdaFunction": { "$ref": "conventions/sourceLength/maxLinesInMatchLambdaFunction.json" }
   }
 }

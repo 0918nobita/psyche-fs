@@ -1,0 +1,4 @@
+{
+  "description": "Point out unexpected number of spaces between declarations within class (2 spaces are expected). (FL0009)\nReference: https://fsprojects.github.io/FSharpLint/how-tos/rules/FL0009.html",
+  "$ref": "../baseRule.json"
+}
