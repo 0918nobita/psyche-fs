@@ -1,4 +1,0 @@
-{
-  "description": "Point out unexpected number of spaces between declarations within module (1 space is expected). (FL0008)\nReference: https://fsprojects.github.io/FSharpLint/how-tos/rules/FL0008.html",
-  "$ref": "../baseRule.json"
-}
