@@ -9,6 +9,9 @@
       "config": {
         "typedItemStyle": "SpaceAfter"
       }
+    },
+    "typePrefixing": {
+      "enabled": true
     }
   },
   "conventions": {
@@ -35,7 +38,6 @@
   "patternMatchExpressionIdentation": { "enabled": true },
   "moduleDeclSpacing": { "enabled": false },
   "classMemberSpacing": { "enabled": true },
-  "typePrefixing": { "enabled": true },
   "unionDefinitionIdentation": { "enabled": true },
   "recursiveAsyncFunction": { "enabled": true },
   "redundantNewKeyword": { "enabled": true },
