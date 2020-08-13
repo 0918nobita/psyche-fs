@@ -27,7 +27,7 @@ module Types =
             | TRef ty -> sprintf "(Ref %O)" ty
 
     type TypeEnv =
-        | TyEnv of List<VarId * Type>
+        | TyEnv of (VarId * Type) list
 
     [<RequireQualifiedAccess>]
     module TypeEnv =

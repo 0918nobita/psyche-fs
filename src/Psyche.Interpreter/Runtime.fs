@@ -1,14 +1,22 @@
 module internal Runtime
 
 module BOption = Psyche.Base.Option
+
+
 module BResult = Psyche.Base.Result
 
+
 open Psyche.Base.Nel.ActivePattern
+
+
 open Psyche.UntypedAst
+
+
 open Value
 
+
 let evalBinExpr op lhs rhs =
-    match op, lhs, rhs with
+    match (op, lhs, rhs) with
     | AddI, IntVal n1, IntVal n2 -> Ok(IntVal(n1 + n2))
     | SubI, IntVal n1, IntVal n2 -> Ok(IntVal(n1 - n2))
     | MulI, IntVal n1, IntVal n2 -> Ok(IntVal(n1 * n2))
@@ -24,6 +32,7 @@ let evalBinExpr op lhs rhs =
     | _ ->
         Error
         <| sprintf "2項演算子が用いられた式の評価に失敗しました:\n\t演算子: %O\n\t左辺: %O\n\t右辺: %O" op lhs rhs
+
 
 let rec eval env expr =
     match expr with

@@ -8,7 +8,7 @@ type Value =
     | BoolVal of bool
     | IntVal of int
     | FloatVal of float
-    | RefVal of Ref<Value>
+    | RefVal of Value ref
 
 and Env
 
@@ -17,4 +17,4 @@ module Env =
 
     val append : VarId -> Value -> Env -> Env
 
-    val tryFind : VarId -> Env -> Option<Value>
+    val tryFind : VarId -> Env -> Value option

@@ -1,7 +1,6 @@
 module internal Parser
 
 module BMap = Psyche.Base.Map
-
 open FParsec
 open SExpr
 
