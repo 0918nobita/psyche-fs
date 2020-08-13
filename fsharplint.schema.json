@@ -52,6 +52,10 @@
       "description": "Point out incorrect indentation for union definition (FL0012)\nReference: https://fsprojects.github.io/FSharpLint/how-tos/rules/FL0012.html",
       "$ref": "#/definitions/baseRule"
     },
+    "moduleDeclSpacing": {
+      "description": "Point out unexpected number of spaces between declarations within module (1 space is expected).\n(FL0008)\nReference: https://fsprojects.github.io/FSharpLint/how-tos/rules/FL0008.html",
+      "$ref": "#/definitions/baseRule"
+    },
     "maxLinesInMatchLambdaFunction": {
       "description": "Point out that a match function is made up of more than a configurable number of lines (FL0023)\nReference: https://fsprojects.github.io/FSharpLint/how-tos/rules/FL0023.html",
       "allOf": [
@@ -94,7 +98,8 @@
       "properties": {
         "typedItemSpacing": { "$ref": "#/definitions/typedItemSpacing" },
         "typePrefixing": { "$ref": "#/definitions/typePrefixing" },
-        "unionDefinitionIndentation": { "$ref": "#/definitions/unionDefinitionIndentation" }
+        "unionDefinitionIndentation": { "$ref": "#/definitions/unionDefinitionIndentation" },
+        "moduleDeclSpacing": { "$ref": "#/definitions/moduleDeclSpacing" }
       }
     },
     "conventions": {
@@ -111,6 +116,7 @@
     "typedItemSpacing": { "$ref": "#/definitions/typedItemSpacing" },
     "typePrefixing": { "$ref": "#/definitions/typePrefixing" },
     "unionDefinitionIndentation": { "$ref": "#/definitions/unionDefinitionIndentation" },
+    "moduleDeclSpacing": { "$ref": "#/definitions/moduleDeclSpacing" },
     "maxLinesInMatchLambdaFunction": { "$ref": "#/definitions/maxLinesInMatchLambdaFunction" }
   }
 }
