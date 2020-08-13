@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "properties": {
+    "enabled": {
+      "description": "Enable the linting rule",
+      "type": "boolean"
+    }
+  }
+}
