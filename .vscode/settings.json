@@ -2,7 +2,7 @@
   "json.schemas": [
     {
       "fileMatch": ["fsharplint.json"],
-      "url": "./fsharplint.schema.json"
+      "url": "./fsharplint-schema/fsharplint.json"
     }
   ]
 }

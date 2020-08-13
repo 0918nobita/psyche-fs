@@ -1,0 +1,4 @@
+{
+  "description": "Point out incorrect indentation for union definition (FL0012)\nReference: https://fsprojects.github.io/FSharpLint/how-tos/rules/FL0012.html",
+  "$ref": "../baseRule.json"
+}

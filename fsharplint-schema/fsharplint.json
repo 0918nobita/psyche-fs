@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "JSON schema for the FSharpLint configuration files.",
+  "type": "object",
+  "properties": {
+    "ignoreFiles": {
+      "description": "Specify files that should be ignored",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "globals": {
+      "description": "Global configuration",
+      "type": "object",
+      "properties": {
+        "numIdentationSpaces": {
+          "description": "Number of spaces used for identation",
+          "type": "number"
+        }
+      }
+    },
+    "formatting": {
+      "type": "object",
+      "properties": {
+        "typedItemSpacing": { "$ref": "formatting/typedItemSpacing.json" },
+        "typePrefixing": { "$ref": "formatting/typePrefixing.json" },
+        "unionDefinitionIndentation": { "$ref": "formatting/unionDefinitionIndentation.json" },
+        "moduleDeclSpacing": { "$ref": "formatting/moduleDeclSpacing.json" }
+      }
+    },
+    "conventions": {
+      "type": "object",
+      "properties": {
+        "sourceLength": {
+          "type": "object",
+          "properties": {
+            "maxLinesInMatchLambdaFunction": { "$ref": "conventions/sourceLength/maxLinesInMatchLambdaFunction.json" }
+          }
+        }
+      }
+    },
+    "typedItemSpacing": { "$ref": "formatting/typedItemSpacing.json" },
+    "typePrefixing": { "$ref": "formatting/typePrefixing.json" },
+    "unionDefinitionIndentation": { "$ref": "formatting/unionDefinitionIndentation.json" },
+    "moduleDeclSpacing": { "$ref": "formatting/moduleDeclSpacing.json" },
+    "maxLinesInMatchLambdaFunction": { "$ref": "conventions/sourceLength/maxLinesInMatchLambdaFunction.json" }
+  }
+}
