@@ -38,6 +38,15 @@
         }
       }
     },
+    "typePrefixing": {
+      "description": "Point out incorrect formatting for higher order type (FL0011)\nReference: https://fsprojects.github.io/FSharpLint/how-tos/rules/FL0011.html",
+      "type": "object",
+      "properties": {
+        "enabled": {
+          "$ref": "#/definitions/enabled"
+        }
+      }
+    },
     "maxLinesInMatchLambdaFunction": {
       "description": "Point out that a match function is made up of more than a configurable number of lines (FL0023)\nReference: https://fsprojects.github.io/FSharpLint/how-tos/rules/FL0023.html",
       "type": "object",
@@ -79,6 +88,9 @@
       "properties": {
         "typedItemSpacing": {
           "$ref": "#/definitions/typedItemSpacing"
+        },
+        "typePrefixing": {
+          "$ref": "#/definitions/typePrefixing"
         }
       }
     },
@@ -97,6 +109,9 @@
     },
     "typedItemSpacing": {
       "$ref": "#/definitions/typedItemSpacing"
+    },
+    "typePrefixing": {
+      "$ref": "#/definitions/typePrefixing"
     },
     "maxLinesInMatchLambdaFunction": {
       "$ref": "#/definitions/maxLinesInMatchLambdaFunction"
