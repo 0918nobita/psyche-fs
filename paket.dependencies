@@ -7,6 +7,9 @@ nuget FSharp.Core
 // Parser
 nuget FParsec
 
+// GUI
+nuget GtkSharp
+
 // Test
 nuget Expecto
 nuget Expecto.FsCheck
