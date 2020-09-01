@@ -1,13 +1,19 @@
 module Program
 
+open Gtk
+
+type MainWindow (builder : Builder) as this =
+    inherit Window(builder.GetObject("MainWindow").Handle)
+
+    do
+        this.DeleteEvent.Add(fun _ -> Application.Quit())
+
+    new() = new MainWindow(new Builder("MainWindow.glade"))
+
 module BNel = Psyche.Base.Nel
-
-
 module BResult = Psyche.Base.Result
 
-
 open System.IO
-
 
 let run src =
     BResult.result {
@@ -16,7 +22,6 @@ let run src =
         let! value = Runtime.eval (Primitive.primitives) untypedAst
         return value
     }
-
 
 let interactive () =
     fun _ ->
@@ -37,13 +42,23 @@ let main argv =
     then
         interactive ()
     else
-        let srcPath = argv.[0]
-        let src = File.ReadAllText srcPath
+        if argv.[0] = "gui"
+            then
+                Application.Init()
+                let app = new Application("vision.kodai.psyche", GLib.ApplicationFlags.None)
+                app.Register(GLib.Cancellable.Current) |> ignore
+                let win = new MainWindow()
+                app.AddWindow(win)
+                win.Show()
+                Application.Run()
+            else
+                let srcPath = argv.[0]
+                let src = File.ReadAllText srcPath
 
-        match run src with
-        | Ok value ->
-            printfn "Result: %O" value
-        | Error msg ->
-            eprintfn "%s" msg
-            exit 1
+                match run src with
+                | Ok value ->
+                    printfn "Result: %O" value
+                | Error msg ->
+                    eprintfn "%s" msg
+                    exit 1
     0
