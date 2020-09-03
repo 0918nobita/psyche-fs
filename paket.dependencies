@@ -14,11 +14,6 @@ nuget GtkSharp
 nuget Expecto
 nuget Expecto.FsCheck
 
-// Docs
-nuget Fable.Browser.Dom
-nuget Fable.Elmish
-nuget Fable.Elmish.React
-
 // [ FAKE GROUP ]
 group NetcoreBuild
     source https://api.nuget.org/v3/index.json
