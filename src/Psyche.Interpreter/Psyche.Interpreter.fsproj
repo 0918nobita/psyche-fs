@@ -19,11 +19,5 @@
         <ProjectReference Include="..\Psyche.Parser\Psyche.Parser.fsproj" />
     </ItemGroup>
 
-    <ItemGroup>
-        <EmbeddedResource Include="*.glade">
-            <LogicalName>%(Filename)%(Extension)</LogicalName>
-        </EmbeddedResource>
-    </ItemGroup>
-
     <Import Project="..\..\.paket\Paket.Restore.targets" />
 </Project>

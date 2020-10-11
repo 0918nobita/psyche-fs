@@ -1,15 +1,5 @@
 module Program
 
-open Gtk
-
-type MainWindow (builder : Builder) as this =
-    inherit Window(builder.GetObject("MainWindow").Handle)
-
-    do
-        this.DeleteEvent.Add(fun _ -> Application.Quit())
-
-    new() = new MainWindow(new Builder("MainWindow.glade"))
-
 module BNel = Psyche.Base.Nel
 module BResult = Psyche.Base.Result
 
@@ -44,13 +34,7 @@ let main argv =
     else
         if argv.[0] = "gui"
             then
-                Application.Init()
-                let app = new Application("vision.kodai.psyche", GLib.ApplicationFlags.None)
-                app.Register(GLib.Cancellable.Current) |> ignore
-                let win = new MainWindow()
-                app.AddWindow(win)
-                win.Show()
-                Application.Run()
+                printfn "GUI mode"
             else
                 let srcPath = argv.[0]
                 let src = File.ReadAllText srcPath
