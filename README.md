@@ -1,6 +1,6 @@
 # Psyche
 
-![Test](https://github.com/0918nobita/psyche/workflows/Test/badge.svg)
+![Lint](https://github.com/0918nobita/psyche/workflows/Lint/badge.svg)  ![Test](https://github.com/0918nobita/psyche/workflows/Test/badge.svg)
 
 Programming language
 
@@ -28,19 +28,19 @@ $ dotnet fake build -t release
 ## Run interpreter
 
 ```bash
-$ dotnet run --project src/Psyche.Interpreter -- examples/branch.txt
+$ dotnet run -p src/Psyche.CLI -- examples/branch.txt
 Static type: Int
 Result: 0
 
-$ dotnet run --project src/Psyche.Interpreter -- examples/let-lambda.txt
+$ dotnet run -p src/Psyche.CLI -- examples/let-lambda.txt
 Static type: Int
 Result: 14
 
-$ dotnet run --project src/Psyche.Interpreter -- examples/counter.txt
+$ dotnet run -p src/Psyche.CLI -- examples/counter.txt
 Static type: Int
 Result: 6
 
-$ dotnet run --project src/Psyche.Interpreter -- examples/counter2.txt
+$ dotnet run -p src/Psyche.CLI -- examples/counter2.txt
 Static type: Int
 Result: 3
 ```
