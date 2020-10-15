@@ -1,6 +1,6 @@
 module Value
 
-module UntypedAst = Psyche.UntypedAst
+module UntypedAst = Psyche.AST.UntypedAst
 
 
 type Value =

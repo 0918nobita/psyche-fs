@@ -5,7 +5,7 @@ module Interpreter =
     module BResult = Base.Result
 
     open Psyche.Base.Nel.ActivePattern
-    open Psyche.UntypedAst
+    open Psyche.AST.UntypedAst
     open Value
 
     let evalBinExpr op lhs rhs =

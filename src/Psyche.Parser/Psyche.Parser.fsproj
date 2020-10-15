@@ -4,8 +4,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="UntypedAst.fsi" />
-    <Compile Include="UntypedAst.fs" />
     <Compile Include="Type.fsi" />
     <Compile Include="Type.fs" />
     <Compile Include="AnnotatedAst.fsi" />
@@ -23,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Psyche.Base\Psyche.Base.fsproj" />
+    <ProjectReference Include="..\Psyche.AST\Psyche.AST.fsproj" />
   </ItemGroup>
 
   <Import Project="..\..\.paket\Paket.Restore.targets" />

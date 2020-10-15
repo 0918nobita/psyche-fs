@@ -1,7 +1,7 @@
 namespace Psyche
 
 module Types =
-    open Psyche.UntypedAst
+    open Psyche.AST.UntypedAst
 
     type Type =
         | TUnit

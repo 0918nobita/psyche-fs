@@ -7,7 +7,7 @@ module BResult = Base.Result
 
 open BNel.ActivePattern
 open Psyche.Types
-open Psyche.UntypedAst
+open Psyche.AST.UntypedAst
 open AnnotatedAst
 
 let assertType (expected: Type) (actual: Type) =

@@ -1,4 +1,4 @@
-namespace Psyche
+namespace Psyche.AST
 
 module UntypedAst =
     type VarId = string
@@ -60,7 +60,7 @@ module UntypedAst =
         | UApp of func: UntypedAst * actualArg: UntypedAst
         | UIf of cond: UntypedAst * _then: UntypedAst * _else: UntypedAst
         | ULet of VarId * UntypedAst * UntypedAst
-        | UBegin of Base.Nel<UntypedAst>
+        | UBegin of Psyche.Base.Nel<UntypedAst>
         | UMakeRef of UntypedAst
         | UDeref of UntypedAst
         | UMut of UntypedAst * UntypedAst

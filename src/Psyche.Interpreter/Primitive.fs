@@ -1,6 +1,6 @@
 module Primitive
 
-open Psyche.UntypedAst
+open Psyche.AST.UntypedAst
 open Value
 
 let primitives =
