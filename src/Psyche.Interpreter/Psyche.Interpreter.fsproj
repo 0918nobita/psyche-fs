@@ -1,6 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
   </PropertyGroup>
 
@@ -9,9 +8,8 @@
     <Compile Include="Value.fs" />
     <Compile Include="Primitive.fsi" />
     <Compile Include="Primitive.fs" />
-    <Compile Include="Runtime.fsi" />
-    <Compile Include="Runtime.fs" />
-    <Compile Include="Program.fs" />
+    <Compile Include="Library.fsi" />
+    <Compile Include="Library.fs" />
   </ItemGroup>
 
   <ItemGroup>

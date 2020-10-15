@@ -1,10 +1,7 @@
-module internal Primitive
+module Primitive
 
 open Psyche.UntypedAst
-
-
 open Value
-
 
 let primitives =
     let pureAddI = Closure("a", UFun("b", UBinApp(AddI, UVar "a", UVar "b")), Env.empty)

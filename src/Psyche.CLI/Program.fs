@@ -1,4 +1,4 @@
-module Program
+﻿module Program
 
 module BNel = Psyche.Base.Nel
 module BResult = Psyche.Base.Result
@@ -9,7 +9,7 @@ let run src =
     BResult.result {
         let! (ty, untypedAst) = Psyche.Parser.tryParse src
         printfn "Static type: %O" ty
-        let! value = Runtime.eval (Primitive.primitives) untypedAst
+        let! value = Psyche.Interpreter.eval (Primitive.primitives) untypedAst
         return value
     }
 

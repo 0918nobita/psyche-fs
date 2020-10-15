@@ -1,4 +1,4 @@
-module internal Primitive
+module Primitive
 
 open Value
 
