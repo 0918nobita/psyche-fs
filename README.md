@@ -6,7 +6,7 @@ Programming language
 
 ## Setup dotnet tools
 
-```bash
+```
 $ dotnet tool restore
 $ dotnet paket restore
 ```
@@ -15,19 +15,36 @@ $ dotnet paket restore
 
 ### Debug Build
 
-```bash
+```
 $ dotnet fake build
 ```
 
 ### Release Build
 
-```bash
+```
 $ dotnet fake build -t release
 ```
 
-## Run interpreter
+## Launch a REPL
 
-```bash
+- Type `:exit` to exit the REPL
+
+```
+$ dotnet run -p src/Psyche.CLI
+> (+ 1)
+Static type: (-> Int Int)
+Result: <Closure>
+
+> (+ 3 4)
+Static type: Int
+Result: 7
+
+> :exit
+```
+
+## Run programs
+
+```
 $ dotnet run -p src/Psyche.CLI -- examples/branch.txt
 Static type: Int
 Result: 0
@@ -47,13 +64,13 @@ Result: 3
 
 ## Run tests
 
-```bash
+```
 $ dotnet fake build -t test
 ```
 
 ## Create self-contained executable
 
-```bash
+```
 $ dotnet fake build -t publish
 ```
 
