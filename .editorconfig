@@ -7,5 +7,5 @@ indent_style = space
 indent_size = 4
 insert_final_newline = true
 
-[*.{json,yml}]
+[*.{cshtml,fsproj,json,yml}]
 indent_size = 2
