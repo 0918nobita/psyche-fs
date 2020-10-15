@@ -7,6 +7,19 @@ nuget FSharp.Core
 // Parser
 nuget FParsec
 
+// Client-side
+nuget Bolero
+nuget Bolero.Build
+nuget Bolero.HotReload
+nuget Microsoft.AspNetCore.Components.WebAssembly.Build
+nuget Microsoft.AspNetCore.Components.WebAssembly.DevServer
+
+// Server-side
+nuget Bolero.Server
+nuget Bolero.HotReload.Server
+nuget Microsoft.AspNetCore.Components.WebAssembly.Server
+nuget Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
+
 // Test
 nuget Expecto
 nuget Expecto.FsCheck
