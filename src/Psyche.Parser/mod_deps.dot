@@ -1,26 +1,18 @@
 digraph mod_deps {
     label = "Module dependency"
 
-    root [shape = box, label = Root]
     parser [shape = box, label = Parser]
     sexpr [shape = box, label = SExpr]
     type_checker [shape = box, label = TypeChecker]
     primitive [shape = box, label = Primitive]
     annotated_ast [shape = box, label = AnnotatedAst]
     types [shape = box, label = Types]
-    untyped_ast [shape = box, label = UntypedAst]
 
-    types -> untyped_ast
     annotated_ast -> types
     primitive -> types
     type_checker -> types
-    type_checker -> untyped_ast
     type_checker -> annotated_ast
     sexpr -> types
     sexpr -> annotated_ast
     parser -> sexpr
-    root -> parser
-    root -> sexpr
-    root -> type_checker
-    root -> primitive
 }
