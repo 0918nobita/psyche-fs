@@ -1,10 +1,5 @@
 module internal AnnotatedAst
 
-module Base = Psyche.Base
-module BNel = Base.Nel
-module BOption = Base.Option
-module BResult = Base.Result
-
 open Psyche.Types
 
 type AVarId = string
@@ -19,7 +14,7 @@ type AnnotatedAst =
     | AApp of func: AnnotatedAst * actualArg: AnnotatedAst
     | AIf of cond: AnnotatedAst * _then: AnnotatedAst * _else: AnnotatedAst
     | ALet of name: AVarId * typeOfName: Type * expr1: AnnotatedAst * expr2: AnnotatedAst
-    | ABegin of Base.Nel<AnnotatedAst>
+    | ABegin of Psyche.Base.Nel<AnnotatedAst>
     | AMakeRef of AnnotatedAst
     | ADeref of AnnotatedAst
     | AMut of AnnotatedAst * AnnotatedAst

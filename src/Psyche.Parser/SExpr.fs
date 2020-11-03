@@ -1,9 +1,8 @@
 module internal SExpr
 
-module Base = Psyche.Base
-module BNel = Base.Nel
-module BOption = Base.Option
-module BResult = Base.Result
+module BNel = Psyche.Base.Nel
+module BOption = Psyche.Base.Option
+module BResult = Psyche.Base.Result
 
 open BNel.ActivePattern
 open Psyche.Types
@@ -67,7 +66,7 @@ let rec toAnnotatedAst sexpr =
     | SList(Atom(Symbol "begin") :: x :: xs) ->
         BResult.result {
             let! x = toAnnotatedAst x
-            let folder (state: Base.Nel<AnnotatedAst>) (elem: SExpr) =
+            let folder (state: Psyche.Base.Nel<AnnotatedAst>) (elem: SExpr) =
                 let (Nel(head, tail)) = state
                 BResult.result {
                     let! expr = toAnnotatedAst elem

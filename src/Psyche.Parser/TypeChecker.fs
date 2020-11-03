@@ -1,9 +1,8 @@
 module internal TypeChecker
 
-module Base = Psyche.Base
-module BNel = Base.Nel
-module BOption = Base.Option
-module BResult = Base.Result
+module BNel = Psyche.Base.Nel
+module BOption = Psyche.Base.Option
+module BResult = Psyche.Base.Result
 
 open BNel.ActivePattern
 open Psyche.Types
@@ -93,7 +92,7 @@ and typeCheckBegin env (Nel(head, tail)) =
     BResult.result {
         let! (ty, head) = typeCheck env head
 
-        let folder (state: Type * Base.Nel<UntypedAst>) (elem: AnnotatedAst) =
+        let folder (state: Type * Psyche.Base.Nel<UntypedAst>) (elem: AnnotatedAst) =
             let (_, Nel(x, xs)) = state
             BResult.result {
                 let! (ty, expr) = typeCheck env elem
