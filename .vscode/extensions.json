@@ -1,6 +1,7 @@
 {
   "recommendations": [
     "editorconfig.editorconfig",
-    "ionide.ionide-fsharp"
+    "ionide.ionide-fsharp",
+    "joaompinto.vscode-graphviz"
   ]
 }
