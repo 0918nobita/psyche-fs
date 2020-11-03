@@ -1,24 +1,12 @@
 version 5.247.4
 source https://api.nuget.org/v3/index.json
 storage: none
+framework: netcoreapp3.1
 
 nuget FSharp.Core
 
 // Parser
 nuget FParsec
-
-// Client-side
-nuget Bolero
-nuget Bolero.Build
-nuget Bolero.HotReload
-nuget Microsoft.AspNetCore.Components.WebAssembly.Build
-nuget Microsoft.AspNetCore.Components.WebAssembly.DevServer
-
-// Server-side
-nuget Bolero.Server
-nuget Bolero.HotReload.Server
-nuget Microsoft.AspNetCore.Components.WebAssembly.Server
-nuget Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation
 
 // Test
 nuget Expecto
@@ -29,3 +17,6 @@ group NetcoreBuild
     source https://api.nuget.org/v3/index.json
     nuget Fake.Core.Target
     nuget Fake.DotNet.Cli
+    // WORK AROUND: See https://github.com/fsprojects/Paket/issues/3907
+    // Nuget.Packaging is required by Fake.DotNet.Cli
+    nuget Nuget.Packaging < 5.7
