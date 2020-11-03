@@ -67,7 +67,7 @@ module Interpreter =
         | ULet(x, e1, e2) ->
             BResult.result {
                 let! e1 = eval env e1
-                let env = Env.append  x e1 env
+                let env = Env.append x e1 env
                 return! eval env e2
             }
         | UBegin(Nel(x, xs)) ->

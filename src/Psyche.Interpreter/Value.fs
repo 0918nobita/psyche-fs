@@ -2,7 +2,6 @@ module Value
 
 module UntypedAst = Psyche.AST.UntypedAst
 
-
 type Value =
     | UnitVal
     | Closure of UntypedAst.VarId * UntypedAst.UntypedAst * Env
@@ -24,7 +23,6 @@ type Value =
 and Env =
     private
     | Env of (UntypedAst.VarId * Value) list
-
 
 module Env =
     let empty = Env []
