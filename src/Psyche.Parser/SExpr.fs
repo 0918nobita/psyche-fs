@@ -91,12 +91,6 @@ let rec toAnnotatedAst sexpr =
             let! expr = toAnnotatedAst sexp
             return AMut(refExpr, expr)
         }
-    | SList [ func; arg ] ->
-        BResult.result {
-            let! func = toAnnotatedAst func
-            let! arg = toAnnotatedAst arg
-            return AApp(func, arg)
-        }
     | SList (x::xs) ->
         BResult.result {
             let! x = toAnnotatedAst x

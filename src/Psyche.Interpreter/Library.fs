@@ -26,7 +26,6 @@ module Interpreter =
             Error
             <| sprintf "2項演算子が用いられた式の評価に失敗しました:\n\t演算子: %O\n\t左辺: %O\n\t右辺: %O" op lhs rhs
 
-
     let rec eval env expr =
         match expr with
         | UUnit -> Ok UnitVal
