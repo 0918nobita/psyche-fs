@@ -32,17 +32,13 @@ let main argv =
     then
         interactive ()
     else
-        if argv.[0] = "gui"
-            then
-                printfn "GUI mode"
-            else
-                let srcPath = argv.[0]
-                let src = File.ReadAllText srcPath
+        let srcPath = argv.[0]
+        let src = File.ReadAllText srcPath
 
-                match run src with
-                | Ok value ->
-                    printfn "Result: %O" value
-                | Error msg ->
-                    eprintfn "%s" msg
-                    exit 1
+        match run src with
+        | Ok value ->
+            printfn "Result: %O" value
+        | Error msg ->
+            eprintfn "%s" msg
+            exit 1
     0
