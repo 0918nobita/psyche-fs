@@ -3,6 +3,7 @@ module Program
 open Expecto
 open Psyche.Base.Monad
 open Psyche.Base.State
+open Psyche.Base.Functor
 
 [<Tests>]
 let testState =
@@ -24,15 +25,6 @@ let testState =
 
         Expect.equal (State.runState state3 6) ((Some "7:12"), 0) "ReturnFrom"
     }
-
-open Psyche.Base.Functor
-
-type FmapEx() =
-    inherit Fmap()
-    static member (?) (_: Fmap, source) =
-        fun f -> Result.map f source
-
-let inline (<%>) f x = FmapEx() ? (x) f
 
 [<Tests>]
 let testFunctor =

@@ -1,14 +1,32 @@
 namespace Psyche.Base
 
 module Functor =
-    type Fmap() =
-        static member (?) (_: Fmap, source) =
-            fun f -> Option.map f source
+    [<Struct>]
+    type FunctorClass<'a, 'b, 'Ma, 'Mb> = {
+        Fmap: ('a -> 'b) -> 'Ma -> 'Mb
+    }
 
-        static member (?) (_: Fmap, source) =
-            fun f -> List.map f source
+    type FunctorBuiltin =
+        | FunctorBuiltin
 
-        static member (?) (_: Fmap, source) =
-            fun f -> Array.map f source
+        static member FunctorImpl (_: _ option) =
+            { Fmap = Option.map }
 
-    let inline (<%>) f x = Fmap() ? (x) f
+        static member FunctorImpl (_: Result<_, _>) =
+            { Fmap = Result.map }
+
+        static member FunctorImpl (_: _ list) =
+            { Fmap = List.map }
+
+        static member FunctorImpl (_: _[]) =
+            { Fmap = Array.map }
+
+    let inline getImpl
+        (builtin: ^Builtin)
+        (dummy: FunctorClass< ^a, ^b, ^Ma, ^Mb >): FunctorClass< ^a, ^b, ^Ma, ^Mb > =
+        ((^Builtin or ^Ma): (static member FunctorImpl: ^Ma -> FunctorClass< ^a, ^b, ^Ma, ^Mb >) (Unchecked.defaultof< ^Ma >))
+
+    let inline fmap (f: ^a -> ^b) (m: ^Ma): ^Mb =
+        (getImpl FunctorBuiltin (Unchecked.defaultof< FunctorClass< ^a, ^b, ^Ma, ^Mb > >)).Fmap f m
+
+    let inline (<%>) (f: ^a -> ^b) (m: ^Ma): ^Mb = fmap f m
