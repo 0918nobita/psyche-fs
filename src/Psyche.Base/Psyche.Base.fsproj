@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Functor.fs" />
     <Compile Include="Lens.fs" />
     <Compile Include="Map.fs" />
     <Compile Include="Nel.fs" />
