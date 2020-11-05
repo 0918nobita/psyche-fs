@@ -47,6 +47,20 @@ let testFunctor =
         Expect.equal res (Ok(3)) "Functor Result"
     }
 
+open Psyche.Base.Monad
+
+[<Tests>]
+let testMonad =
+    test "monad" {
+        let res = monad {
+            let! a = Some(21)
+            let! b = Some(2)
+            return a * b
+        }
+
+        Expect.equal res (Some(42)) "do notation"
+    }
+
 [<Tests>]
 let properties =
     testList "FsCheck"

@@ -8,6 +8,7 @@
     <Compile Include="Functor.fs" />
     <Compile Include="Lens.fs" />
     <Compile Include="Map.fs" />
+    <Compile Include="Monad.fs" />
     <Compile Include="Nel.fs" />
     <Compile Include="Option.fs" />
     <Compile Include="Result.fs" />
