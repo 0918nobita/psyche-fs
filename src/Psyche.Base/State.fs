@@ -1,17 +1,18 @@
 module Psyche.Base.State
 
-type State<'s, 'a> = State of ('s -> ('a * 's))
+open Psyche.Base.Monad
 
-let runState ((State f): State<'s, 'a>) (init: 's) =
-    f init
+type State<'S, 'A> =
+    | State of ('S -> ('A * 'S))
 
-type StateBuilder() =
-    member _.Return(x) = State(fun s -> (x, s))
-    member _.ReturnFrom(m: State<_, _>) = m
-    member _.Bind((State x), f) =
-        State
-        <| fun s ->
-            let (v, s) = x s
-            runState (f v) s
-
-let state = StateBuilder()
+    static member runState ((State f): State<'S, 'A>) (init: 'S) =
+        f init
+    
+    static member MonadImpl (_: State<_, _>) =
+        {
+            Bind = fun f (State x) ->
+                State(fun s ->
+                    let (v, s) = x s
+                    State.runState (f v) s)
+            Return = fun x -> State(fun s -> (x, s))
+        }

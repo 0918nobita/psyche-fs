@@ -7,12 +7,28 @@ module Monad =
         Return: 'a -> 'Ma
     }
 
-    type MonadBuiltin = MonadBuiltin with
+    type MonadBuiltin =
+        | MonadBuiltin
+
         static member MonadImpl (_: _ option) =
             { Bind = Option.bind; Return = Some }
 
         static member MonadImpl (_: Result<_, _>) =
             { Bind = Result.bind; Return = Ok }
+
+        static member MonadImpl (_: _ list) =
+            let concatMap f l = List.concat (List.map f l)
+            {
+                Bind = concatMap
+                Return = List.singleton
+            }
+
+        static member MonadImpl (_: _[]) =
+            let concatMap f arr = Array.concat (Array.map f arr)
+            {
+                Bind = concatMap
+                Return = Array.singleton
+            }
 
     let inline getImpl
         (builtin: ^Builtin)

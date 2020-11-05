@@ -1,25 +1,28 @@
 module Program
 
 open Expecto
+open Psyche.Base.Monad
 open Psyche.Base.State
 
 [<Tests>]
 let testState =
     test "state" {
         let state1 = State (fun x -> (string (x + 1), x * 2))
-        Expect.equal (runState state1 6) ("7", 12) "runState"
+        Expect.equal (State.runState state1 6) ("7", 12) "runState"
 
-        let state2 = state {
+        let state2 = monad {
            let! v = state1
            return v + "!"
         }
-        Expect.equal (runState state2 6) ("7!", 12) "Bind, Return"
 
-        let state3 = state {
+        Expect.equal (State.runState state2 6) ("7!", 12) "Bind, Return"
+
+        let state3 = monad {
             let! v = state1
             return! State (fun s -> (Some (v + ":" + string s), 0))
         }
-        Expect.equal (runState state3 6) (Some "7:12", 0) "ReturnFrom"
+
+        Expect.equal (State.runState state3 6) ((Some "7:12"), 0) "ReturnFrom"
     }
 
 open Psyche.Base.Functor
@@ -34,31 +37,44 @@ let inline (<%>) f x = FmapEx() ? (x) f
 [<Tests>]
 let testFunctor =
     test "functor" {
-        let res = snd <%> Some((1, 2))
-        Expect.equal res (Some(2)) "Functor Option"
+        let actual = snd <%> Some (1, 2)
+        Expect.equal actual (Some 2) "Functor Option"
 
-        let res = (sprintf "%s!") <%> ["A"; "B"; "C"]
-        Expect.equal res ["A!"; "B!"; "C!"] "Functor List"
+        let actual = (sprintf "%s!") <%> ["A"; "B"; "C"]
+        Expect.equal actual ["A!"; "B!"; "C!"] "Functor List"
 
-        let res = (sprintf "(%s)") <%> [|"A"; "B"; "C"|]
-        Expect.equal res [|"(A)"; "(B)"; "(C)"|] "Functor Array"
+        let actual = (sprintf "(%s)") <%> [|"A"; "B"; "C"|]
+        Expect.equal actual [|"(A)"; "(B)"; "(C)"|] "Functor Array"
 
-        let res = fst <%> Ok((3, 4))
-        Expect.equal res (Ok(3)) "Functor Result"
+        let actual = fst <%> Ok (3, 4)
+        Expect.equal actual (Ok 3) "Functor Result"
     }
-
-open Psyche.Base.Monad
 
 [<Tests>]
 let testMonad =
     test "monad" {
-        let res = monad {
-            let! a = Some(21)
-            let! b = Some(2)
+        let actual = monad {
+            let! a = Some 21
+            let! b = Some 2
             return a * b
         }
 
-        Expect.equal res (Some(42)) "do notation"
+        Expect.equal actual (Some 42) "Monad Option"
+
+        // concat (map (fun a -> (concat (map (fun b -> [a * 2 + b]) [10; 20; 30]))) [1; 2; 3])
+        // concat [(concat (map (fun b -> [2 + b]) [10; 20; 30])); (concat (map (fun b -> [4 + b]) [10; 20; 30])); (concat (map (fun b -> [6 + b]) [10; 20; 30]))]
+        // concat [(concat [[12]; [22]; [32]]); (concat [[14]; [24]; [34]]); (concat [[16]; [26]; [36]])]
+        // concat [[12; 22; 32]; [14; 24; 34]; [16; 26; 36]]
+        // [12; 22; 32; 14; 24; 34; 16; 26; 36]
+        let actual = monad {
+            let! a = [1; 2; 3]
+            let! b = [10; 20; 30]
+            return a * 2 + b
+        }
+
+        let expected = [12; 22; 32; 14; 24; 34; 16; 26; 36]
+
+        Expect.equal actual expected "Monad List"
     }
 
 [<Tests>]
