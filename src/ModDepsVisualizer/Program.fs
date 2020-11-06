@@ -3,6 +3,7 @@
 open System
 
 open FSharp.Compiler.SourceCodeServices
+open FSharp.Compiler.Text
 
 [<EntryPoint>]
 let main argv =
@@ -47,8 +48,29 @@ let main argv =
             tokenizeLines state (count + 1) lines
         | [] -> ()
 
-    "let hello () =\n    printfn \"Hello, world!\"".Split('\r', '\n')
+    let lines = "let hello () =\n    printfn \"Hello, world!\""
+
+    lines.Split('\r', '\n')
     |> List.ofSeq
     |> tokenizeLines FSharpTokenizerLexState.Initial 1
+
+    let checker = FSharpChecker.Create()
+
+    let getUntypedAst (file: string) (input: ISourceText) =
+        let untypedRes =
+            async {
+                let! projOptions, _ = checker.GetProjectOptionsFromScript(file, input)
+                let parsingOptions, _ = checker.GetParsingOptionsFromProjectOptions(projOptions)
+                return! checker.ParseFile(file, input, parsingOptions)
+            }
+            |> Async.RunSynchronously
+        
+        match untypedRes.ParseTree with
+        | Some tree -> tree
+        | None -> failwith "Something went wrong during parsing!"
+
+    SourceText.ofString lines
+    |> getUntypedAst "Example.fs"
+    |> printfn "\n%A"
 
     0
