@@ -12,6 +12,9 @@ nuget FParsec
 nuget Expecto
 nuget Expecto.FsCheck
 
+// Module Dependencies Visualizer
+nuget FSharp.Compiler.Service
+
 // [ FAKE GROUP ]
 group NetcoreBuild
     source https://api.nuget.org/v3/index.json
