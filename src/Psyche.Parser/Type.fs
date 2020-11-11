@@ -23,8 +23,8 @@ module Types =
             | TInt -> "Int"
             | TFloat -> "Float"
             | TBool -> "Bool"
-            | TFun(arg, ret) -> sprintf "(-> %O %O)" arg ret
-            | TRef ty -> sprintf "(Ref %O)" ty
+            | TFun(arg, ret) -> $"(-> {arg} {ret})"
+            | TRef ty -> $"(Ref {ty})"
 
     type TypeEnv =
         | TyEnv of (VarId * Type) list

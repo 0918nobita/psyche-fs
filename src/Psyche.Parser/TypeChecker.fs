@@ -12,7 +12,7 @@ open AnnotatedAst
 let assertType (expected: Type) (actual: Type) =
     if expected = actual
     then Ok()
-    else Error(sprintf "expected: %O, actual: %O" expected actual)
+    else Error $"expected: {expected}, actual: {actual}"
 
 let rec typeCheck env =
     function
@@ -35,7 +35,7 @@ and typeCheckVar env x =
         let! ty = TypeEnv.tryFind x env
                   |> BOption.toResult
                   |> Result.mapError
-                     (fun () -> sprintf "(TypeError) Unbound identifier: %s" x)
+                     (fun () -> $"(TypeError) Unbound identifier: {x}")
         return (ty, UVar x)
     }
 
@@ -55,7 +55,7 @@ and typeCheckApp env func arg =
         | TFun(a, b) ->
             do! mapError (assertType a argType)
             return (b, UApp(func, arg))
-        | _ -> return! mapError (Error(sprintf "cannot call %O: %O" func funcType))
+        | _ -> return! mapError (Error $"cannot call {func}: {funcType}")
     }
 
 and typeCheckLet env x ty e1 e2 =
@@ -78,11 +78,8 @@ and typeCheckIf env cond _then _else =
         do! BResult.result {
             if _thenType = _elseType
             then return ()
-            else return! Error
-                    (sprintf
-                        "type mismatch\n    then clause: %O\n    else clause: %O"
-                        _thenType
-                        _elseType)
+            else
+                return! Error $"type mismatch\n    then clause: {_thenType}\n    else clause: {_elseType}"
             }
             |> mapError
         return (_thenType, UIf(cond, _then, _else))
@@ -113,10 +110,8 @@ and typeCheckDeref env expr =
         match exprType with
         | TRef ty -> return (ty, UDeref expr)
         | _ ->
-            return! Error
-                        (sprintf
-                            "(TypeError) in deref expression:\n  type %O is not reference type"
-                             exprType)
+            return!
+                Error $"(TypeError) in deref expression:\n  type {exprType} is not reference type"
     }
 
 and typeCheckMut env refExpr expr =
@@ -129,7 +124,5 @@ and typeCheckMut env refExpr expr =
             do! Result.mapError (sprintf "%s%s" errMsgPrefix) (assertType ty exprType)
             return (ty, UMut(refExpr, expr))
         | _ ->
-            return! Error
-                        (sprintf "%stype %O is not refernece type" errMsgPrefix
-                             refExprType)
+            return! Error $"{errMsgPrefix}type {refExprType} is not refernece type"
     }
