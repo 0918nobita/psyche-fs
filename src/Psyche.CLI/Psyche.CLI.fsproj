@@ -6,12 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Include="Primitive.fsi" />
+    <Compile Include="Primitive.fs" />
     <Compile Include="Program.fs" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Psyche.Base\Psyche.Base.fsproj" />
     <ProjectReference Include="..\Psyche.Parser\Psyche.Parser.fsproj" />
+    <ProjectReference Include="..\Psyche.TypeChecker\Psyche.TypeChecker.fsproj" />
     <ProjectReference Include="..\Psyche.Interpreter\Psyche.Interpreter.fsproj" />
   </ItemGroup>
 

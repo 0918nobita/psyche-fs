@@ -7,6 +7,14 @@
   <ItemGroup>
     <Compile Include="UntypedAst.fsi" />
     <Compile Include="UntypedAst.fs" />
+    <Compile Include="Value.fsi" />
+    <Compile Include="Value.fs" />
+    <Compile Include="Type.fsi" />
+    <Compile Include="Type.fs" />
+    <Compile Include="AnnotatedAst.fsi" />
+    <Compile Include="AnnotatedAst.fs" />
+    <Compile Include="SExpr.fsi" />
+    <Compile Include="SExpr.fs" />
   </ItemGroup>
 
   <ItemGroup>

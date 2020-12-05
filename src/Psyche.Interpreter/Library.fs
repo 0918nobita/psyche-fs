@@ -6,7 +6,7 @@ module Interpreter =
 
     open Psyche.Base.Nel.ActivePattern
     open Psyche.AST.UntypedAst
-    open Value
+    open Psyche.AST.Value
 
     let evalBinExpr op lhs rhs =
         match (op, lhs, rhs) with

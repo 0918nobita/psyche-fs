@@ -2,7 +2,7 @@ module internal Parser
 
 module BMap = Psyche.Base.Map
 open FParsec
-open SExpr
+open Psyche.AST.SExpr
 
 let ident =
     let start = anyOf "+-*/%._λ<=>#:\'" <|> asciiLetter

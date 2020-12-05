@@ -1,5 +1,5 @@
 module internal Parser
 
-open SExpr
+open Psyche.AST.SExpr
 
 val program : string -> Result<SExpr, string>

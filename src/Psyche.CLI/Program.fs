@@ -7,9 +7,10 @@ open System.IO
 
 let run src =
     BResult.result {
-        let! (ty, untypedAst) = Psyche.Parser.tryParse src
+        let! annotatedAst = Psyche.Parser.tryParse src
+        let! (ty, untypedAst) = Psyche.TypeChecker.typeCheck (Primitive.typeEnv) annotatedAst
         printfn "Static type: %O" ty
-        let! value = Psyche.Interpreter.eval (Primitive.primitives) untypedAst
+        let! value = Psyche.Interpreter.eval (Primitive.env) untypedAst
         return value
     }
 
