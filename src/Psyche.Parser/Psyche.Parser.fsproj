@@ -4,8 +4,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Include="Parser.fsi" />
-    <Compile Include="Parser.fs" />
+    <Compile Include="Library.fsi" />
     <Compile Include="Library.fs" />
   </ItemGroup>
 
