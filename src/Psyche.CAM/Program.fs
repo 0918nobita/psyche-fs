@@ -111,7 +111,7 @@ let main argv =
             ; CAMEq
             ; CAMTest
                 ( [ CAMLdi 1 ]
-                , [ CAMLdi (-1); CAMAccess 0; CAMAdd; CAMAccess 1; CAMApply; CAMAccess 0; CAMAdd ]
+                , [ CAMAccess 0; CAMLdi 1; CAMSub; CAMAccess 1; CAMApply; CAMAccess 0; CAMAdd ]
                 )
             ; CAMReturn
             ]
