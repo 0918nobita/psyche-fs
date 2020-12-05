@@ -1,7 +1,7 @@
-version 5.247.4
+version 6.0.0-alpha051
 source https://api.nuget.org/v3/index.json
 storage: none
-framework: netcoreapp3.1
+framework: net5.0
 
 nuget FSharp.Core
 

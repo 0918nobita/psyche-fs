@@ -13,7 +13,7 @@ type AnnotatedAst =
     | AFun of arg: AVarId * argType: Type * body: AnnotatedAst
     | AApp of func: AnnotatedAst * actualArg: AnnotatedAst
     | AIf of cond: AnnotatedAst * _then: AnnotatedAst * _else: AnnotatedAst
-    | ALet of name: AVarId * typeOfName: Type * expr1: AnnotatedAst * expr2: AnnotatedAst
+    | ALet of name: AVarId * typeSig: Type * expr1: AnnotatedAst * expr2: AnnotatedAst
     | ABegin of Psyche.Base.Nel<AnnotatedAst>
     | AMakeRef of AnnotatedAst
     | ADeref of AnnotatedAst

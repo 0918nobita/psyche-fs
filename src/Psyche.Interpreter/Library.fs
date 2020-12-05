@@ -23,8 +23,7 @@ module Interpreter =
         | Lt, IntVal n1, IntVal n2 -> Ok(BoolVal(n1 < n2))
         | Le, IntVal n1, IntVal n2 -> Ok(BoolVal(n1 <= n2))
         | _ ->
-            Error
-            <| sprintf "2項演算子が用いられた式の評価に失敗しました:\n\t演算子: %O\n\t左辺: %O\n\t右辺: %O" op lhs rhs
+            Error $"2項演算子が用いられた式の評価に失敗しました:\n\t演算子: {op}\n\t左辺: {lhs}\n\t右辺: {rhs}"
 
     let rec eval env expr =
         match expr with
@@ -44,14 +43,14 @@ module Interpreter =
                 let! v = eval env v
                 match v with
                 | FloatVal f -> return IntVal(int f)
-                | _ -> return! Error (sprintf "cannot convert %O into value of Float type" v)
+                | _ -> return! Error $"cannot convert {v} into value of Float type"
             }
         | UFloatOfInt v ->
             BResult.result {
                 let! v = eval env v
                 match v with
                 | IntVal n -> return FloatVal(float n)
-                | _ -> return! Error (sprintf "cannot convert %O into value of Int type" v)
+                | _ -> return! Error $"cannot convert {v} into value of Int type"
             }
         | UApp(func, arg) ->
             BResult.result {
@@ -87,8 +86,7 @@ module Interpreter =
                 match value with
                 | RefVal r -> return !r
                 | _ ->
-                    return! Error
-                                (sprintf "参照型ではない値に対して deref が呼び出されました: (deref %O ..)" value)
+                    return! Error $"参照型ではない値に対して deref が呼び出されました: (deref {value} ..)"
             }
         | UMut(refExpr, expr) ->
             BResult.result {
@@ -99,13 +97,13 @@ module Interpreter =
                     r := value
                     return value
                 | _ ->
-                    return! Error(sprintf "参照型ではない値に対して mut が呼び出されました: (mut %O ..)" refVal)
+                    return! Error $"参照型ではない値に対して mut が呼び出されました: (mut {refVal} ..)"
             }
 
     and evalVar env varId =
         Env.tryFind varId env
         |> BOption.toResult
-        |> Result.mapError (fun () -> sprintf "未束縛の名前を参照しました: %s" varId)
+        |> Result.mapError (fun () -> $"未束縛の名前を参照しました: {varId}")
 
     and evalIfExpr env cond _then _else =
         match cond with

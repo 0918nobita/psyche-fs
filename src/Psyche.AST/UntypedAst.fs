@@ -72,20 +72,20 @@ module UntypedAst =
             | UBool false -> "false"
             | UInt n -> string n
             | UFloat f -> string f
-            | UBinApp(op, lhs, rhs) -> sprintf "(%O %O %O)" op lhs rhs
+            | UBinApp(op, lhs, rhs) -> $"({op} {lhs} {rhs})"
             | UVar x -> x
-            | UFun(arg, body) -> sprintf "(λ %O %O)" arg body
-            | UIntOfFloat ast -> sprintf "(int-of-float %O)" ast
-            | UFloatOfInt ast -> sprintf "(float-of-int %O)" ast
-            | UApp(func, arg) -> sprintf "(%O %O)" func arg
-            | UIf(cond, _then, _else) -> sprintf "(if %O %O %O)" cond _then _else
-            | ULet(ident, e1, e2) -> sprintf "(let %O %O %O)" ident e1 e2
+            | UFun(arg, body) -> $"(λ {arg} {body})"
+            | UIntOfFloat ast -> $"(int-of-float {ast})"
+            | UFloatOfInt ast -> $"(float-of-int {ast})"
+            | UApp(func, arg) -> $"({func} {arg})"
+            | UIf(cond, _then, _else) -> $"(if {cond} {_then} {_else})"
+            | ULet(ident, e1, e2) -> $"(let {ident} {e1} {e2})"
             | UBegin body ->
                 let inner =
                     body
                     |> Seq.map string
                     |> Seq.reduce (sprintf "%O %O")
-                sprintf "(begin %s)" inner
-            | UMakeRef e -> sprintf "(ref %O)" e
-            | UDeref e -> sprintf "(deref %O)" e
-            | UMut(refExpr, expr) -> sprintf "(mut %O %O)" refExpr expr
+                $"(begin {inner})"
+            | UMakeRef e -> $"(ref {e})"
+            | UDeref e -> $"(deref {e})"
+            | UMut(refExpr, expr) -> $"(mut {refExpr} {expr})"

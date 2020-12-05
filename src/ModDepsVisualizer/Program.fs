@@ -42,7 +42,7 @@ let main argv =
     let rec tokenizeLines state count =
         function
         | line :: lines ->
-            printfn "Line %d:" count
+            printfn $"Line {count}:"
             let tokenizer = sourceTok.CreateLineTokenizer(line)
             let state = tokenizeLine tokenizer state
             tokenizeLines state (count + 1) lines

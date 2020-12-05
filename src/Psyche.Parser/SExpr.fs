@@ -32,7 +32,7 @@ type SExpr =
         | SList [] -> "()"
         | SList(x :: xs) ->
             let inner = List.map string xs |> List.fold (sprintf "%s %s") (string x)
-            sprintf "(%s)" inner
+            $"({inner})"
 
 let rec (|TypeSig|_|) =
     function
@@ -102,7 +102,7 @@ let rec toAnnotatedAst sexpr =
 
             return! BResult.fold folder x xs
         }
-    | SList [] -> Error(sprintf "bad syntax: %O" sexpr)
+    | SList [] -> Error $"bad syntax: {sexpr}"
     | Atom(SBool b) -> Ok(ABool b)
     | Atom(SInt n) -> Ok(AInt n)
     | Atom(SFloat f) -> Ok(AFloat f)

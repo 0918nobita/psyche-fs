@@ -18,7 +18,7 @@ type Value =
         | IntVal n -> string n
         | FloatVal f -> string f
         | Closure _ -> "<Closure>"
-        | RefVal r -> sprintf "<Ref %O>" !r
+        | RefVal r -> $"<Ref {!r}>"
 
 and Env =
     private
