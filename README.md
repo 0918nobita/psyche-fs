@@ -4,6 +4,10 @@
 
 Programming language
 
+## Requirements
+
+- .NET 5.0 SDK
+
 ## Setup dotnet tools
 
 ```
@@ -74,6 +78,6 @@ $ dotnet fake build -t test
 $ dotnet fake build -t publish
 ```
 
-resulting publish folder : ``src/Psyche.Interpreter/bin/Release/netcoreapp3.1/**/publish``
+resulting publish folder : ``src/Psyche.CLI/bin/Release/net5.0/{runtime}/publish``
 
-executable file : ``src/Psyche.Interpreter/bin/Release/netcoreapp3.1/**/publish/Psyche.Interpreter``
+executable file : ``src/Psyche.CLI/bin/Release/net5.0/{runtime}/publish/Psyche.CLI``
