@@ -1,0 +1,23 @@
+digraph proj_deps {
+    label = "Project dependency"
+
+    base [shape = box, label = Base]
+    base_test [shape = box, label = "Base Tests"]
+    ast [shape = box, label = AST]
+    interpreter [shape = box, label = Interpreter]
+    type_checker [shape = box, label = "Type Checker"]
+    parser [shape = box, label = Parser]
+    cli [shape = box, label = CLI]
+
+    base_test -> base
+    interpreter -> base
+    interpreter -> ast
+    type_checker -> base
+    type_checker -> ast
+    parser -> base
+    parser -> ast
+    cli -> base
+    cli -> interpreter
+    cli -> type_checker
+    cli -> parser
+}
