@@ -1,3 +1,5 @@
+module Psyche.CAM
+
 type CamInstr =
     | CAMLdi of int
     | CAMLdb of bool
@@ -102,8 +104,7 @@ let rec run (code: CamCode) (env: CamEnv) (stack: CamStack) : (CamValue * CamEnv
             run tail env ((lhs <= rhs |> CAMBoolVal)::stack.[2..])
         | _ -> failwith "Invalid operation"
 
-[<EntryPoint>]
-let main argv =
+let startup () =
     let code =
         [ CAMClosure
             [ CAMLdi 1
@@ -127,4 +128,3 @@ let main argv =
     printfn $"Result: %A{res}"
     printfn $"Env: %A{env'}"
     printfn $"Stack: %A{stack'}"
-    0

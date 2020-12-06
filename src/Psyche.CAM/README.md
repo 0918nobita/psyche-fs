@@ -1,3 +1,3 @@
-# CAM
+# CAM (Categorical Abstract Machine)
 
-Implementation of CAM (Categorical Abstract Machine)
+Executes byte code (`*.psyb`)
