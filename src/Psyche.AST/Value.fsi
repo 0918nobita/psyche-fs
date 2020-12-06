@@ -1,21 +1,20 @@
-namespace Psyche.AST
+module Psyche.AST.Value
 
-module Value =
-    open UntypedAst
+open UntypedAst
 
-    type Value =
-        | UnitVal
-        | Closure of VarId * UntypedAst * Env
-        | BoolVal of bool
-        | IntVal of int
-        | FloatVal of float
-        | RefVal of Value ref
+type Value =
+    | UnitVal
+    | Closure of VarId * UntypedAst * Env
+    | BoolVal of bool
+    | IntVal of int
+    | FloatVal of float
+    | RefVal of Value ref
 
-    and Env
+and Env
 
-    module Env =
-        val empty : Env
+module Env =
+    val empty : Env
 
-        val append : VarId -> Value -> Env -> Env
+    val append : VarId -> Value -> Env -> Env
 
-        val tryFind : VarId -> Env -> Value option
+    val tryFind : VarId -> Env -> Value option

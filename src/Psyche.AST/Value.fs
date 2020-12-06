@@ -1,34 +1,33 @@
-namespace Psyche.AST
+module Psyche.AST.Value
 
-module Value =
-    type Value =
-        | UnitVal
-        | Closure of UntypedAst.VarId * UntypedAst.UntypedAst * Env
-        | BoolVal of bool
-        | IntVal of int
-        | FloatVal of float
-        | RefVal of Value ref
+type Value =
+    | UnitVal
+    | Closure of UntypedAst.VarId * UntypedAst.UntypedAst * Env
+    | BoolVal of bool
+    | IntVal of int
+    | FloatVal of float
+    | RefVal of Value ref
 
-        override this.ToString() =
-            match this with
-            | UnitVal -> "#unit"
-            | BoolVal true -> "true"
-            | BoolVal false -> "false"
-            | IntVal n -> string n
-            | FloatVal f -> string f
-            | Closure _ -> "<Closure>"
-            | RefVal r -> $"<Ref {!r}>"
+    override this.ToString() =
+        match this with
+        | UnitVal -> "#unit"
+        | BoolVal true -> "true"
+        | BoolVal false -> "false"
+        | IntVal n -> string n
+        | FloatVal f -> string f
+        | Closure _ -> "<Closure>"
+        | RefVal r -> $"<Ref {!r}>"
 
-    and Env =
-        private
-        | Env of (UntypedAst.VarId * Value) list
+and Env =
+    private
+    | Env of (UntypedAst.VarId * Value) list
 
-    module Env =
-        let empty = Env []
+module Env =
+    let empty = Env []
 
-        let append varId value (Env env) = Env ((varId, value) :: env)
+    let append varId value (Env env) = Env ((varId, value) :: env)
 
-        let tryFind varId (Env env) =
-            env
-            |> List.tryFind (fst >> (=) varId)
-            |> Option.map snd
+    let tryFind varId (Env env) =
+        env
+        |> List.tryFind (fst >> (=) varId)
+        |> Option.map snd

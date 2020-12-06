@@ -1,23 +1,22 @@
-namespace Psyche.AST
+module Psyche.AST.Type
 
-module Type =
-    open UntypedAst
+open UntypedAst
 
-    type Type =
-        | TUnit
-        | TInt
-        | TFloat
-        | TBool
-        | TFun of Type * Type
-        | TRef of Type
+type Type =
+    | TUnit
+    | TInt
+    | TFloat
+    | TBool
+    | TFun of Type * Type
+    | TRef of Type
 
-        static member StrMap : Map<string, Type>
+    static member StrMap : Map<string, Type>
 
-    type TypeEnv
+type TypeEnv
 
-    module TypeEnv =
-        val empty : TypeEnv
+module TypeEnv =
+    val empty : TypeEnv
 
-        val append : VarId -> Type -> TypeEnv -> TypeEnv
+    val append : VarId -> Type -> TypeEnv -> TypeEnv
 
-        val tryFind : VarId -> TypeEnv -> Option<Type>
+    val tryFind : VarId -> TypeEnv -> Option<Type>

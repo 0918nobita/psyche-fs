@@ -1,16 +1,15 @@
-namespace Psyche.AST
+module Psyche.AST.SExpr
 
-module SExpr =
-    open AnnotatedAst
+open AnnotatedAst
 
-    type Atom =
-        | SBool of bool
-        | SInt of int
-        | SFloat of float
-        | Symbol of string
+type Atom =
+    | SBool of bool
+    | SInt of int
+    | SFloat of float
+    | Symbol of string
 
-    type SExpr =
-        | Atom of Atom
-        | SList of SExpr list
+type SExpr =
+    | Atom of Atom
+    | SList of SExpr list
 
-    val toAnnotatedAst : SExpr -> Result<AnnotatedAst, string>
+val toAnnotatedAst : SExpr -> Result<AnnotatedAst, string>

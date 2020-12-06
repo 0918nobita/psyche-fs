@@ -1,5 +1,4 @@
-namespace Psyche.Base
+module Psyche.Base.Map
 
-module Map =
-    let keys (m: Map<_, _>) =
-        Map.fold (fun keys key _ -> key :: keys) [] m
+let keys (m: Map<_, _>) =
+    Map.fold (fun keys key _ -> key :: keys) [] m
