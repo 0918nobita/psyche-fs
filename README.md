@@ -34,7 +34,7 @@ $ dotnet fake build -t release
 - Type `:exit` to exit the REPL
 
 ```
-$ dotnet run -p src/Psyche.CLI
+$ dotnet run -p src/Psyche.CLI -- repl
 > (+ 1)
 Static type: (-> Int Int)
 Result: <Closure>
@@ -49,19 +49,19 @@ Result: 7
 ## Run programs
 
 ```
-$ dotnet run -p src/Psyche.CLI -- examples/branch.txt
+$ dotnet run -p src/Psyche.CLI -- interpret examples/branch.txt
 Static type: Int
 Result: 0
 
-$ dotnet run -p src/Psyche.CLI -- examples/let-lambda.txt
+$ dotnet run -p src/Psyche.CLI -- interpret examples/let-lambda.txt
 Static type: Int
 Result: 14
 
-$ dotnet run -p src/Psyche.CLI -- examples/counter.txt
+$ dotnet run -p src/Psyche.CLI -- interpret examples/counter.txt
 Static type: Int
 Result: 6
 
-$ dotnet run -p src/Psyche.CLI -- examples/counter2.txt
+$ dotnet run -p src/Psyche.CLI -- interpret examples/counter2.txt
 Static type: Int
 Result: 3
 ```
